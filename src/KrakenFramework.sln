@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kraken", "Kraken", "{C4DDF074-346C-426B-A9F4-37375255D35E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{92A38728-E6F0-43A1-A579-65508C9045AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{9717CE5F-6F9A-426F-99B1-E964496E90B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityManagement", "Modules\IdentityManagement\IdentityManagement.csproj", "{982E8EED-4946-40D7-8765-F5F4C98BEF76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrakenExample", "Clients\KrakenExample\KrakenExample.csproj", "{B2AD2EF6-BA85-49E5-85A3-3189D972819A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Host", "Kraken\Kraken.Host\Kraken.Host.csproj", "{2D95124B-6232-4A38-9A0B-A45ADE395A26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Core", "Kraken\Kraken.Core\Kraken.Core.csproj", "{DCDFE4B1-4767-4FC8-B960-ED66380685D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{982E8EED-4946-40D7-8765-F5F4C98BEF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{982E8EED-4946-40D7-8765-F5F4C98BEF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{982E8EED-4946-40D7-8765-F5F4C98BEF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{982E8EED-4946-40D7-8765-F5F4C98BEF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2AD2EF6-BA85-49E5-85A3-3189D972819A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2AD2EF6-BA85-49E5-85A3-3189D972819A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2AD2EF6-BA85-49E5-85A3-3189D972819A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2AD2EF6-BA85-49E5-85A3-3189D972819A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D95124B-6232-4A38-9A0B-A45ADE395A26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D95124B-6232-4A38-9A0B-A45ADE395A26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D95124B-6232-4A38-9A0B-A45ADE395A26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D95124B-6232-4A38-9A0B-A45ADE395A26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{982E8EED-4946-40D7-8765-F5F4C98BEF76} = {92A38728-E6F0-43A1-A579-65508C9045AA}
+		{B2AD2EF6-BA85-49E5-85A3-3189D972819A} = {9717CE5F-6F9A-426F-99B1-E964496E90B7}
+		{2D95124B-6232-4A38-9A0B-A45ADE395A26} = {C4DDF074-346C-426B-A9F4-37375255D35E}
+		{DCDFE4B1-4767-4FC8-B960-ED66380685D7} = {C4DDF074-346C-426B-A9F4-37375255D35E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}
+	EndGlobalSection
+EndGlobal
