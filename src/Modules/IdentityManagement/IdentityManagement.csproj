@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Domain\Aggregates\" />
     <Folder Include="Infrastructure\" />
-    <Folder Include="Persistence\" />
   </ItemGroup>
 
   <ItemGroup>

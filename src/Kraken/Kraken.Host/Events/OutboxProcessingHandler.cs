@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using Kraken.Core.Events;
+using Kraken.Core.Mediator;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,8 +24,8 @@ namespace Kraken.Host.Events
     ///     Estos eventos tambien se escriben en el stream del modulo, pero sus reacciones se escriben
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class OutboxProcessingHandler<T> : INotificationHandler<T>
-        where T : INotification
+    internal class OutboxProcessingHandler<T> : IDomainEventHandler<T>
+        where T : IDomainEvent
     {
         /// <summary>
         /// Contiene la distribucion y almacenamiento para los eventos del
@@ -44,9 +45,10 @@ namespace Kraken.Host.Events
         {
             _logger = logger;
             _outboxBroker = outboxBroker;
+            _eventDispatcher = eventDispatcher;
         }
 
-        public async Task Handle(T notification, CancellationToken cancellationToken)
+        public async Task Handle(IDomainEvent notification, CancellationToken cancellationToken)
         {
             if (notification is null)
                 return;
@@ -67,5 +69,6 @@ namespace Kraken.Host.Events
             await _eventDispatcher.AddToWaitingList((IKrakenEvent)notification);
             // Salimos por que se cumplio con lo esperado
         }
+
     }
 }

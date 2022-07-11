@@ -39,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mediator\Commands\" />
     <Folder Include="Mediator\Queries\" />
     <Folder Include="Processing\" />
   </ItemGroup>

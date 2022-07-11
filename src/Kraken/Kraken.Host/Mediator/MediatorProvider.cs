@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Kraken.Host.Mediator.Commands;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,20 @@ namespace Kraken.Host.Mediator
         /// <returns></returns>
         public static IServiceCollection AddMediator(this IServiceCollection services, List<Assembly> assemblies)
         {
-            assemblies.Add(Assembly.GetExecutingAssembly());
+            var assembliesToScan = new List<Assembly>();
+            assembliesToScan.AddRange(assemblies);
+            assembliesToScan.Add(Assembly.GetExecutingAssembly());
             /*
              * Agregamos el mediador y los handlers para cada comando y query
              */
-            services.AddMediatR(assemblies.ToArray());
+            services.AddMediatR(assembliesToScan.ToArray());
 
             /*
              * Agrega a la lista los middlewares para el pipeline de mediatr y los ejecuta en el
              * orden que se registran
              */
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Logging<,>));
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Performance<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandLogging<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceMiddleware<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Validation<,>));
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Transaction<,>));
 

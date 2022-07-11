@@ -1,5 +1,6 @@
 ﻿using Kraken.Core.Commands;
 using Kraken.Core.Events;
+using Kraken.Core.Mediator;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,9 @@ public class AccountCreated
     public Guid AccountId { get; set; }
 }
 
-public class AccountCreatedSuccessfull : DomainEvent
+public class AccountCreatedSuccessfull : IDomainEvent
 {
     public Guid AccountId { get; set; }
+
+    public Guid Id { get; } = Guid.NewGuid();
 }

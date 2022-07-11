@@ -4,6 +4,7 @@ using Kraken.Host.Events;
 using Kraken.Host.Internal;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
+using Kraken.Host.UnitWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,8 @@ public static class KrakenExtensions
         services.AddSingleton<IKrakenHost, DefaultHost>();
         services.AddContext();
         services.AddModuleInfo(krakenOptions.modules);
+        // Agrega las operaciones de transaccionalidad
+        services.AddUnitWorks(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));
