@@ -16,7 +16,7 @@ namespace Kraken.Core.UnitWork
         /// <summary>
         /// Inicia una transaccion
         /// </summary>
-        void StartTransaction();
+        Task StartTransaction();
 
         /// <summary>
         /// Confirma la transaccion

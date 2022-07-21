@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Remove="Mediator\IServiceFactory.cs" />
+    <Compile Remove="UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>
 
   <ItemGroup>

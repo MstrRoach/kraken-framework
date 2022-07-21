@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Host.UnitWork
+namespace Kraken.Host.Outbox
 {
     internal class TransactionContext : ITransactionContext
     {

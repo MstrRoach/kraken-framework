@@ -1,4 +1,5 @@
 ﻿using Kraken.Core.UnitWork;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,41 @@ using System.Threading.Tasks;
 
 namespace IdentityManagement.Persistence
 {
-    internal class IdentityUnitWork : IUnitWork
+    internal class IdentityUnitWork : UnitWork
     {
-        
-        public async void StartTransaction()
+        /// <summary>
+        /// Accede al id de la transaccion actual
+        /// </summary>
+        public override Guid TransactionId => Guid.NewGuid();
+
+        /// <summary>
+        /// Constructor de la unidad de trabajo especificada
+        /// </summary>
+        /// <param name="mediator"></param>
+        public IdentityUnitWork(IMediator mediator) : 
+            base(mediator) { }
+
+        /// <summary>
+        /// Inicia la transaccion en el modulo
+        /// </summary>
+        public override void StartTransaction()
         {
-            await Task.CompletedTask;
         }
-        public async Task Commit()
+
+        /// <summary>
+        /// Confirma una transaccion contra la base de datos
+        /// </summary>
+        /// <returns></returns>
+        public override async Task Commit()
         {
             await Task.CompletedTask;
         }
 
-        public async Task Rollback()
+        /// <summary>
+        /// Revierte la transaccion en el modulo
+        /// </summary>
+        /// <returns></returns>
+        public override async Task Rollback()
         {
             await Task.CompletedTask;
         }

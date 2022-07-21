@@ -35,11 +35,12 @@ public static class KrakenExtensions
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
         // ------------------------- Configuracion de las partes centrales de kraken
-        services.AddOutbox();
-        services.AddMediator(krakenOptions.assemblies);
         services.AddSingleton<IKrakenHost, DefaultHost>();
-        services.AddContext();
+        services.AddMediator(krakenOptions.assemblies);
         services.AddModuleInfo(krakenOptions.modules);
+        services.AddContext();
+        // ------------------------- Configuracion de las partes opcionales de kraken
+        //services.AddOutbox();
         // Agrega las operaciones de transaccionalidad
         services.AddUnitWorks(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
