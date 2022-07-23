@@ -22,7 +22,7 @@ namespace Kraken.Host.Outbox
         /// </summary>
         private readonly TStore _outboxStore;
 
-        public DefaultOutbox(TStore outboxStore, )
+        public DefaultOutbox(TStore outboxStore)
         {
             _outboxStore = outboxStore;
         }
@@ -38,22 +38,22 @@ namespace Kraken.Host.Outbox
         public Task SaveAsync<T>(T messages) where T : IDomainEvent
         {
             // Creamos la entidad de almacenamiento
-            var outboxMsg = new OutboxMessage
-            {
-                Id = messages.Id,
-                CorrelationId =
-            }
-            throw new NotImplementedException();
+            //var outboxMsg = new OutboxMessage
+            //{
+            //    Id = messages.Id,
+            //    CorrelationId =
+            //}
+            return Task.CompletedTask;
         }
 
         public Task PublishUnsentAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task CleanupAsync(DateTime? to = null)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
 
