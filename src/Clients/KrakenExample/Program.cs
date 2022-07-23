@@ -1,15 +1,18 @@
 using IdentityManagement;
+using Kraken.Core.UnitWork;
 using Kraken.Host;
 using Kraken.Host.Modules;
 using KrakenExample;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddKraken(builder.Configuration ,Bootstrapper.KrakenBuilder());
+//builder.Services.AddKraken(builder.Configuration ,Bootstrapper.KrakenBuilder());
+builder.Services.AddKraken(builder.Configuration ,x => x.AddModule<IdentityModule>());
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

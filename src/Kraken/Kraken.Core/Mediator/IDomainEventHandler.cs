@@ -1,5 +1,4 @@
-﻿using Kraken.Core.Events;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Kraken.Core.Mediator
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
     public interface IDomainEventHandler<in TEvent> : 
-        INotificationHandler<IDomainEvent> 
+        INotificationHandler<TEvent> 
         where TEvent : IDomainEvent 
     {
     }

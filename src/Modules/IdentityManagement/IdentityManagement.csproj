@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Domain\Aggregates\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <ItemGroup>

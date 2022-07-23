@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Kraken.Core.Mediator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Events
+namespace Kraken.Core.Outbox
 {
     /// <summary>
     /// Componente encargado de administrar las bandejas de
@@ -19,6 +20,6 @@ namespace Kraken.Core.Events
         /// </summary>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task SendAsync(IKrakenEvent @event);
+        Task SendAsync<T>(T @event) where T : IDomainEvent;
     }
 }

@@ -1,4 +1,5 @@
-﻿using IdentityManagement.Persistence;
+﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
+using IdentityManagement.Persistence;
 using Kraken.Core.Modules;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,7 @@ namespace IdentityManagement
             // Configura las opciones para el modulo
             services.AddSingleton<IOptions<IdentityModule>>(Options.Create(this));
             services.AddScoped<IdentityUnitWork>();
+            services.AddScoped<IdentityOutboxStore>();
             //services.Configure<IdentityModule>(options => options = this);
         }
 

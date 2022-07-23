@@ -83,7 +83,7 @@ public abstract class UnitWork : IUnitWork
 /// <summary>
 /// Evento base para los eventos de la unidad de trabajo
 /// </summary>
-public record UnitWorkEventBase : IArchitectureEvent
+public record UnitWorkEventBase : IComponentEvent
 {
     /// <summary>
     /// Id del evento
@@ -99,8 +99,18 @@ public record UnitWorkEventBase : IArchitectureEvent
 /// <summary>
 /// Evento para indicar que una transaccion ha sido iniciada
 /// </summary>
-public record TransactionStarted : UnitWorkEventBase
+public record TransactionStarted : IComponentEvent
 {
+    /// <summary>
+    /// Id del evento
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    /// <summary>
+    /// Nombre del componente que genera el evento
+    /// </summary>
+    public string Component => "UnitWork";
+
     /// <summary>
     /// Id de la transaccion
     /// </summary>

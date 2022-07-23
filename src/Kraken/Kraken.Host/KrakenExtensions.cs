@@ -1,10 +1,12 @@
 ﻿using Kraken.Core;
+using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
-using Kraken.Host.Events;
 using Kraken.Host.Internal;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
+using Kraken.Host.Outbox;
 using Kraken.Host.UnitWork;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -40,9 +42,10 @@ public static class KrakenExtensions
         services.AddModuleInfo(krakenOptions.modules);
         services.AddContext();
         // ------------------------- Configuracion de las partes opcionales de kraken
-        //services.AddOutbox();
         // Agrega las operaciones de transaccionalidad
         services.AddUnitWorks(krakenOptions.assemblies);
+        // Agrega soporte de bandeja de salida para los eventos asincronos
+        services.AddOutbox(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));
@@ -62,7 +65,7 @@ public static class KrakenExtensions
     /// <param name="app"></param>
     /// <returns></returns>
     public static IApplicationBuilder UseKraken(this IApplicationBuilder app)
-    { 
+    {
         // Agregamos los componentes para la canalizacion de solicitudes
 
         // Agrega el id de correlacion al componente principal
@@ -78,7 +81,7 @@ public static class KrakenExtensions
         var krakenOptions = app.ApplicationServices.GetRequiredService<KrakenOptions>();
         krakenOptions?.modules.ForEach(module => module.Use(app));
         krakenOptions?.Clear();
-        
+
         // Agregamos el mapeo de endpoints
         app.UseEndpoints(endpoints =>
         {

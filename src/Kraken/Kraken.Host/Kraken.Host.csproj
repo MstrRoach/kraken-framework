@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,15 +8,21 @@
 
   <ItemGroup>
     <Compile Remove="Commands\**" />
+    <Compile Remove="Events\**" />
     <Compile Remove="Mediator\Factories\**" />
     <EmbeddedResource Remove="Commands\**" />
+    <EmbeddedResource Remove="Events\**" />
     <EmbeddedResource Remove="Mediator\Factories\**" />
     <None Remove="Commands\**" />
+    <None Remove="Events\**" />
     <None Remove="Mediator\Factories\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Mediator\IServiceFactory.cs" />
+    <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />
+    <Compile Remove="Outbox\TransactionContext.cs" />
+    <Compile Remove="Outbox\TransactionContextAccessor.cs" />
     <Compile Remove="UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>
 

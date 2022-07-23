@@ -1,5 +1,6 @@
 ﻿using Kraken.Core.Events;
 using Kraken.Core.Events.Outbox;
+using Kraken.Core.Outbox;
 using Kraken.Core.Processing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Kraken.Core.Mediator
     /// realizar un conjunto de operaciones de coordinacion entre componentes
     /// internos del sistema
     /// </summary>
-    public interface IArchitectureEvent
+    public interface IComponentEvent : INotification
     {
         /// <summary>
         /// Id del evento de arquitectura

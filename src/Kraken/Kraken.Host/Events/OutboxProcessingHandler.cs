@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Kraken.Core.Events;
 using Kraken.Core.Mediator;
+using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,16 +37,16 @@ namespace Kraken.Host.Events
         /// <summary>
         /// Despachador de eventos
         /// </summary>
-        private readonly IEventDispatcher _eventDispatcher;
+        //private readonly IEventDispatcher _eventDispatcher;
 
         private readonly ILogger<OutboxProcessingHandler<T>> _logger;
 
         public OutboxProcessingHandler(ILogger<OutboxProcessingHandler<T>> logger,
-            IOutboxBroker outboxBroker, IEventDispatcher eventDispatcher)
+            IOutboxBroker outboxBroker/*, IEventDispatcher eventDispatcher*/)
         {
             _logger = logger;
             _outboxBroker = outboxBroker;
-            _eventDispatcher = eventDispatcher;
+            //_eventDispatcher = eventDispatcher;
         }
 
         public async Task Handle(IDomainEvent notification, CancellationToken cancellationToken)
@@ -64,9 +65,9 @@ namespace Kraken.Host.Events
             _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: RequestId, Message ID: MessageId, Correlation ID: CorrelationId, Trace ID: 'TraceId', User ID: 'UserId]...",
                 name, module);
             // Lo agregamos en el outbox al que pertenece
-            await _outboxBroker.SendAsync((IKrakenEvent)notification);
+            //await _outboxBroker.SendAsync((IKrakenEvent)notification);
             // Lo agregamos a la lista de espera del despachador
-            await _eventDispatcher.AddToWaitingList((IKrakenEvent)notification);
+            //await _eventDispatcher.AddToWaitingList((IKrakenEvent)notification);
             // Salimos por que se cumplio con lo esperado
         }
 

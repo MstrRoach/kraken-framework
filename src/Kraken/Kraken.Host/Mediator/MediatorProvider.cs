@@ -1,4 +1,7 @@
-﻿using Kraken.Host.Mediator.Commands;
+﻿using Kraken.Core.Mediator;
+using Kraken.Core.UnitWork;
+using Kraken.Host.Mediator.Commands;
+using Kraken.Host.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,12 +26,14 @@ namespace Kraken.Host.Mediator
         {
             var assembliesToScan = new List<Assembly>();
             assembliesToScan.AddRange(assemblies);
-            assembliesToScan.Add(Assembly.GetExecutingAssembly());
+            var host = typeof(MediatorProvider).Assembly;
+            assembliesToScan.Add(host);
+            
             /*
              * Agregamos el mediador y los handlers para cada comando y query
              */
             services.AddMediatR(assembliesToScan.ToArray());
-
+            
             /*
              * Agrega a la lista los middlewares para el pipeline de mediatr y los ejecuta en el
              * orden que se registran

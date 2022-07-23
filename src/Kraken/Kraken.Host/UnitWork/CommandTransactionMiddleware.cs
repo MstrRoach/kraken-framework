@@ -1,6 +1,7 @@
 ﻿using Kraken.Core.Commands;
 using Kraken.Core.UnitWork;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,11 @@ namespace Kraken.Host.UnitWork
         /// Constuctor del 
         /// </summary>
         /// <param name="unitWork"></param>
-        public CommandTransactionMiddleware(IUnitWorkFactory unitWorkFactory, ILogger<CommandTransactionMiddleware<TRequest, TResponse>> logger)
+        public CommandTransactionMiddleware(IUnitWorkFactory unitWorkFactory, ILogger<CommandTransactionMiddleware<TRequest, TResponse>> logger, IServiceProvider serviceProvider)
         {
             _unitWorkFactory = unitWorkFactory;
             _logger = logger;
+            var ddd = serviceProvider.GetServices<INotificationHandler<TransactionStarted>>();
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Kraken.Host.UnitWork
                 if (unitWork is null)
                     throw new InvalidOperationException("Can not buit a unit work from current command");
                 _logger.LogInformation("[TRANSACTION] Starting the transaction");
-                unitWork.StartTransaction();
+                await unitWork.StartTransaction();
                 _logger.LogInformation("[TRANSACTION] Executing request");
                 var result = await next();
                 _logger.LogInformation("[TRANSACTION] Request completed successfully. Confirming changes");

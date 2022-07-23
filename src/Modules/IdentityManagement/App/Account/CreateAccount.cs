@@ -1,6 +1,6 @@
 ﻿using Kraken.Core.Commands;
-using Kraken.Core.Events;
 using Kraken.Core.Mediator;
+using Kraken.Core.Outbox;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,8 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     {
         await Task.CompletedTask;
         var accountId = Guid.NewGuid();
-        await _mediator.Publish(new AccountCreatedSuccessfull { AccountId = accountId });
+        //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
+        await _mediator.SendToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
         return new AccountCreated
         {
             AccountId = accountId
@@ -64,4 +65,9 @@ public class AccountCreatedSuccessfull : IDomainEvent
     public Guid AccountId { get; set; }
 
     public Guid Id { get; } = Guid.NewGuid();
+}
+
+public class NormalNotification : INotification
+{
+    public string Message { get; set; }
 }
