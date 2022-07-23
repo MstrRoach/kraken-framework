@@ -1,7 +1,9 @@
-﻿using Kraken.Core.Commands;
+﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
+using Kraken.Core.Commands;
 using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +28,12 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     /// Bus de eventos en memoria para la administracion de notificaciones
     /// </summary>
     private readonly IMediator _mediator;
+    private readonly IServiceProvider _serviceProvider;
 
-    public CreateAccountHandler(IMediator mediator)
+    public CreateAccountHandler(IMediator mediator, IServiceProvider serviceProvider)
     {
         _mediator = mediator;
+        _serviceProvider = serviceProvider;
     }
 
     /// <summary>

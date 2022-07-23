@@ -1,4 +1,5 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Contexts;
+using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,17 @@ namespace Kraken.Host.Outbox
         private List<IDomainEvent> domainEvents = new List<IDomainEvent>();
 
         /// <summary>
+        /// Contexto del ambiente
+        /// </summary>
+        private readonly IContext _context;
+
+        /// <summary>
         /// Lista de solo lectura para obtener los eventos de domminio de
         /// la transaccion actual
         /// </summary>
         public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents.AsReadOnly();
 
-        public DefaultOutboxContext(Guid transactionId)
+        public DefaultOutboxContext(Guid transactionId, IContext context)
         {
             this.TransactionId = transactionId;
         }

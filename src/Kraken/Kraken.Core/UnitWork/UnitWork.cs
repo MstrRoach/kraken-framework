@@ -38,7 +38,6 @@ public abstract class UnitWork : IUnitWork
     /// <summary>
     /// Inicia una transaccion y envia el evento despues de invocar al metodo interno
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
     async Task IUnitWork.StartTransaction()
     {
         this.StartTransaction();
@@ -99,18 +98,8 @@ public record UnitWorkEventBase : IComponentEvent
 /// <summary>
 /// Evento para indicar que una transaccion ha sido iniciada
 /// </summary>
-public record TransactionStarted : IComponentEvent
+public record TransactionStarted : UnitWorkEventBase
 {
-    /// <summary>
-    /// Id del evento
-    /// </summary>
-    public Guid Id { get; set; } = Guid.NewGuid();
-
-    /// <summary>
-    /// Nombre del componente que genera el evento
-    /// </summary>
-    public string Component => "UnitWork";
-
     /// <summary>
     /// Id de la transaccion
     /// </summary>
@@ -123,6 +112,7 @@ public record TransactionStarted : IComponentEvent
 /// </summary>
 public record TransactionCommited : UnitWorkEventBase
 {
+
     /// <summary>
     /// Id de la transaccion
     /// </summary>

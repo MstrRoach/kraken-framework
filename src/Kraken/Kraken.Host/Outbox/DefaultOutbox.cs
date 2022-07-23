@@ -14,7 +14,7 @@ namespace Kraken.Host.Outbox
     /// conectado a la misma transaccion en caso de estarse
     /// ejecutando una.
     /// </summary>
-    internal class DefaultOutbox<TStore> : IOutbox
+    public class DefaultOutbox<TStore> : IOutbox
         where TStore : IOutboxStore
     {
         /// <summary>
@@ -22,13 +22,27 @@ namespace Kraken.Host.Outbox
         /// </summary>
         private readonly TStore _outboxStore;
 
-        public DefaultOutbox(TStore outboxStore)
+        public DefaultOutbox(TStore outboxStore, )
         {
             _outboxStore = outboxStore;
         }
 
+        /// <summary>
+        /// Obtiene el mensaje y lo convierte en una entidad almacenable dentro
+        /// de la base de datos utilizando la tienda especificada para esta 
+        /// bandeja de salida
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="messages"></param>
+        /// <returns></returns>
         public Task SaveAsync<T>(T messages) where T : IDomainEvent
         {
+            // Creamos la entidad de almacenamiento
+            var outboxMsg = new OutboxMessage
+            {
+                Id = messages.Id,
+                CorrelationId =
+            }
             throw new NotImplementedException();
         }
 

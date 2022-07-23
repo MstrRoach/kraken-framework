@@ -31,9 +31,10 @@ namespace Kraken.Host.Outbox
             // Recorremos las bandejas encontradas
             foreach (var store in stores)
             {
-                // Registramos la bandeja de salida para cada uno de los almacenes
                 var outboxOpenType = typeof(DefaultOutbox<>).MakeGenericType(store);
-                services.TryAddEnumerable(new ServiceDescriptor(typeof(IOutbox), outboxOpenType, ServiceLifetime.Scoped));
+                // Registramos la bandeja de salida especifica
+                services.AddScoped(outboxOpenType);
+                //services.TryAddEnumerable(new ServiceDescriptor(outboxOpenType, outboxOpenType, ServiceLifetime.Scoped));
                 // Agregamos el servicio para recuperar 
                 services.AddScoped<IOutboxStore>(sp => sp.GetService(store) as IOutboxStore);
                 outboxRegistry.Register(store);

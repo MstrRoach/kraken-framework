@@ -10,39 +10,27 @@ using System.Threading.Tasks;
 
 namespace Kraken.Host.Outbox;
 
-internal class CreateOutboxContextHandler : INotificationHandler<TransactionStarted>
-{
-    private readonly OutboxContextAccesor _outboxContextAccesor;
-    public CreateOutboxContextHandler(OutboxContextAccesor outboxContextAccesor)
-    {
-        _outboxContextAccesor = outboxContextAccesor;
-    }
-
-    public Task Handle(TransactionStarted notification, CancellationToken cancellationToken)
-    {
-        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id);
-        return Task.CompletedTask;
-    }
-}
-
-
-
 /// <summary>
 /// Administra todos los eventos que el componente de la unidad de trabajo publica
 /// </summary>
-internal class UnitWorkEventsHandler 
-    //, 
-    //IComponentEventHandler<TransactionCommited>, 
-    //IComponentEventHandler<TransacctionFailed>
+internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted>,
+    IComponentEventHandler<TransactionCommited>,
+    IComponentEventHandler<TransacctionFailed>
 {
     /// <summary>
     /// Accesor al contexto de bandeja de salida
     /// </summary>
     private readonly OutboxContextAccesor _outboxContextAccesor;
 
-    public UnitWorkEventsHandler(OutboxContextAccesor outboxContextAccesor)
+    /// <summary>
+    /// Acceso al contexto de solicitud actual
+    /// </summary>
+    private readonly IContext _context;
+
+    public UnitWorkEventsHandler(OutboxContextAccesor outboxContextAccesor, IContext context)
     {
         _outboxContextAccesor = outboxContextAccesor;
+        _context = context;
     }
 
     /// <summary>
@@ -52,11 +40,10 @@ internal class UnitWorkEventsHandler
     /// <param name="notification"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public Task Handle(TransactionStarted notification, CancellationToken cancellationToken)
     {
         // Creamos el contexto
-        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id);
+        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id, _context);
         return Task.CompletedTask;
     }
 
@@ -67,7 +54,6 @@ internal class UnitWorkEventsHandler
     /// <param name="notification"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public Task Handle(TransactionCommited notification, CancellationToken cancellationToken)
     {
         var events = _outboxContextAccesor.Context.DomainEvents.ToList();
@@ -81,7 +67,6 @@ internal class UnitWorkEventsHandler
     /// <param name="notification"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public Task Handle(TransacctionFailed notification, CancellationToken cancellationToken)
     {
         _outboxContextAccesor.Context.Cleanup();

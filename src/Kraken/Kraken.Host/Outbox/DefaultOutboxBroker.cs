@@ -44,7 +44,7 @@ namespace Kraken.Host.Outbox
             // Creamos el tipo cerrado
             var outboxType = typeof(DefaultOutbox<>).MakeGenericType(outboxStoreType);
             // Obtenemos la bandeja de ssalida
-            var outbox = (IOutbox)_serviceProvider.GetRequiredService(outboxType);
+            var outbox = _serviceProvider.GetRequiredService(outboxType) as IOutbox;
             // Si es nula avisamos que no hay ninguna registrada
             if (outbox == null)
                 throw new InvalidOperationException($"Outbox is not registered for module: '{message.GetModuleName()}'.");
