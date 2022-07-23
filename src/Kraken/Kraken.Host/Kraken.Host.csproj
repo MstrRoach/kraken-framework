@@ -45,9 +45,4 @@
     <ProjectReference Include="..\Kraken.Core\Kraken.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mediator\Queries\" />
-    <Folder Include="Processing\" />
-  </ItemGroup>
-
 </Project>
