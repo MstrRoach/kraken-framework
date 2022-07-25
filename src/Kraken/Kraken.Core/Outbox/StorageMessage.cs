@@ -10,7 +10,7 @@ namespace Kraken.Core.Outbox;
 /// Clase base para guardar los mensajes en la bandeja de salida
 /// transaccional
 /// </summary>
-public class OutboxMessage
+public class StorageMessage
 {
     /// <summary>
     /// Id del mensaje
@@ -57,3 +57,8 @@ public class OutboxMessage
     /// </summary>
     public DateTime? SentAt { get; set; }
 }
+
+/// <summary>
+/// Estados por los que puede pasar el mensaje
+/// </summary>
+public enum StoreMessageStatus { OnProcess, Published, OnError }

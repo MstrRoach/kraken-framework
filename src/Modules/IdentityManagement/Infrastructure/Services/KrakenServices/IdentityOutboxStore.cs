@@ -8,22 +8,23 @@ using System.Threading.Tasks;
 
 namespace IdentityManagement.Infrastructure.Services.KrakenServices
 {
-    internal class IdentityOutboxStore : IOutboxStore
+    internal class IdentityOutboxStore : IOutboxStorage
     {
-        private static ConcurrentBag<OutboxMessage> outboxMessages = new ConcurrentBag<OutboxMessage>();
+        private static ConcurrentBag<StorageMessage> outboxMessages = new ConcurrentBag<StorageMessage>();
+
         public IdentityOutboxStore()
         {
 
         }
         
 
-        public Task SaveAsync(OutboxMessage message)
+        public Task SaveAsync(StorageMessage message)
         {
             outboxMessages.Add(message);
             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<OutboxMessage>> GetUnsentAsync()
+        public Task<IEnumerable<StorageMessage>> GetUnsentAsync()
         {
             var unsent = outboxMessages.Where(x => x.SentAt is null);
             return Task.FromResult(unsent);

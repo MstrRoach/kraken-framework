@@ -29,14 +29,14 @@ namespace Kraken.Core.Outbox
         /// <summary>
         /// Lista de solo lectura de los eventos de dominio
         /// </summary>
-        IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
+        IReadOnlyCollection<ProcessMessage> Events { get; }
 
         /// <summary>
         /// Almacena un evento de dominio dentro del
         /// contexto de la bandeja de salida
         /// </summary>
         /// <param name="event"></param>
-        void AddDomainEvent(IDomainEvent @event);
+        void AddProcessMessage(ProcessMessage @event);
 
         /// <summary>
         /// Limpia la lista de eventos

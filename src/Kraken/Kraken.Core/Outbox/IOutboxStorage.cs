@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Kraken.Core.Outbox
 {
-    public interface IOutboxStore
+    public interface IOutboxStorage
     {
         /// <summary>
         /// Almacena un mensaje en el store de base de datos
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        Task SaveAsync(OutboxMessage message);
+        Task SaveAsync(StorageMessage message);
 
         /// <summary>
         /// Obtiene los mensajes no enviados
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<OutboxMessage>> GetUnsentAsync();
+        Task<IEnumerable<StorageMessage>> GetUnsentAsync();
 
         /// <summary>
         /// Realiza una limpieza de los eventos processados

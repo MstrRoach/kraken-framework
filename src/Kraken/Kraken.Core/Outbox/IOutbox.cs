@@ -14,7 +14,7 @@ namespace Kraken.Core.Outbox
         /// </summary>
         /// <param name="messages"></param>
         /// <returns></returns>
-        Task SaveAsync<T>(T messages) where T : IDomainEvent;
+        Task SaveAsync(ProcessMessage messages);
 
         /// <summary>
         /// Publica los mensajes que no han sido publicados

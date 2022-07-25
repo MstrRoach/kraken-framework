@@ -13,13 +13,13 @@ namespace Kraken.Core.Outbox
     /// a donde registrar cada mensaje segun el modulo proveniente.
     /// Esto en caso de
     /// </summary>
-    public interface IOutboxBroker
+    public interface IOutboxBroker 
     {
         /// <summary>
         /// Envia un evento a la bandeja de salida correspondiente
         /// </summary>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task SendAsync<T>(T @event) where T : IDomainEvent;
+        Task SendAsync(ProcessMessage @event);
     }
 }

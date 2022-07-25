@@ -49,6 +49,7 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         var accountId = Guid.NewGuid();
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
         await _mediator.SendToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
+        //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
         return new AccountCreated
         {
             AccountId = accountId

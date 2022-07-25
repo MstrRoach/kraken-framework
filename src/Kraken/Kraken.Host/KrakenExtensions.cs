@@ -1,10 +1,12 @@
 ﻿using Kraken.Core;
+using Kraken.Core.Serializer;
 using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
 using Kraken.Host.Internal;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
+using Kraken.Host.Serializer;
 using Kraken.Host.UnitWork;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +39,7 @@ public static class KrakenExtensions
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
         // ------------------------- Configuracion de las partes centrales de kraken
+        services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
         services.AddSingleton<IKrakenHost, DefaultHost>();
         services.AddMediator(krakenOptions.assemblies);
         services.AddModuleInfo(krakenOptions.modules);

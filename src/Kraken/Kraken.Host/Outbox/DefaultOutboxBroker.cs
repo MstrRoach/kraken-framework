@@ -33,14 +33,13 @@ namespace Kraken.Host.Outbox
             _serviceProvider = serviceProvider;
         }
 
-        public async Task SendAsync<T>(T message)
-            where T : IDomainEvent
+        public async Task SendAsync(ProcessMessage message)
         {
             _logger.LogInformation("[Event Broker] Processing event {event}, from module {module}", 
-                message.GetType().Name.Underscore(),
+                message.Event.GetType().Name.Underscore(),
                 message.GetModuleName());
             // Obtenemos el tipo de almacenamiento
-            var outboxStoreType = _outboxRegistry.Resolve(message);
+            var outboxStoreType = _outboxRegistry.Resolve(message.Event);
             // Creamos el tipo cerrado
             var outboxType = typeof(DefaultOutbox<>).MakeGenericType(outboxStoreType);
             // Obtenemos la bandeja de ssalida

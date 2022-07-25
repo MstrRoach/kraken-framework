@@ -1,5 +1,6 @@
 ﻿using Kraken.Core.Contexts;
 using Kraken.Core.Mediator;
+using Kraken.Core.Outbox;
 using Kraken.Core.UnitWork;
 using MediatR;
 using System;
@@ -27,10 +28,17 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     /// </summary>
     private readonly IContext _context;
 
-    public UnitWorkEventsHandler(OutboxContextAccesor outboxContextAccesor, IContext context)
+    /// <summary>
+    /// Orquestador de los eventos
+    /// </summary>
+    private readonly IEventDispatcher _eventOrchestrator;
+
+    public UnitWorkEventsHandler(OutboxContextAccesor outboxContextAccesor, IContext context,
+        IEventDispatcher eventOrchestrator)
     {
         _outboxContextAccesor = outboxContextAccesor;
         _context = context;
+        _eventOrchestrator = eventOrchestrator;
     }
 
     /// <summary>
@@ -43,7 +51,7 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     public Task Handle(TransactionStarted notification, CancellationToken cancellationToken)
     {
         // Creamos el contexto
-        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id, _context);
+        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id);
         return Task.CompletedTask;
     }
 
@@ -56,7 +64,14 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     /// <returns></returns>
     public Task Handle(TransactionCommited notification, CancellationToken cancellationToken)
     {
-        var events = _outboxContextAccesor.Context.DomainEvents.ToList();
+        // Obtenemos los eventos
+        var events = _outboxContextAccesor.Context.Events.ToList();
+        // Los agregamos al orquestador
+        foreach (var evt in events)
+            _eventOrchestrator.EnqueueToExecute(evt);
+        // Limpiamos el contexto
+        _outboxContextAccesor.Context.Cleanup();
+        // Salimos
         return Task.CompletedTask;
     }
 

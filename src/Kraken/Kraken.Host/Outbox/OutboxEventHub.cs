@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Kraken.Host.Outbox;
@@ -80,10 +81,19 @@ public sealed class OutboxEventHub : INotificationHandler<InterceptedDomainEvent
         // Logeamos la informacion del evento almacenado
         _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: {RequestId}, Message ID: {MessageId}, Correlation ID: {CorrelationId}, Trace ID: '{TraceId}', User ID: '{UserId}]...",
                 name, module, requestId, messageId, correlationId, traceId, userId);
-        // Agregamos el evento al contexto de la bandeja de salida
-        _outboxContextAccessor.Context.AddDomainEvent(notification.Event);
+        // Envolvemos el evento en una entidad enriquecida para almacenarlo
+        var processMessage = new ProcessMessage
+        {
+            Id = notification.Event.Id,
+            CorrelationId = correlationId,
+            UserId = userId,
+            Event = notification.Event,
+            TraceId = traceId
+        };
         // Mandamos el evento al corredor de bandeja de salida
-        await _outboxBroker.SendAsync(notification.Event);
+        await _outboxBroker.SendAsync(processMessage);
+        // Agregamos el evento al contexto de la bandeja de salida
+        _outboxContextAccessor.Context.AddProcessMessage(processMessage);
     }
 
 }

@@ -26,20 +26,15 @@ namespace Kraken.Host.Outbox
         /// Lista de eventos de dominio que deben de enviarse a procesamiento
         /// cuando se confirme la transaccion
         /// </summary>
-        private List<IDomainEvent> domainEvents = new List<IDomainEvent>();
-
-        /// <summary>
-        /// Contexto del ambiente
-        /// </summary>
-        private readonly IContext _context;
+        private List<ProcessMessage> events = new List<ProcessMessage>();
 
         /// <summary>
         /// Lista de solo lectura para obtener los eventos de domminio de
         /// la transaccion actual
         /// </summary>
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents.AsReadOnly();
+        public IReadOnlyCollection<ProcessMessage> Events => events.AsReadOnly();
 
-        public DefaultOutboxContext(Guid transactionId, IContext context)
+        public DefaultOutboxContext(Guid transactionId)
         {
             this.TransactionId = transactionId;
         }
@@ -48,20 +43,19 @@ namespace Kraken.Host.Outbox
         /// Agrega los eventos a la lista de eventos
         /// </summary>
         /// <param name="event"></param>
-        public void AddDomainEvent(IDomainEvent @event)
+        public void AddProcessMessage(ProcessMessage @event)
         {
             if (@event is null)
                 return;
-            domainEvents.Add(@event);
+            events.Add(@event);
         }
 
         /// <summary>
         /// Limpia la lista de eventos
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         public void Cleanup()
         {
-            this.domainEvents.Clear();
+            this.events.Clear();
         }
     }
 }
