@@ -37,7 +37,7 @@ namespace Kraken.Host.Outbox
         {
             _logger.LogInformation("[Event Broker] Processing event {event}, from module {module}", 
                 message.Event.GetType().Name.Underscore(),
-                message.GetModuleName());
+                message.Event.GetModuleName());
             // Obtenemos el tipo de almacenamiento
             var outboxStoreType = _outboxRegistry.Resolve(message.Event);
             // Creamos el tipo cerrado

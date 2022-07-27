@@ -22,6 +22,7 @@
     <Compile Remove="Mediator\IRequest.cs" />
     <Compile Remove="Mediator\IRequestHandler.cs" />
     <Compile Remove="Mediator\Unit.cs" />
+    <Compile Remove="Reaction\IReactionLog.cs" />
   </ItemGroup>
 
   <ItemGroup>

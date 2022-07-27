@@ -29,10 +29,35 @@ public static class ReactionExtensions
         // Agregamos los middlewares
         services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionLogging<,>));
         services.AddTransient(typeof(IReactionMiddleware<,>),typeof(ReactionTransaction<,>));
-
-
+        // Registramos los almacenes de reacciones
+        services.LocateAndRegisterReactionStorages(assemblies);
+        // Agregamos el broker para el almacenamiento de las reacciones
+        services.AddSingleton<IReactionStreamFactory, DefaultReactionStreamFactory>();
 
         return services;
+    }
+
+    /// <summary>
+    /// Busca y registra lo necesario para los almacenes de las reacciones
+    /// asi como cada implementacion especifica para cada una de los almacenes
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="assemblies"></param>
+    private static void LocateAndRegisterReactionStorages(this IServiceCollection services, List<Assembly> assemblies)
+    {
+        // Registro de los storages
+        var storageRegistry = new ReactionStorageRegistry();
+        // Buscamos todas las implementaciones de los strage
+        var storages = assemblies
+            .SelectMany(assembly => assembly.DefinedTypes)
+            .Where(type => type.GetInterface(nameof(IReactionStorage)) is not null)
+            .ToList();
+        // Registramos cada storage en el registro centralizado
+        storages.ForEach(x => storageRegistry.Register(x));
+        // Registramos el generico para el reaction log
+        services.AddScoped(typeof(DefaultReactionStream<>));
+        // Registramos la instancia del registro de almacenes
+        services.AddSingleton(storageRegistry);
     }
 
     /// <summary>

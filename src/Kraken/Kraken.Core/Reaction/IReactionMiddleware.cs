@@ -28,6 +28,6 @@ namespace Kraken.Core.Reaction
         /// <param name="cancellationToken"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        Task Handle(TEvent @event, CancellationToken cancellationToken, EventHandlerDelegate next);
+        Task Handle(TEvent @event, ProcessRecord processRecord, CancellationToken cancellationToken, EventHandlerDelegate next);
     }
 }

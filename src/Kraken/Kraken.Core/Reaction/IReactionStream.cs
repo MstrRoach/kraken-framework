@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Core.Reaction
 {
-    /// <summary>
-    /// Administra el procesamiento de los registros 
-    /// de reaccion que se procesan y que se ejecutan
-    /// </summary>
-    public interface IReactionLog
+    public interface IReactionStream
     {
         /// <summary>
         /// Proceso y guarda la reaccion envuelta en el objeto 
@@ -19,5 +15,12 @@ namespace Kraken.Core.Reaction
         /// <param name="record"></param>
         /// <returns></returns>
         Task SaveAsync(ProcessRecord record);
+
+        /// <summary>
+        /// Marca una reaccion como lista para no procesarlas de nuevo
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
+        Task MarkReactionAsDone(Guid guid);
     }
 }

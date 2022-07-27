@@ -35,7 +35,7 @@ namespace Kraken.Host.Reaction
         /// <param name="next"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task Handle(TEvent @event, CancellationToken cancellationToken, EventHandlerDelegate next)
+        public async Task Handle(TEvent @event, ProcessRecord record, CancellationToken cancellationToken, EventHandlerDelegate next)
         {
             // Obtenemmos info de la solicitud
             var name = typeof(TReaction).Name;

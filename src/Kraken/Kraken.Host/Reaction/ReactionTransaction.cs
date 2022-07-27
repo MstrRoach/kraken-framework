@@ -26,11 +26,18 @@ namespace Kraken.Host.Reaction
         /// </summary>
         private readonly ILogger<ReactionTransaction<TEvent, TReaction>> _logger;
 
+        /// <summary>
+        /// Stream para la reaccion actual
+        /// </summary>
+        private readonly IReactionStream _reactionStream;
+
         public ReactionTransaction(IUnitWorkFactory unitWorkFactory,
-            ILogger<ReactionTransaction<TEvent, TReaction>> logger)
+            ILogger<ReactionTransaction<TEvent, TReaction>> logger, 
+            IReactionStreamFactory reactionStreamFactory, IServiceProvider serviceProvider)
         {
             _logger = logger;
             _unitWorkFactory = unitWorkFactory;
+            _reactionStream = reactionStreamFactory.CreateReactionStream<TReaction>(serviceProvider);
         }
 
         /// <summary>
@@ -40,8 +47,7 @@ namespace Kraken.Host.Reaction
         /// <param name="cancellationToken"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task Handle(TEvent @event, CancellationToken cancellationToken, EventHandlerDelegate next)
+        public async Task Handle(TEvent @event, ProcessRecord record, CancellationToken cancellationToken, EventHandlerDelegate next)
         {
             _logger.LogInformation("[Transaction] Get Unit of work from factory for tipe {type}. . .", typeof(TReaction));
             var unitWork = _unitWorkFactory.CreateUnitWork<TReaction>();
@@ -53,6 +59,8 @@ namespace Kraken.Host.Reaction
                 await unitWork.StartTransaction();
                 _logger.LogInformation("[TRANSACTION] Executing request");
                 await next();
+                _logger.LogInformation("[TRANSACTION] Update reaction record on stream");
+                await _reactionStream.MarkReactionAsDone(record.Id);
                 _logger.LogInformation("[TRANSACTION] Request completed successfully. Confirming changes");
                 await unitWork.Commit();
                 _logger.LogInformation("[TRANSACTION] Transaction ending.");

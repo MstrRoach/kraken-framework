@@ -30,6 +30,7 @@ namespace IdentityManagement
             services.AddSingleton<IOptions<IdentityModule>>(Options.Create(this));
             services.AddScoped<IdentityUnitWork>();
             services.AddScoped<IdentityOutboxStore>();
+            services.AddScoped<IdentityReactionStorage>();
             //services.Configure<IdentityModule>(options => options = this);
         }
 

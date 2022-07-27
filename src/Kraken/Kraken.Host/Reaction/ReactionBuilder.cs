@@ -23,9 +23,9 @@ public abstract class ReactionBuilderBase
     /// <param name="cancellationToken"></param>
     /// <param name="serviceFactory"></param>
     /// <returns></returns>
-    public async Task Handle(object notification, CancellationToken cancellationToken,
+    public async Task Handle(object notification, ProcessRecord processRecord, CancellationToken cancellationToken,
     IServiceProvider serviceProvider, IContext context) =>
-        await Handle((INotification)notification, cancellationToken, serviceProvider, context);
+        await Handle((INotification)notification, processRecord, cancellationToken, serviceProvider, context);
 
     /// <summary>
     /// Ejecuta el handler para el evento junto con todos los middlewares 
@@ -36,6 +36,7 @@ public abstract class ReactionBuilderBase
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
     public abstract Task Handle(INotification notification,
+        ProcessRecord processRecord,
         CancellationToken cancellationToken,
         IServiceProvider serviceProvider,
         IContext context);
@@ -87,7 +88,7 @@ public class ReactionBuilder<TEvent, TReaction> :
     /// <param name="cancellationToken"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public override Task Handle(INotification notification, 
+    public override Task Handle(INotification notification, ProcessRecord processRecord,
         CancellationToken cancellationToken, IServiceProvider serviceProvider, IContext context)
     {
         // Creamos un alcance para el handler
@@ -101,7 +102,7 @@ public class ReactionBuilder<TEvent, TReaction> :
             .Reverse()
             .Aggregate((EventHandlerDelegate)Handler, 
             (next, pipeline) => 
-            () => pipeline.Handle((TEvent)notification, cancellationToken, next))
+            () => pipeline.Handle((TEvent)notification, processRecord, cancellationToken, next))
             .Invoke();
     }
 
