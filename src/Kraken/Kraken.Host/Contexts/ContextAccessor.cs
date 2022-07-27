@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Kraken.Core.Contexts;
 
-namespace Inflow.Shared.Infrastructure.Contexts;
+namespace Kraken.Host.Contexts;
 
 public sealed class ContextAccessor
 {
@@ -20,7 +20,7 @@ public sealed class ContextAccessor
 
             if (value != null)
             {
-                Holder.Value = new ContextHolder {Context = value};
+                Holder.Value = new ContextHolder { Context = value };
             }
         }
     }

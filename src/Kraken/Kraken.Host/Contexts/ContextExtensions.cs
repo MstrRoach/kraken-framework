@@ -1,5 +1,4 @@
-﻿using Inflow.Shared.Infrastructure.Contexts;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kraken.Host.Contexts;
@@ -28,7 +27,7 @@ public static class ContextExtensions
     {
         app.Use((ctx, next) =>
         {
-            ctx.RequestServices.GetRequiredService<ContextAccessor>().Context = new Context(ctx); ;
+            ctx.RequestServices.GetRequiredService<ContextAccessor>().Context = new Context(ctx);
 
             return next();
         });

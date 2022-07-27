@@ -6,6 +6,7 @@ using Kraken.Host.Internal;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
+using Kraken.Host.Reaction;
 using Kraken.Host.Serializer;
 using Kraken.Host.UnitWork;
 using MediatR;
@@ -49,6 +50,8 @@ public static class KrakenExtensions
         services.AddUnitWorks(krakenOptions.assemblies);
         // Agrega soporte de bandeja de salida para los eventos asincronos
         services.AddOutbox(krakenOptions.assemblies);
+        // Agrega soporte para las reacciones
+        services.AddReactions(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));

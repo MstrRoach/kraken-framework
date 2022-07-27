@@ -1,7 +1,6 @@
-﻿using Kraken.Core.Commands;
+﻿using Kraken.Core.Reaction;
 using Kraken.Core.UnitWork;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Host.UnitWork
+namespace Kraken.Host.Reaction
 {
-    internal sealed class CommandTransactionMiddleware<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : class, ICommand<TResponse>
+    internal sealed class ReactionTransaction<TEvent, TReaction> : IReactionMiddleware<TEvent, TReaction>
+        where TEvent : class, INotification
+        where TReaction : INotificationHandler<TEvent>
     {
         /// <summary>
         /// Contiene la unidad de trabajo del modulo, este es provisto
@@ -22,44 +22,40 @@ namespace Kraken.Host.UnitWork
         private readonly IUnitWorkFactory _unitWorkFactory;
 
         /// <summary>
-        /// logger para el middleware
+        /// Logger del middleware de transaccionalidad
         /// </summary>
-        private readonly ILogger<CommandTransactionMiddleware<TRequest, TResponse>> _logger;
+        private readonly ILogger<ReactionTransaction<TEvent, TReaction>> _logger;
 
-        /// <summary>
-        /// Constuctor del 
-        /// </summary>
-        /// <param name="unitWork"></param>
-        public CommandTransactionMiddleware(IUnitWorkFactory unitWorkFactory, 
-            ILogger<CommandTransactionMiddleware<TRequest, TResponse>> logger)
+        public ReactionTransaction(IUnitWorkFactory unitWorkFactory,
+            ILogger<ReactionTransaction<TEvent, TReaction>> logger)
         {
-            _unitWorkFactory = unitWorkFactory;
             _logger = logger;
+            _unitWorkFactory = unitWorkFactory;
         }
 
         /// <summary>
-        /// Administra la transaccionalidad
+        /// Administra la transaccionalidad de los eventos
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="event"></param>
         /// <param name="cancellationToken"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task Handle(TEvent @event, CancellationToken cancellationToken, EventHandlerDelegate next)
         {
-            _logger.LogInformation("[Transaction] Get Unit of work from factory for tipe {type}. . .", request.GetType());
-            var unitWork = _unitWorkFactory.CreateUnitWork<TRequest>();
+            _logger.LogInformation("[Transaction] Get Unit of work from factory for tipe {type}. . .", typeof(TReaction));
+            var unitWork = _unitWorkFactory.CreateUnitWork<TReaction>();
             try
             {
                 if (unitWork is null)
-                    throw new InvalidOperationException("Can not buit a unit work from current command");
+                    throw new InvalidOperationException("Can not buit a unit work from current reaction");
                 _logger.LogInformation("[TRANSACTION] Starting the transaction");
                 await unitWork.StartTransaction();
                 _logger.LogInformation("[TRANSACTION] Executing request");
-                var result = await next();
+                await next();
                 _logger.LogInformation("[TRANSACTION] Request completed successfully. Confirming changes");
                 await unitWork.Commit();
                 _logger.LogInformation("[TRANSACTION] Transaction ending.");
-                return result;
             }
             catch (InvalidOperationException ex)
             {
@@ -78,4 +74,3 @@ namespace Kraken.Host.UnitWork
         }
     }
 }
-

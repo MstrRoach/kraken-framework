@@ -16,11 +16,11 @@ internal class SendWelcomeEmailHandler : IDomainEventHandler<AccountCreatedSucce
     }
 }
 
-internal class NormalNotificationHandler : INotificationHandler<NormalNotification>
+internal class NormalNotificationHandler : IDomainEventHandler<AccountCreatedSuccessfull>
 {
-    public Task Handle(NormalNotification notification, CancellationToken cancellationToken)
+    public Task Handle(AccountCreatedSuccessfull notification, CancellationToken cancellationToken)
     {
-        Console.WriteLine(notification.Message);
+        Console.WriteLine(notification.AccountId);
         return Task.CompletedTask;
     
     }

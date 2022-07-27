@@ -27,6 +27,13 @@ public class IdentityContext : IIdentityContext
         IsAuthenticated = id.HasValue;
     }
 
+    public IdentityContext(Guid? id, string role)
+    {
+        Id = id ?? Guid.Empty;
+        IsAuthenticated = id.HasValue;
+        Role = role;
+    }
+
     public IdentityContext(ClaimsPrincipal principal)
     {
         if (principal?.Identity is null || string.IsNullOrWhiteSpace(principal.Identity.Name))
