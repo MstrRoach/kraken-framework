@@ -34,5 +34,11 @@ namespace IdentityManagement.Infrastructure.Services.KrakenServices
         {
             throw new NotImplementedException();
         }
+
+        public Task<StorageMessage> Get(Guid id)
+        {
+            var message = outboxMessages.Where(x => x.Id == id).FirstOrDefault();
+            return Task.FromResult(message);
+        }
     }
 }

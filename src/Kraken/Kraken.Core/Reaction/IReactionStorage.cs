@@ -27,5 +27,11 @@ namespace Kraken.Core.Reaction
         /// <param name="guid"></param>
         /// <returns></returns>
         Task MarkAsDone(Guid guid);
+
+        /// <summary>
+        /// Obtiene la lista de registros que no se han ejecutado
+        /// </summary>
+        /// <returns></returns>
+        Task<List<StorageRecord>> GetUnprocessedRecords();
     }
 }

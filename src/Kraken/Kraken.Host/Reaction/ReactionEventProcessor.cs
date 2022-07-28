@@ -69,6 +69,7 @@ namespace Kraken.Host.Reaction
             {
                 Id = Guid.NewGuid(),
                 EventId = message.Id,
+                Event = message.Event.GetType(),
                 CorrelationId = message.CorrelationId,
                 Reaction = x
             }).ToList();
@@ -78,14 +79,22 @@ namespace Kraken.Host.Reaction
             foreach (var reaction in reactionRecords)
             {
                 // Creammos el tipo generico
-                var wrapperEventType = typeof(ReactionBuilder<,>).MakeGenericType(message.Event.GetType(), reaction.Reaction);
-                // Creammos la instancia
-                var handler = (ReactionBuilderBase)Activator.CreateInstance(wrapperEventType) 
-                    ?? throw new InvalidOperationException($"Could not create wrapper for type {wrapperEventType}");
-                // Ejecutamos el handler. Dentro del handler si se ejecuto correctamente,
-                // este se debe de actualizar para indicar que se ejecuto de forma correcta
-                // dentro de la base de datos
-                await handler.Handle(message.Event, reaction, cancellationToken, _serviceProvider, context);
+                var wrapperEventType = typeof(ReactionBuilder<,>).MakeGenericType(reaction.Event, reaction.Reaction);
+                try
+                {
+                    // Creammos la instancia
+                    var handler = (ReactionBuilderBase)Activator.CreateInstance(wrapperEventType)
+                        ?? throw new InvalidOperationException($"Could not create wrapper for type {wrapperEventType}");
+                    // Ejecutamos el handler. Dentro del handler si se ejecuto correctamente,
+                    // este se debe de actualizar para indicar que se ejecuto de forma correcta
+                    // dentro de la base de datos
+                    await handler.Handle(message.Event, reaction, cancellationToken, _serviceProvider, context);
+                }
+                catch (Exception ex)
+                {
+                    // Indicamos que no se proceso completamente el mensaje
+                    continue;
+                }
             }
         }
 

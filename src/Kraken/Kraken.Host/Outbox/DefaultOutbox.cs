@@ -77,6 +77,27 @@ namespace Kraken.Host.Outbox
             return Task.CompletedTask;
         }
 
-
+        /// <summary>
+        /// Obtiene el evento por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ProcessMessage> Get(Guid id)
+        {
+            ProcessMessage message = null;
+            // Obtenemmos el evento desde el storage
+            var @event = await _outboxStore.Get(id);
+            // Lo convertimos en mensaje de proceso
+            if (@event is not null)
+                message = new ProcessMessage
+                {
+                    Id = @event.Id,
+                    CorrelationId = @event.CorrelationId,
+                    UserId = @event.UserId,
+                    TraceId = @event.TraceId,
+                    Event = _serializer.Deserialize(@event.Data, Type.GetType(@event.Type))
+                };
+            return message;
+        }
     }
 }

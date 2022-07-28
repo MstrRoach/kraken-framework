@@ -37,6 +37,7 @@ namespace Kraken.Host.Reaction
             {
                 Id = record.Id,
                 EventId = record.EventId,
+                EventType = record.Event.AssemblyQualifiedName,
                 Name = record.Reaction.Name.Underscore(),
                 Type = record.Reaction.AssemblyQualifiedName,
                 CreateAt = DateTime.UtcNow
@@ -51,10 +52,30 @@ namespace Kraken.Host.Reaction
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task MarkReactionAsDone(Guid guid)
         {
             await _storage.MarkAsDone(guid);
+        }
+
+        /// <summary>
+        /// Obtiene la lista de registros sin procesar
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ProcessRecord>> GetUnprocessedRecords()
+        {
+            // Obtenemos todos los mensajes
+            var storageRecords = await _storage.GetUnprocessedRecords();
+            // Los transformamos a registros de proceso
+            var processRecords = storageRecords.Select(x => new ProcessRecord
+            {
+                Id = x.Id,
+                CorrelationId = x.CorrelationId,
+                EventId = x.EventId,
+                Event = Type.GetType(x.EventType),
+                Reaction = Type.GetType(x.Type)
+            }).ToList();
+            // Devolvemos la lista
+            return processRecords;
         }
     }
 }

@@ -22,6 +22,13 @@ namespace Kraken.Core.Outbox
         Task<IEnumerable<StorageMessage>> GetUnsentAsync();
 
         /// <summary>
+        /// Obtiene un evento por id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<StorageMessage> Get(Guid id);
+
+        /// <summary>
         /// Realiza una limpieza de los eventos processados
         /// </summary>
         /// <returns></returns>

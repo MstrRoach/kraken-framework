@@ -44,5 +44,17 @@ namespace IdentityManagement.Infrastructure.Services.KrakenServices
             }
             return Task.CompletedTask;
         }
+
+        /// <summary>
+        /// Devuelve la lista de procesados
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<StorageRecord>> GetUnprocessedRecords()
+        {
+            // Obtenemos los registros que esten en status en proceso y tengan creados mas de 5 minutos
+            var records = StorageRecords.Where(x => x.Status == StorageRecordStatus.OnProcess && DateTime.UtcNow.Subtract(x.CreateAt).Minutes > 5).ToList();
+            return Task.FromResult(records);
+            //return Task.FromResult(StorageRecords.ToList());
+        }
     }
 }

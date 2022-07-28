@@ -43,6 +43,14 @@ internal class OutboxStoreRegistry
     public Type Resolve<T>(T message) => _moduleOutboxs.TryGetValue(GetKey(message.GetType()), out var type) ? type : null;
 
     /// <summary>
+    /// Devuelve el tipo de la bandeja de salida asociada al tipo especificado para el modulo
+    /// asignado
+    /// </summary>
+    /// <param name="eventType"></param>
+    /// <returns></returns>
+    public Type Resolve(Type eventType) => _moduleOutboxs.TryGetValue(GetKey(eventType), out var type) ? type : null;
+
+    /// <summary>
     /// Obtiene el nombre del modulo a partir del tipo especificado
     /// </summary>
     /// <param name="outbox"></param>

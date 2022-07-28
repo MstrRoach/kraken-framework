@@ -22,5 +22,11 @@ namespace Kraken.Core.Reaction
         /// <param name="guid"></param>
         /// <returns></returns>
         Task MarkReactionAsDone(Guid guid);
+
+        /// <summary>
+        /// Obtiene todas las reacciones no procesadas
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ProcessRecord>> GetUnprocessedRecords();
     }
 }

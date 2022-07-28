@@ -28,6 +28,11 @@ namespace Kraken.Core.Reaction
         public Guid EventId { get; set; }
 
         /// <summary>
+        /// Indica cual es el evento asociado a la reaccion
+        /// </summary>
+        public Type Event { get; set; }
+
+        /// <summary>
         /// Objeto que contiene la reaccion que debe de ejecutarse
         /// </summary>
         public Type Reaction { get; set; }

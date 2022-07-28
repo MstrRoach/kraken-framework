@@ -83,7 +83,7 @@ public abstract class InfinityProcessingServer : IProcessingServer
             try
             {
                 // Ejecutamos el proceso
-                await ProcessAsync();
+                await ProcessAsync(stoppingToken);
             }
             catch (OperationCanceledException)
             {
@@ -104,7 +104,7 @@ public abstract class InfinityProcessingServer : IProcessingServer
     /// de forma permanente
     /// </summary>
     /// <returns></returns>
-    public abstract Task ProcessAsync();
+    public abstract Task ProcessAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Libera recursos administrados

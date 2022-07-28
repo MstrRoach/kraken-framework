@@ -77,28 +77,5 @@ namespace Kraken.Host.Reaction
             return reactionLog;
         }
 
-        ///// <summary>
-        ///// Se encarga de resolver y ejecutar el registro de reaccion para la reaccion actual
-        ///// </summary>
-        ///// <param name="record"></param>
-        ///// <returns></returns>
-        ///// <exception cref="InvalidOperationException"></exception>
-        //public async Task SaveAsync(ProcessRecord record)
-        //{
-        //    _logger.LogInformation("[Reaction Broker] Processin reaction {reaction}, from module {module}",
-        //        record.Reaction.Name.Underscore(),
-        //        record.Reaction.GetModuleName());
-        //    // Obtenemmos el tipo del almacen para la reaccion
-        //    var reactionStorage = _reactionStorageRegistry.Resolve(record.Reaction);
-        //    // Creamos el tipo cerrado para el log
-        //    var reactionLogType = typeof(DefaultReactionStream<>).MakeGenericType(reactionStorage);
-        //    //// Obtenemos el servicio del proveedor de servicios
-        //    //var reactionLog = _serviceProvider.GetService(reactionLogType) as IReactionLog;
-        //    //// Si es nulo el servicio entonces no hay nada registrado
-        //    //if (reactionLog is null)
-        //    //    throw new InvalidOperationException($"Reaction Log is not registered for module: {record.Reaction.GetModuleName()}");
-        //    //// Guardamos el registro
-        //    //await reactionLog.SaveAsync(record);
-        //}
     }
 }

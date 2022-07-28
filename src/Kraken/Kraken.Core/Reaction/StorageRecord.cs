@@ -18,9 +18,19 @@ namespace Kraken.Core.Reaction
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Id de correlacion para la reaccion
+        /// </summary>
+        public Guid CorrelationId { get; set; }
+
+        /// <summary>
         /// Id del evento que genero la reaccion
         /// </summary>
         public Guid EventId { get; set; }
+
+        /// <summary>
+        /// Tipo del evento asociado a la reaccion
+        /// </summary>
+        public string EventType { get; set; }
 
         /// <summary>
         /// Nombre de la reaccion

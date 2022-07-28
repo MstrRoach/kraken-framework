@@ -54,10 +54,18 @@ public static class ReactionExtensions
             .SelectMany(assembly => assembly.DefinedTypes)
             .Where(type => type.GetInterface(nameof(IReactionStorage)) is not null)
             .ToList();
-        // Registramos cada storage en el registro centralizado
-        storages.ForEach(x => storageRegistry.Register(x));
-        // Registramos el generico para el reaction log
-        services.AddScoped(typeof(DefaultReactionStream<>));
+        // Recorremos los storages
+        foreach (var storage in storages)
+        {
+            // Registramos el storage en el registro
+            storageRegistry.Register(storage);
+            // Creamos el tipo cerrado
+            var reactionStreamClosedType = typeof(DefaultReactionStream<>).MakeGenericType(storage);
+            // Lo registramos con alcance para llamada desde interface
+            services.AddScoped(typeof(IReactionStream), reactionStreamClosedType);
+            // Lo registramos para la llamada especifica
+            services.AddScoped(reactionStreamClosedType);
+        }
         // Registramos la instancia del registro de almacenes
         services.AddSingleton(storageRegistry);
     }
