@@ -19,10 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Internal\InfiniteRetryProcessor.cs" />
+    <Compile Remove="Internal\KrakenServer.cs" />
     <Compile Remove="Mediator\IServiceFactory.cs" />
     <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />
     <Compile Remove="Outbox\TransactionContext.cs" />
     <Compile Remove="Outbox\TransactionContextAccessor.cs" />
+    <Compile Remove="Reaction\ReactionReprocessor.cs" />
     <Compile Remove="UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>
 

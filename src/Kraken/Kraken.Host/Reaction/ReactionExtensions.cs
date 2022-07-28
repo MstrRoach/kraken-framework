@@ -1,5 +1,6 @@
 ﻿using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
+using Kraken.Core.Processing;
 using Kraken.Core.Reaction;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -33,7 +34,8 @@ public static class ReactionExtensions
         services.LocateAndRegisterReactionStorages(assemblies);
         // Agregamos el broker para el almacenamiento de las reacciones
         services.AddSingleton<IReactionStreamFactory, DefaultReactionStreamFactory>();
-
+        // Agregamos el reprocesador de reacciones en segundo plano
+        services.AddSingleton<IProcessingServer, ReactionRedispatcher>();
         return services;
     }
 
