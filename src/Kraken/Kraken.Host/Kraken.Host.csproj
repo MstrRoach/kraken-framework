@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Compile Remove="Internal\InfiniteRetryProcessor.cs" />
+    <Compile Remove="Internal\InfinityProcessingServer.cs" />
     <Compile Remove="Internal\KrakenServer.cs" />
     <Compile Remove="Mediator\IServiceFactory.cs" />
     <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />

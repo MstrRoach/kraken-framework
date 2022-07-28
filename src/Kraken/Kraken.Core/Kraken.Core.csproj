@@ -22,6 +22,8 @@
     <Compile Remove="Mediator\IRequest.cs" />
     <Compile Remove="Mediator\IRequestHandler.cs" />
     <Compile Remove="Mediator\Unit.cs" />
+    <Compile Remove="Processing\IProcessor.cs" />
+    <Compile Remove="Processing\ProcessingContext.cs" />
     <Compile Remove="Reaction\IReactionLog.cs" />
   </ItemGroup>
 
