@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Host", "Kraken\Krake
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Core", "Kraken\Kraken.Core\Kraken.Core.csproj", "{DCDFE4B1-4767-4FC8-B960-ED66380685D7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleEvents", "Modules\ModuleEvents\ModuleEvents.csproj", "{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileManagement", "Modules\ProfileManagement\ProfileManagement.csproj", "{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCDFE4B1-4767-4FC8-B960-ED66380685D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +60,8 @@ Global
 		{B2AD2EF6-BA85-49E5-85A3-3189D972819A} = {9717CE5F-6F9A-426F-99B1-E964496E90B7}
 		{2D95124B-6232-4A38-9A0B-A45ADE395A26} = {C4DDF074-346C-426B-A9F4-37375255D35E}
 		{DCDFE4B1-4767-4FC8-B960-ED66380685D7} = {C4DDF074-346C-426B-A9F4-37375255D35E}
+		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A} = {92A38728-E6F0-43A1-A579-65508C9045AA}
+		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F} = {92A38728-E6F0-43A1-A579-65508C9045AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}

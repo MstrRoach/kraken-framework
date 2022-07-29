@@ -78,18 +78,29 @@ public static class ReactionExtensions
     private static void LocateAndRegisterReactions(this IServiceCollection services, List<Assembly> assemblies)
     {
         // Definicion de la interface abierta
-        var eventHandlerOpenInterface = typeof(IDomainEventHandler<>);
-        var arity = eventHandlerOpenInterface.GetGenericArguments().Length;
+        var domainEventHandlerOpen = typeof(IDomainEventHandler<>);
+        var moduleEventHandlerOpen = typeof(IModuleEventHandler<>);
+        var arity = domainEventHandlerOpen.GetGenericArguments().Length;
 
         
-        // Hacemos la busqueda en los ensamblados
+        // Hacemos la busqueda en los ensamblados de los handlers de dominio
         var reactions = assemblies
             .SelectMany(assembly => assembly.GetTypes())
             .Where(type => !type.IsOpenGeneric())
-            .Where(type => type.FindInterfacesThatClose(eventHandlerOpenInterface).Any())
-            .Select(type => new EventReaction(type.GetHandlerArgument(eventHandlerOpenInterface.Name),type))
+            .Where(type => type.FindInterfacesThatClose(domainEventHandlerOpen).Any())
+            .Select(type => new EventReaction(type.GetHandlerArgument(domainEventHandlerOpen.Name),type))
             .GroupBy(eventReaction => eventReaction.Event, eventReaction => eventReaction.Reaction)
             .ToList();
+        // Hacemos la busqueda de los handlers de los modulos
+        var moduleReactions = assemblies
+            .SelectMany(assembly => assembly.GetTypes())
+            .Where(type => !type.IsOpenGeneric())
+            .Where(type => type.FindInterfacesThatClose(moduleEventHandlerOpen).Any())
+            .Select(type => new EventReaction(type.GetHandlerArgument(moduleEventHandlerOpen.Name), type))
+            .GroupBy(eventReaction => eventReaction.Event, eventReaction => eventReaction.Reaction)
+            .ToList();
+
+        reactions.AddRange(moduleReactions);
 
         // Creamos el registro de reacciones
         var reactionRegistry = new ReactionRegistry();

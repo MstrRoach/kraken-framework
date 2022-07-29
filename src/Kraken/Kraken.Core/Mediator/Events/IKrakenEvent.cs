@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace Kraken.Core.Mediator.Events
 {
     /// <summary>
-    /// Interface base para los eventos dentro generados dentro de
-    /// de kraken.
+    /// Interface para los eventos internos
     /// </summary>
     public interface IKrakenEvent : INotification
     {

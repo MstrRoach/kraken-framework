@@ -100,27 +100,7 @@ public static class KrakenExtensions
         return app;
     }
 
-    /// <summary>
-    /// Obtiene el nombre del modulo al que pertenece el comando
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public static string GetModuleName(this object value)
-        => value?.GetType().GetModuleName() ?? string.Empty;
-
-    /// <summary>
-    /// Obtiene el nombre del modulo revisando el nombre del namespace del comando
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="namespacePart"></param>
-    /// <param name="splitIndex"></param>
-    /// <returns></returns>
-    public static string GetModuleName(this Type type, int splitIndex = 0)
-    {
-        if (type?.Namespace is null)
-            return string.Empty;
-        return type.Namespace.Split(".")[splitIndex].ToLowerInvariant();
-    }
+    
 
     /// <summary>
     /// Intenta recuperar el id de correlacion de la solicitud

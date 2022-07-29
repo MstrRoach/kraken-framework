@@ -4,12 +4,17 @@ using Kraken.Host;
 using Kraken.Host.Modules;
 using KrakenExample;
 using MediatR;
+using ProfileManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 //builder.Services.AddKraken(builder.Configuration ,Bootstrapper.KrakenBuilder());
-builder.Services.AddKraken(builder.Configuration ,x => x.AddModule<IdentityModule>());
+builder.Services.AddKraken(builder.Configuration ,x =>
+{
+    x.AddModule<IdentityModule>();
+    x.AddModule<ProfileModule>();
+});
 
 builder.Services.AddControllers();
 //// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

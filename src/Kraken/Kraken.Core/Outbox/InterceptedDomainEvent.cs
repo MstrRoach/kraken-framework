@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Mediator.Events;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Kraken.Core.Outbox;
 /// Evento que envuelve a los eventos de dominio para 
 /// redistribuiurlos hacia la bandeja de salida transaccional
 /// </summary>
-public record InterceptedDomainEvent : INotification
+public record InterceptedEvent : INotification
 {
     /// <summary>
     /// Id del evento de intercepcion
@@ -27,5 +27,10 @@ public record InterceptedDomainEvent : INotification
     /// <summary>
     /// El evento en si con la carga de datos
     /// </summary>
-    public IDomainEvent Event { get; set; }
+    public INotification Event { get; set; }
+
+    /// <summary>
+    /// Indica el modulo desde el cual se lanzo el evento
+    /// </summary>
+    public string SourceModule { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Mediator.Events;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -17,22 +17,66 @@ namespace Kraken.Core.Outbox
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="mediator"></param>
-        /// <param name="domainEvent"></param>
-        public static async Task SendToOutbox<T>(this IMediator mediator, T domainEvent)
-            where T : IDomainEvent
+        /// <param name="event"></param>
+        public static async Task ToOutbox<T>(this IMediator mediator, T @event)
+            where T : INotification
         {
             // Si el evento esta vacio salimos
-            if (domainEvent is null)
+            if (@event is null)
                 return;
-            // Creamos el evento de bandeja de salida transaccional
-            var @event = new InterceptedDomainEvent
+            // Contenedor del evento
+            InterceptedEvent interceptedEvent = null;
+
+            if(@event.TryConvert<IDomainEvent>(out var domainEvent))
             {
-                Id = Guid.NewGuid(),
-                Type = domainEvent.GetType(),
-                Event = domainEvent
-            };
+                // Creamos el evento de bandeja de salida transaccional
+                interceptedEvent = new InterceptedEvent
+                {
+                    Id = domainEvent.Id,
+                    Type = domainEvent.GetType(),
+                    Event = domainEvent,
+                    SourceModule = domainEvent.GetModuleName()
+                };
+            }
+
+            if(@event.TryConvert<IModuleEvent>(out var moduleEvent))
+            {
+                // Creamos el evento de bandeja de salida transaccional
+                interceptedEvent = new InterceptedEvent
+                {
+                    Id = moduleEvent.Id,
+                    Type = moduleEvent.GetType(),
+                    Event = moduleEvent,
+                    SourceModule = moduleEvent.GetModuleName()
+                };
+            }
+
+            // Si el modulo interceptado es null, salimos
+            if (interceptedEvent is null)
+                return;
+            
             // Lo distribuimos en el mediator
-            await mediator.Publish(@event);
+            await mediator.Publish(interceptedEvent);
         }
+
+        /// <summary>
+        /// Convierte la entrada en la salida, si implementan el tipo
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inbound"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private static bool TryConvert<T>(this INotification inbound, out T result)
+        {
+            result = default;
+            if(inbound is T)
+                result = (T)inbound;
+            return result is not null;
+        }
+
+        
     }
+
+
+
 }

@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Kraken.Core;
 using Kraken.Core.Contexts;
 using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
@@ -25,7 +26,7 @@ namespace Kraken.Host.Outbox;
 ///     canal de procesamiento de eventos asincronos
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class OutboxEventHub : INotificationHandler<InterceptedDomainEvent>
+public sealed class OutboxEventHub : INotificationHandler<InterceptedEvent>
 {
     /// <summary>
     /// Logger del handler
@@ -65,18 +66,18 @@ public sealed class OutboxEventHub : INotificationHandler<InterceptedDomainEvent
     /// <param name="notification"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task Handle(InterceptedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(InterceptedEvent notification, CancellationToken cancellationToken)
     {
         if (notification is null)
             return;
 
         // Reunimos la informacion para el procesamiento del evento
-        var module = notification.GetModuleName();
-        var name = notification.GetType().Name.Underscore();
+        var module = notification.SourceModule;
+        var name = notification.Event.GetType().Name.Underscore();
         var requestId = _context.RequestId;
         var traceId = _context.TraceId;
         var userId = _context.Identity?.Id;
-        var messageId = notification.Event.Id;
+        var messageId = notification.Id;
         var correlationId = _context.CorrelationId;
         // Logeamos la informacion del evento almacenado
         _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: {RequestId}, Message ID: {MessageId}, Correlation ID: {CorrelationId}, Trace ID: '{TraceId}', User ID: '{UserId}]...",
@@ -84,7 +85,7 @@ public sealed class OutboxEventHub : INotificationHandler<InterceptedDomainEvent
         // Envolvemos el evento en una entidad enriquecida para almacenarlo
         var processMessage = new ProcessMessage
         {
-            Id = notification.Event.Id,
+            Id = notification.Id,
             CorrelationId = correlationId,
             UserId = userId,
             Event = notification.Event,

@@ -1,9 +1,11 @@
 ﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
+using Kraken.Core;
 using Kraken.Core.Commands;
-using Kraken.Core.Mediator;
+using Kraken.Core.Mediator.Events;
 using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using ModuleEvents.IdentityManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +50,8 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         await Task.CompletedTask;
         var accountId = Guid.NewGuid();
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
-        await _mediator.SendToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
+        await _mediator.ToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
+        await _mediator.ToOutbox(new AccountCreatedEvent { AccountId = accountId , Name = "Jesus Antonio" });
         //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
         return new AccountCreated
         {
@@ -72,7 +75,20 @@ public class AccountCreatedSuccessfull : IDomainEvent
     public Guid Id { get; } = Guid.NewGuid();
 }
 
-public class NormalNotification : INotification
+public class NormalNotification : IModuleEvent
 {
+    /// <summary>
+    /// Id del evento
+    /// </summary>
+    public Guid Id { get; } = Guid.NewGuid();
+
+    /// <summary>
+    /// Modulo desde donde se lanza el evento
+    /// </summary>
+    public string Module { get; }
+
+    /// <summary>
+    /// Mensaje del evento
+    /// </summary>
     public string Message { get; set; }
 }

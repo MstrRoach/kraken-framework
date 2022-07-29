@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Kraken.Core;
 using Kraken.Core.Reaction;
 using Microsoft.Extensions.Logging;
 using System;
