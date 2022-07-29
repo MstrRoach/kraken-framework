@@ -2,19 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Mediator.Events
+namespace Kraken.Core.Internal.Events
 {
     /// <summary>
-    /// Interface para definir los eventos de dominio
+    /// Interface base para los eventos dentro generados dentro de
+    /// de kraken.
     /// </summary>
-    public interface IDomainEvent : INotification
+    public interface IModuleEvent : INotification
     {
         /// <summary>
-        /// Id del evento de dominio
+        /// Id del evento
         /// </summary>
         Guid Id { get; }
     }
+
 }

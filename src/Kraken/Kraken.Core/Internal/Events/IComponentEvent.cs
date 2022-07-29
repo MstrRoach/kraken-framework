@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Mediator
+namespace Kraken.Core.Internal.Events
 {
     /// <summary>
     /// Interface para definir los eventos de arquitectura, que permiten

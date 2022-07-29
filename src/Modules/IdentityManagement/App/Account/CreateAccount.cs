@@ -1,7 +1,7 @@
 ﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
 using Kraken.Core;
 using Kraken.Core.Commands;
-using Kraken.Core.Mediator.Events;
+using Kraken.Core.Internal.Events;
 using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     private readonly IMediator _mediator;
     private readonly IServiceProvider _serviceProvider;
 
-    public CreateAccountHandler(IMediator mediator, IServiceProvider serviceProvider)
+    public CreateAccountHandler(IMediator mediator, IServiceProvider serviceProvider, IRepository<Account> accountRepository)
     {
         _mediator = mediator;
         _serviceProvider = serviceProvider;
@@ -52,6 +52,7 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
         await _mediator.ToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
         await _mediator.ToOutbox(new AccountCreatedEvent { AccountId = accountId , Name = "Jesus Antonio" });
+
         //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
         return new AccountCreated
         {
