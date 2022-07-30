@@ -54,7 +54,7 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     {
         var account = new Account("Jesus Antonio");
         await _repository.Create(account);
-        var accountById = await _repository.Get(new AccountById(account.Id));
+        var accountById = await _repository.Get(new AccountByIdAndName(account.Id, "Jesus"));
 
         //var accountId = Guid.NewGuid();
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });

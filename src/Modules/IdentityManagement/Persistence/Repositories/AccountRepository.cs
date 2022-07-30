@@ -52,4 +52,12 @@ namespace IdentityManagement.Persistence.Repositories
 
         }
     }
+
+    public class AccountByIdAndName : Specification<Account>
+    {
+        public AccountByIdAndName(Guid accountId, string name) : 
+            base(x => x.Id == accountId && x.Name.Contains(name))
+        {
+        }
+    }
 }
