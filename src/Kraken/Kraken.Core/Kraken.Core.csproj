@@ -17,6 +17,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Internal\Domain\Repository.cs" />
     <Compile Remove="Internal\EventBus\IComponentEvent.cs" />
     <Compile Remove="Internal\EventBus\IDomainEvent.cs" />
     <Compile Remove="Internal\EventBus\IModuleEvent.cs" />

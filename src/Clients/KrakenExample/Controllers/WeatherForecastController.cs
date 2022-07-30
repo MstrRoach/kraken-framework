@@ -1,5 +1,5 @@
 using IdentityManagement;
-using IdentityManagement.App.Account;
+using IdentityManagement.App.AccountManagement;
 using Kraken.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -16,12 +16,12 @@ public class WeatherForecastController : ControllerBase
 };
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IKrakenHost _host;
+    private readonly IAppHost _apphost;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IKrakenHost krakenHost)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IAppHost apphost)
     {
         _logger = logger;
-        _host = krakenHost;
+        _apphost = apphost;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -32,7 +32,7 @@ public class WeatherForecastController : ControllerBase
             Email = "imct.jesus.antonio@gmail.com",
             Password = "adafsfsfsfsdfs"
         };
-        var response = await _host.SendAsync(command);
+        var response = await _apphost.SendAsync(command);
         return StatusCode(StatusCodes.Status200OK,response);
     }
 }

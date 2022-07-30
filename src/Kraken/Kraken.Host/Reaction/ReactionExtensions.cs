@@ -2,6 +2,7 @@
 using Kraken.Core.Outbox;
 using Kraken.Core.Processing;
 using Kraken.Core.Reaction;
+using Kraken.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -116,85 +117,6 @@ public static class ReactionExtensions
         }
         // Agregamos como singlenton el registro de reacciones
         services.AddSingleton(reactionRegistry);
-    }
-
-    /// <summary>
-    /// Busca las interfaces cerradass que coinciden con la interface abierta proporcionada
-    /// </summary>
-    /// <param name="pluggedType"></param>
-    /// <param name="templateType"></param>
-    /// <returns></returns>
-    private static IEnumerable<Type> FindInterfacesThatClose(this Type pluggedType, Type templateType)
-    {
-        return FindInterfacesThatClosesCore(pluggedType, templateType).Distinct();
-    }
-
-    /// <summary>
-    /// Realiza la busqueda recursiva en todos los tipos derivados para encontrar las interfaces
-    /// cerradas que cummplen con la interface abierta
-    /// </summary>
-    /// <param name="pluggedType"></param>
-    /// <param name="templateType"></param>
-    /// <returns></returns>
-    private static IEnumerable<Type> FindInterfacesThatClosesCore(Type pluggedType, Type templateType)
-    {
-        if (pluggedType == null) yield break;
-
-        if (!pluggedType.IsConcrete()) yield break;
-
-        if (templateType.GetTypeInfo().IsInterface)
-        {
-            foreach (
-                var interfaceType in
-                pluggedType.GetInterfaces()
-                    .Where(type => type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == templateType)))
-            {
-                yield return interfaceType;
-            }
-        }
-        else if (pluggedType.GetTypeInfo().BaseType.GetTypeInfo().IsGenericType &&
-                 (pluggedType.GetTypeInfo().BaseType.GetGenericTypeDefinition() == templateType))
-        {
-            yield return pluggedType.GetTypeInfo().BaseType;
-        }
-
-        if (pluggedType.GetTypeInfo().BaseType == typeof(object)) yield break;
-
-        foreach (var interfaceType in FindInterfacesThatClosesCore(pluggedType.GetTypeInfo().BaseType, templateType))
-        {
-            yield return interfaceType;
-        }
-    }
-
-    /// <summary>
-    /// Indica si el tipo especificado es concreto y si es interface
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    private static bool IsConcrete(this Type type)
-    {
-        return !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface;
-    }
-
-    /// <summary>
-    /// Indica si el tipo es un generico abierto
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    private static bool IsOpenGeneric(this Type type)
-    {
-        return type.GetTypeInfo().IsGenericTypeDefinition || type.GetTypeInfo().ContainsGenericParameters;
-    }
-
-    /// <summary>
-    /// Obtiene el parametro generico del tipo que implementa la interface
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="openInterface"></param>
-    /// <returns></returns>
-    private static Type GetHandlerArgument(this Type type, string openInterface)
-    {
-        return type.GetInterface(openInterface).GetGenericArguments().FirstOrDefault();
     }
 
     private record EventReaction(Type Event, Type Reaction);

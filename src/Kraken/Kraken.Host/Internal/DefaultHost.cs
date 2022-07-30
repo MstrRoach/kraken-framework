@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Host.Internal;
 
-internal class DefaultHost : IKrakenHost
+internal class DefaultHost : IAppHost
 {
 
     /// <summary>

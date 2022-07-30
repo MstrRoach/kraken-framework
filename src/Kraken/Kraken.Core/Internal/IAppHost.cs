@@ -4,17 +4,10 @@ using System.Threading.Tasks;
 
 namespace Kraken.Core.Internal;
 
-public interface IKrakenHostt
-{
-    //Task SendAsync<T>(T command, CancellationToken cancellationToken = default) where T : class, ICommand;
-    //Task PublishAsync<T>(T @event, CancellationToken cancellationToken = default) where T : class, IEvent;
-    //Task<TResult> QueryAsync<TResult>(IQuery<TResult> query, CancellationToken cancellationToken = default);
-}
-
-/// <summary>
+// <summary>
 /// Punto de entrada para la ejecucion de todas las operaciones con kraken
 /// </summary>
-public interface IKrakenHost
+public interface IAppHost
 {
     /// <summary>
     /// Ejecuta los comandos y devuelve una respuesta

@@ -1,7 +1,9 @@
 ﻿using Kraken.Core.Internal;
+using Kraken.Core.Internal.Domain;
 using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Internal.Serializer;
 using Kraken.Core.Internal.Transaction;
+using Kraken.Host.Internal.Domain;
 using Kraken.Host.Internal.EventBus;
 using Kraken.Host.Internal.Mediator;
 using Kraken.Host.Internal.Serializer;
@@ -24,12 +26,12 @@ namespace Kraken.Host.Internal
         /// <param name="services"></param>
         /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInternalKernel(this IServiceCollection services, List<Assembly> assemblies)
+        public static IServiceCollection AddKrakenKernel(this IServiceCollection services, List<Assembly> assemblies)
         {
             // Agregamos el serializador por defecto
             services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
             // Agregamos el host de kraken
-            services.AddSingleton<IKrakenHost, DefaultHost>();
+            services.AddSingleton<IAppHost, DefaultHost>();
             // Agregamos el mediador
             services.AddMediator(assemblies);
             // Agregamos los servicios por defecto
@@ -39,7 +41,9 @@ namespace Kraken.Host.Internal
             services.AddScoped<IUnitWork, DefaultUnitWork>();
             // Agregamos el bus de eventos por defecto
             services.AddScoped<IEventBus, DefaultEventBus>();
+            // Agregamos los repositorios y todo lo que tenga que ver con eso
+            services.AddRepositorySupport(assemblies);
             return services;
-        }
+        } 
     }
 }

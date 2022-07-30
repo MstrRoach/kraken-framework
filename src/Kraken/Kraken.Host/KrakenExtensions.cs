@@ -40,7 +40,7 @@ public static class KrakenExtensions
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
         // ------------------------- Configuracion de las partes centrales de kraken
-        services.AddInternalKernel(krakenOptions.assemblies);
+        services.AddKrakenKernel(krakenOptions.assemblies);
         //services.AddMediator(krakenOptions.assemblies);
         services.AddModuleInfo(krakenOptions.modules);
         services.AddContext();
@@ -50,7 +50,7 @@ public static class KrakenExtensions
         // Agrega soporte de bandeja de salida para los eventos asincronos
         services.AddOutbox(krakenOptions.assemblies);
         // Agrega soporte para las reacciones
-        //services.AddReactions(krakenOptions.assemblies);
+        services.AddReactions(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));
