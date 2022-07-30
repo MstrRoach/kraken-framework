@@ -21,12 +21,12 @@
     <Compile Remove="EventBus\IComponentEvent.cs" />
     <Compile Remove="EventBus\IDomainEvent.cs" />
     <Compile Remove="EventBus\IModuleEvent.cs" />
-    <Compile Remove="Features\Outbox\InterceptedDomainEvent.cs" />
-    <Compile Remove="Features\Outbox\OutboxExtensions.cs" />
+    <Compile Remove="Complements\Outbox\InterceptedDomainEvent.cs" />
+    <Compile Remove="Complements\Outbox\OutboxExtensions.cs" />
     <Compile Remove="Processing\IProcessor.cs" />
     <Compile Remove="Processing\ProcessingContext.cs" />
-    <Compile Remove="Features\Reaction\IReactionLog.cs" />
-    <Compile Remove="Features\UnitWork\ITransactionContext.cs" />
+    <Compile Remove="Complements\Reaction\IReactionLog.cs" />
+    <Compile Remove="Complements\UnitWork\ITransactionContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +38,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
   </ItemGroup>
 
 </Project>
