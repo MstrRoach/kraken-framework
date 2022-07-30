@@ -1,6 +1,7 @@
 using IdentityManagement;
 using IdentityManagement.App.AccountManagement;
 using Kraken.Core;
+using Kraken.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -27,6 +28,8 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
+        throw new UnsupportedException("Error al ejecutar la consulta");
+
         var command = new CreateAccountCommand
         {
             Email = "imct.jesus.antonio@gmail.com",
@@ -34,5 +37,13 @@ public class WeatherForecastController : ControllerBase
         };
         var response = await _apphost.SendAsync(command);
         return StatusCode(StatusCodes.Status200OK,response);
+    }
+}
+
+public class UnsupportedException : KrakenException
+{
+    public UnsupportedException(string message) : 
+        base(message)
+    {
     }
 }

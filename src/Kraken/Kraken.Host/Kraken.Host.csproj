@@ -19,11 +19,11 @@
     <Compile Remove="IBootstrapper.cs" />
     <Compile Remove="InternalExtensions.cs" />
     <Compile Remove="Storage\Specification.cs" />
-    <Compile Remove="Features\Outbox\DefaultOutboxContextRegistry.cs" />
-    <Compile Remove="Features\Outbox\TransactionContext.cs" />
-    <Compile Remove="Features\Outbox\TransactionContextAccessor.cs" />
-    <Compile Remove="Features\Reaction\ReactionReprocessor.cs" />
-    <Compile Remove="Features\UnitWork\AbstractUnitWork.cs" />
+    <Compile Remove="Complements\Outbox\DefaultOutboxContextRegistry.cs" />
+    <Compile Remove="Complements\Outbox\TransactionContext.cs" />
+    <Compile Remove="Complements\Outbox\TransactionContextAccessor.cs" />
+    <Compile Remove="Complements\Reaction\ReactionReprocessor.cs" />
+    <Compile Remove="Complements\UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +39,12 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>

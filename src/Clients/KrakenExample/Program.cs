@@ -1,6 +1,7 @@
 using IdentityManagement;
 using Kraken.Core.UnitWork;
 using Kraken.Host;
+using Kraken.Host.Features.Documentation;
 using Kraken.Host.Modules;
 using KrakenExample;
 using MediatR;
@@ -14,6 +15,7 @@ builder.Services.AddKraken(builder.Configuration ,x =>
 {
     x.AddModule<IdentityModule>();
     x.AddModule<ProfileModule>();
+    x.AddDocumentation();
 });
 
 builder.Services.AddControllers();
@@ -26,18 +28,18 @@ var app = builder.Build();
 // Inyectamos los servicios en la canalizacion de solicitudes
 app.UseKraken();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-//app.MapControllers();
+app.MapControllers();
 
 //app.UseEndpoints(endpoints =>
 //{

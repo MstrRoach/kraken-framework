@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Core", "Kraken\Krake
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleEvents", "Modules\ModuleEvents\ModuleEvents.csproj", "{1F8F6B58-68F7-487E-AF9D-D1DC837B204A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileManagement", "Modules\ProfileManagement\ProfileManagement.csproj", "{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileManagement", "Modules\ProfileManagement\ProfileManagement.csproj", "{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
