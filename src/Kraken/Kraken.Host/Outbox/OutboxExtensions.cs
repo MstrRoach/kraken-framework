@@ -1,5 +1,4 @@
-﻿using Kraken.Core.Mediator;
-using Kraken.Core.Outbox;
+﻿using Kraken.Core.Outbox;
 using Kraken.Core.Processing;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

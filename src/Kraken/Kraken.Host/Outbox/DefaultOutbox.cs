@@ -1,7 +1,6 @@
 ﻿using Humanizer;
-using Kraken.Core.Mediator;
+using Kraken.Core.Internal.Serializer;
 using Kraken.Core.Outbox;
-using Kraken.Core.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

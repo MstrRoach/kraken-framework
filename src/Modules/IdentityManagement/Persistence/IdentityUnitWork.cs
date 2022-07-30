@@ -1,5 +1,5 @@
-﻿using Kraken.Core.UnitWork;
-using MediatR;
+﻿using Kraken.Core.Internal.EventBus;
+using Kraken.Core.Internal.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +19,8 @@ namespace IdentityManagement.Persistence
         /// Constructor de la unidad de trabajo especificada
         /// </summary>
         /// <param name="mediator"></param>
-        public IdentityUnitWork(IMediator mediator) : 
-            base(mediator) { }
+        public IdentityUnitWork(IEventBus eventBus) : 
+            base(eventBus) { }
 
         /// <summary>
         /// Inicia la transaccion en el modulo

@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Internal.EventBus;
 using MediatR;
 using ModuleEvents.IdentityManagement;
 using System;

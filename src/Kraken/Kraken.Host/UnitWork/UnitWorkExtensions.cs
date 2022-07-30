@@ -1,4 +1,5 @@
-﻿using Kraken.Core.UnitWork;
+﻿using Kraken.Core.Internal.Transaction;
+using Kraken.Host.Internal.Mediator;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -24,7 +25,7 @@ namespace Kraken.Host.UnitWork
         public static IServiceCollection AddUnitWorks(this IServiceCollection services, List<Assembly> assemblies)
         {
             // Registramos la fabrica para las unidades de trabajo
-            services.AddScoped<IUnitWorkFactory, DefaultUnitWorkFactory>();
+            services.AddScoped<IUnitWorkFactory, UnitWorkFactory>();
             // Buscamos todas las unidades de trabajo 
             var units = assemblies
                 .SelectMany(assembly => assembly.GetTypes())
@@ -45,8 +46,6 @@ namespace Kraken.Host.UnitWork
             }
             // Registramos la instancia del registro de unidad de trabajo
             services.AddSingleton(unitWorkRegistry);
-            // Agregamos el middleware para la transaccionalidad en los comandos
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandTransactionMiddleware<,>));
             // Las registramos dentro de nuestro registro de unidades de trabajo
             return services;
         }

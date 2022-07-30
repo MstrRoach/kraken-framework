@@ -1,6 +1,5 @@
 ﻿using Humanizer;
 using Kraken.Core.Reaction;
-using Kraken.Core.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

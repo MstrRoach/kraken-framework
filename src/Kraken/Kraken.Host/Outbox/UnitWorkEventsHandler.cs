@@ -1,5 +1,5 @@
 ﻿using Kraken.Core.Contexts;
-using Kraken.Core.Mediator;
+using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Outbox;
 using Kraken.Core.UnitWork;
 using MediatR;

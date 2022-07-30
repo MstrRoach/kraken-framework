@@ -24,5 +24,9 @@ namespace ModuleEvents.IdentityManagement
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Fecha en la que ocurre el evento
+        /// </summary>
+        public DateTime OccurredOn { get; } = DateTime.UtcNow;
     }
 }

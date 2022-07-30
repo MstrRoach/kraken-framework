@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Internal.EventBus;
 using MediatR;
 using System;
 using System.Collections.Generic;

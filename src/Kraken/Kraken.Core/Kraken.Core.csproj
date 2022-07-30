@@ -17,14 +17,10 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Mediator\IEvent.cs" />
-    <Compile Remove="Mediator\IPipelineStage.cs" />
-    <Compile Remove="Mediator\IRequest.cs" />
-    <Compile Remove="Mediator\IRequestHandler.cs" />
-    <Compile Remove="Mediator\Unit.cs" />
     <Compile Remove="Processing\IProcessor.cs" />
     <Compile Remove="Processing\ProcessingContext.cs" />
     <Compile Remove="Reaction\IReactionLog.cs" />
+    <Compile Remove="UnitWork\ITransactionContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,10 +32,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Mediator\Events\" />
   </ItemGroup>
 
 </Project>

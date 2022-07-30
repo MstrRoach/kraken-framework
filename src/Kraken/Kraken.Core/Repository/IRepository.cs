@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kraken.Core.Internal.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Kraken.Core.Repository
     /// Interface definida para las operaciones comunes para los 
     /// repositorios,asi como la consulta por especificaciones
     /// </summary>
-    public interface IRepository<T> where T : Aggregate
+    public interface IRepository<T> where T : IAggregate
     {
     }
 }

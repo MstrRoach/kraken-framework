@@ -1,5 +1,4 @@
 ﻿using Kraken.Core.Contexts;
-using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
 using System;
 using System.Collections.Generic;

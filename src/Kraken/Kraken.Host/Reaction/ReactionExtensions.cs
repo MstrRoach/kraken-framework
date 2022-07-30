@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Mediator;
+﻿using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Outbox;
 using Kraken.Core.Processing;
 using Kraken.Core.Reaction;
@@ -28,8 +28,9 @@ public static class ReactionExtensions
         // Sustituimos el procesador
         services.AddSingleton<IEventProcessor, ReactionEventProcessor>();
         // Agregamos los middlewares
-        services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionLogging<,>));
-        services.AddTransient(typeof(IReactionMiddleware<,>),typeof(ReactionTransaction<,>));
+        services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionLoggingMiddleware<,>));
+        services.AddTransient(typeof(IReactionMiddleware<,>),typeof(ReactionTransactionMiddleware<,>));
+        services.AddTransient(typeof(IReactionMiddleware<,>),typeof(ReactionMarkingMiddleware<,>));
         // Registramos los almacenes de reacciones
         services.LocateAndRegisterReactionStorages(assemblies);
         // Agregamos el broker para el almacenamiento de las reacciones

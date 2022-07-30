@@ -1,6 +1,5 @@
 ﻿using Humanizer;
 using Kraken.Core;
-using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

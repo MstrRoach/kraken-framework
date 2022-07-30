@@ -1,7 +1,8 @@
 ﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
 using Kraken.Core;
-using Kraken.Core.Commands;
+using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Internal.Events;
+using Kraken.Core.Internal.Mediator;
 using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,12 +30,12 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     /// <summary>
     /// Bus de eventos en memoria para la administracion de notificaciones
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly IEventBus _eventBus;
     private readonly IServiceProvider _serviceProvider;
 
-    public CreateAccountHandler(IMediator mediator, IServiceProvider serviceProvider, IRepository<Account> accountRepository)
+    public CreateAccountHandler(IEventBus eventBus, IServiceProvider serviceProvider/*, IRepository<Account> accountRepository*/)
     {
-        _mediator = mediator;
+        _eventBus = eventBus;
         _serviceProvider = serviceProvider;
     }
 
@@ -50,8 +51,8 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         await Task.CompletedTask;
         var accountId = Guid.NewGuid();
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
-        await _mediator.ToOutbox(new AccountCreatedSuccessfull { AccountId = accountId });
-        await _mediator.ToOutbox(new AccountCreatedEvent { AccountId = accountId , Name = "Jesus Antonio" });
+        await _eventBus.Publish(new AccountCreatedSuccessfull { AccountId = accountId });
+        await _eventBus.Publish(new AccountCreatedEvent { AccountId = accountId , Name = "Jesus Antonio" });
 
         //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
         return new AccountCreated
@@ -74,6 +75,8 @@ public class AccountCreatedSuccessfull : IDomainEvent
     public Guid AccountId { get; set; }
 
     public Guid Id { get; } = Guid.NewGuid();
+
+    public DateTime OccurredOn { get; } = DateTime.UtcNow;
 }
 
 public class NormalNotification : IModuleEvent
@@ -92,4 +95,6 @@ public class NormalNotification : IModuleEvent
     /// Mensaje del evento
     /// </summary>
     public string Message { get; set; }
+
+    public DateTime OccurredOn { get; } = DateTime.UtcNow;
 }

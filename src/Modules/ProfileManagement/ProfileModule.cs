@@ -28,8 +28,8 @@ namespace ProfileManagement
             // Configura las opciones para el modulo
             services.AddSingleton<IOptions<ProfileModule>>(Options.Create(this));
             services.AddScoped<ProfileUnitWork>();
-            services.AddScoped<ProfileOutboxStore>();
-            services.AddScoped<ProfileReactionStorage>();
+            //services.AddScoped<ProfileOutboxStore>();
+            //services.AddScoped<ProfileReactionStorage>();
 
         }
 

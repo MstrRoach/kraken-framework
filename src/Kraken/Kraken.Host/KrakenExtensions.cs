@@ -1,13 +1,13 @@
-﻿using Kraken.Core;
-using Kraken.Core.Serializer;
+﻿using Kraken.Core.Internal;
+using Kraken.Core.Internal.Serializer;
 using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
 using Kraken.Host.Internal;
-using Kraken.Host.Mediator;
+using Kraken.Host.Internal.Mediator;
+using Kraken.Host.Internal.Serializer;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
 using Kraken.Host.Reaction;
-using Kraken.Host.Serializer;
 using Kraken.Host.UnitWork;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -40,18 +40,17 @@ public static class KrakenExtensions
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
         // ------------------------- Configuracion de las partes centrales de kraken
-        services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
-        services.AddSingleton<IKrakenHost, DefaultHost>();
-        services.AddMediator(krakenOptions.assemblies);
+        services.AddInternalKernel(krakenOptions.assemblies);
+        //services.AddMediator(krakenOptions.assemblies);
         services.AddModuleInfo(krakenOptions.modules);
         services.AddContext();
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
-        services.AddUnitWorks(krakenOptions.assemblies);
+        //services.AddUnitWorks(krakenOptions.assemblies);
         // Agrega soporte de bandeja de salida para los eventos asincronos
-        services.AddOutbox(krakenOptions.assemblies);
+        //services.AddOutbox(krakenOptions.assemblies);
         // Agrega soporte para las reacciones
-        services.AddReactions(krakenOptions.assemblies);
+        //services.AddReactions(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));

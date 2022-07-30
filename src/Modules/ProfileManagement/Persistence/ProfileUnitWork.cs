@@ -1,4 +1,5 @@
-﻿using Kraken.Core.UnitWork;
+﻿using Kraken.Core.Internal.EventBus;
+using Kraken.Core.Internal.Transaction;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ namespace ProfileManagement.Persistence
         /// Constructor de la unidad de trabajo especificada
         /// </summary>
         /// <param name="mediator"></param>
-        public ProfileUnitWork(IMediator mediator) :
-            base(mediator)
+        public ProfileUnitWork(IEventBus eventBus) :
+            base(eventBus)
         { }
 
         /// <summary>
