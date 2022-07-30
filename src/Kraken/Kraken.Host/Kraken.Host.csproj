@@ -19,6 +19,7 @@
     <Compile Remove="Internal\InfiniteRetryProcessor.cs" />
     <Compile Remove="Internal\InfinityProcessingServer.cs" />
     <Compile Remove="Internal\KrakenServer.cs" />
+    <Compile Remove="Internal\Storage\Specification.cs" />
     <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />
     <Compile Remove="Outbox\TransactionContext.cs" />
     <Compile Remove="Outbox\TransactionContextAccessor.cs" />

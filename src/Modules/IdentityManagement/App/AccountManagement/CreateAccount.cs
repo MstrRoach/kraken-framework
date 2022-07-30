@@ -1,9 +1,10 @@
 ﻿using IdentityManagement.Domain.Aggregates.AccountAggregate;
 using IdentityManagement.Infrastructure.Services.KrakenServices;
+using IdentityManagement.Persistence.Repositories;
 using Kraken.Core;
-using Kraken.Core.Internal.Domain;
 using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Internal.Mediator;
+using Kraken.Core.Internal.Storage;
 using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,14 +20,14 @@ namespace IdentityManagement.App.AccountManagement;
 /// <summary>
 /// Datos para registrar al usuario
 /// </summary>
-public class CreateAccountCommand : ICommand<AccountCreated>
+public class CreateAccountCommand : ICommand<AccountCreatedSuccessfull>
 {
     public string Email { get; set; }
     public string Password { get; set; }
 
 }
 
-internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, AccountCreated>
+internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, AccountCreatedSuccessfull>
 {
     /// <summary>
     /// Bus de eventos en memoria para la administracion de notificaciones
@@ -49,11 +50,11 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<AccountCreated> Handle(CreateAccountCommand command, CancellationToken cancellationToken = default)
+    public async Task<AccountCreatedSuccessfull> Handle(CreateAccountCommand command, CancellationToken cancellationToken = default)
     {
         var account = new Account("Jesus Antonio");
         await _repository.Create(account);
-
+        var accountById = await _repository.Get(new AccountById(account.Id));
 
         //var accountId = Guid.NewGuid();
         //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
@@ -61,20 +62,16 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         //await _eventBus.Publish(new AccountCreatedEvent { AccountId = accountId, Name = "Jesus Antonio" });
 
         //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
-        return new AccountCreated
+        return new AccountCreatedSuccessfull
         {
             AccountId = account.Id
         };
     }
 }
 
-public class AccountCreatedSuccessfull : IDomainEvent
+public class AccountCreatedSuccessfull
 {
     public Guid AccountId { get; set; }
-
-    public Guid Id { get; } = Guid.NewGuid();
-
-    public DateTime OccurredOn { get; } = DateTime.UtcNow;
 }
 
 public class NormalNotification : IModuleEvent

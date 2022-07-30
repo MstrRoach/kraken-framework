@@ -1,5 +1,6 @@
 ﻿using Kraken.Core;
 using Kraken.Core.Internal.Domain;
+using Kraken.Core.Internal.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Host.Internal.Domain
+namespace Kraken.Host.Internal.Storage
 {
     public static class RepositoryExtensions
     {

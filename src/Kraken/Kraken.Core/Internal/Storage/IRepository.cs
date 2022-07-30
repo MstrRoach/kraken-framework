@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Kraken.Core.Internal.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Internal.Domain
+namespace Kraken.Core.Internal.Storage
 {
     /// <summary>
     /// Interface definida para las operaciones comunes para los 
@@ -38,14 +39,14 @@ namespace Kraken.Core.Internal.Domain
         /// y lo devuelve
         /// </summary>
         /// <returns></returns>
-        public Task<T> Get();
+        public Task<T> Get(ISpecification<T> specification);
 
         /// <summary>
         /// Busca los elemmentos que coincidan con la especificacion
         /// y devuelve una lista de ellos
         /// </summary>
         /// <returns></returns>
-        public Task<List<T>> GetAll();
+        public Task<List<T>> GetAll(ISpecification<T> specification);
 
     }
 }

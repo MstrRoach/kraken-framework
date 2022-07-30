@@ -1,12 +1,13 @@
 ﻿using Kraken.Core.Internal.Domain;
 using Kraken.Core.Internal.EventBus;
+using Kraken.Core.Internal.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Host.Internal.Domain;
+namespace Kraken.Host.Internal.Storage;
 
 /// <summary>
 /// Clase base para almacenar las entidades de dominio y asegurarse de
@@ -62,20 +63,17 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<T> Get()
-    {
-        return await _inner.Get();
-    }
+    public async Task<T> Get(ISpecification<T> specification) 
+        => await _inner.Get(specification);
+    
 
     /// <summary>
     /// Obtiene una lista dee entiddades que coincideen con 
     /// la especificacion
     /// </summary>
     /// <returns></returns>
-    public async Task<List<T>> GetAll()
-    {
-        return await _inner.GetAll();
-    }
+    public async Task<List<T>> GetAll(ISpecification<T> specification)
+        => await _inner.GetAll(specification);
 
     /// <summary>
     /// Actualiza un reeegistro deel agregado dentro
@@ -96,9 +94,12 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
     /// <param name="aggregate"></param>
     private void DispatchEvents(T aggregate)
     {
+        // Distribuimos los eventos
         foreach (var @event in aggregate.DomainEvents)
         {
             _eventBus.Publish(@event).ConfigureAwait(false).GetAwaiter().GetResult();
         }
+        // Los eliminamos
+        aggregate.ClearDomainEvents();
     }
 }
