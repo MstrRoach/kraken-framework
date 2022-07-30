@@ -1,5 +1,5 @@
-﻿using Kraken.Core.Internal.Domain;
-using Kraken.Core.Internal.EventBus;
+﻿using Kraken.Core.Domain;
+using Kraken.Core.EventBus;
 using System;
 using System.Collections.Generic;
 using System.Linq;

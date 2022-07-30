@@ -2,10 +2,10 @@
 using IdentityManagement.Infrastructure.Services.KrakenServices;
 using IdentityManagement.Persistence.Repositories;
 using Kraken.Core;
-using Kraken.Core.Internal.EventBus;
-using Kraken.Core.Internal.Mediator;
-using Kraken.Core.Internal.Storage;
+using Kraken.Core.EventBus;
+using Kraken.Core.Mediator;
 using Kraken.Core.Outbox;
+using Kraken.Core.Storage;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ModuleEvents.IdentityManagement;

@@ -1,5 +1,5 @@
-﻿using Kraken.Core.Internal.EventBus;
-using Kraken.Core.Internal.Transaction;
+﻿using Kraken.Core.EventBus;
+using Kraken.Core.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -16,15 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Internal\InfiniteRetryProcessor.cs" />
-    <Compile Remove="Internal\InfinityProcessingServer.cs" />
-    <Compile Remove="Internal\KrakenServer.cs" />
-    <Compile Remove="Internal\Storage\Specification.cs" />
-    <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />
-    <Compile Remove="Outbox\TransactionContext.cs" />
-    <Compile Remove="Outbox\TransactionContextAccessor.cs" />
-    <Compile Remove="Reaction\ReactionReprocessor.cs" />
-    <Compile Remove="UnitWork\AbstractUnitWork.cs" />
+    <Compile Remove="IBootstrapper.cs" />
+    <Compile Remove="InternalExtensions.cs" />
+    <Compile Remove="Storage\Specification.cs" />
+    <Compile Remove="Features\Outbox\DefaultOutboxContextRegistry.cs" />
+    <Compile Remove="Features\Outbox\TransactionContext.cs" />
+    <Compile Remove="Features\Outbox\TransactionContextAccessor.cs" />
+    <Compile Remove="Features\Reaction\ReactionReprocessor.cs" />
+    <Compile Remove="Features\UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>
 
   <ItemGroup>

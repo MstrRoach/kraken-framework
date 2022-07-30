@@ -9,8 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Inflow.Shared.Infrastructure.Modules;
-using Kraken.Core.Modules;
+using Kraken.Core;
 
 namespace Kraken.Host.Modules;
 

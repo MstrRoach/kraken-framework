@@ -1,5 +1,5 @@
 ﻿using IdentityManagement.Domain.Aggregates.AccountAggregate;
-using Kraken.Core.Internal.Storage;
+using Kraken.Core.Storage;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

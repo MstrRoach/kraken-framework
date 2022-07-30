@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Inflow.Shared.Infrastructure.Modules;
+namespace Kraken.Host.Modules;
 
 internal class ModuleInfoProvider
 {

@@ -1,6 +1,6 @@
 using IdentityManagement;
 using IdentityManagement.App.AccountManagement;
-using Kraken.Core.Internal;
+using Kraken.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

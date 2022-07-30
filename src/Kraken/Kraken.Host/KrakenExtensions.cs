@@ -1,13 +1,18 @@
-﻿using Kraken.Core.Internal;
-using Kraken.Core.Internal.Serializer;
+﻿using Kraken.Core;
+using Kraken.Core.EventBus;
+using Kraken.Core.Serializer;
+using Kraken.Core.Transaction;
 using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
-using Kraken.Host.Internal;
-using Kraken.Host.Internal.Mediator;
-using Kraken.Host.Internal.Serializer;
+using Kraken.Host.EventBus;
+using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
+using Kraken.Host.Processing;
 using Kraken.Host.Reaction;
+using Kraken.Host.Serializer;
+using Kraken.Host.Storage;
+using Kraken.Host.Transaction;
 using Kraken.Host.UnitWork;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -39,11 +44,31 @@ public static class KrakenExtensions
         setup(krakenOptions);
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
+
+
         // ------------------------- Configuracion de las partes centrales de kraken
-        services.AddKrakenKernel(krakenOptions.assemblies);
-        //services.AddMediator(krakenOptions.assemblies);
+        //services.AddKrakenKernel(krakenOptions.assemblies);
+        // Agregamos el serializador por defecto
+        services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
+        // Agregamos el host de kraken
+        services.AddSingleton<IAppHost, DefaultHost>();
+        // Agregamos el mediador
+        services.AddMediator(krakenOptions.assemblies);
+        // Agregamos los servicios por defecto
+        // Fabrica de unidad de trabajo por defecto
+        services.AddSingleton<IUnitWorkFactory, DefaultUnitWorkFactory>();
+        // Unidad de trabajo por defecto
+        services.AddScoped<IUnitWork, DefaultUnitWork>();
+        // Agregamos el bus de eventos por defecto
+        services.AddScoped<IEventBus, DefaultEventBus>();
+        // Agregamos los repositorios y todo lo que tenga que ver con eso
+        services.AddRepositorySupport(krakenOptions.assemblies);
+        // Informacion del modulo
         services.AddModuleInfo(krakenOptions.modules);
+        // Contexto de ejecucion
         services.AddContext();
+
+
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
         services.AddUnitWorks(krakenOptions.assemblies);
@@ -51,6 +76,8 @@ public static class KrakenExtensions
         services.AddOutbox(krakenOptions.assemblies);
         // Agrega soporte para las reacciones
         services.AddReactions(krakenOptions.assemblies);
+
+
         // ------------------------- Configuracion de los modulos
         // Obtenemos las configuraciones de todos los modulos
         krakenOptions.modules.ForEach(module => configuration.GetSection(module.Name).Bind(module));

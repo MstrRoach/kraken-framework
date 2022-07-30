@@ -17,16 +17,16 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Internal\Domain\Repository.cs" />
-    <Compile Remove="Internal\EventBus\IComponentEvent.cs" />
-    <Compile Remove="Internal\EventBus\IDomainEvent.cs" />
-    <Compile Remove="Internal\EventBus\IModuleEvent.cs" />
-    <Compile Remove="Outbox\InterceptedDomainEvent.cs" />
-    <Compile Remove="Outbox\OutboxExtensions.cs" />
+    <Compile Remove="Domain\Repository.cs" />
+    <Compile Remove="EventBus\IComponentEvent.cs" />
+    <Compile Remove="EventBus\IDomainEvent.cs" />
+    <Compile Remove="EventBus\IModuleEvent.cs" />
+    <Compile Remove="Features\Outbox\InterceptedDomainEvent.cs" />
+    <Compile Remove="Features\Outbox\OutboxExtensions.cs" />
     <Compile Remove="Processing\IProcessor.cs" />
     <Compile Remove="Processing\ProcessingContext.cs" />
-    <Compile Remove="Reaction\IReactionLog.cs" />
-    <Compile Remove="UnitWork\ITransactionContext.cs" />
+    <Compile Remove="Features\Reaction\IReactionLog.cs" />
+    <Compile Remove="Features\UnitWork\ITransactionContext.cs" />
   </ItemGroup>
 
   <ItemGroup>

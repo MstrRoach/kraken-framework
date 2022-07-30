@@ -1,5 +1,5 @@
 ﻿using IdentityManagement.Domain.Aggregates.AccountAggregate;
-using Kraken.Core.Internal.EventBus;
+using Kraken.Core.EventBus;
 using MediatR;
 using System;
 using System.Collections.Generic;

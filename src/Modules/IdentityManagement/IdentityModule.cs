@@ -1,6 +1,6 @@
 ﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
 using IdentityManagement.Persistence;
-using Kraken.Core.Modules;
+using Kraken.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
-using Inflow.Shared.Abstractions.Contexts;
 using Kraken.Core.Contexts;
 
 namespace Kraken.Host.Contexts;

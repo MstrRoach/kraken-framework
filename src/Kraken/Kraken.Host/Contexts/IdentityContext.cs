@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Inflow.Shared.Abstractions.Contexts;
+using Kraken.Core.Contexts;
 
 namespace Kraken.Host.Contexts;
 
