@@ -1,4 +1,5 @@
 ﻿using Kraken.Core;
+using Kraken.Core.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,12 @@ public class KrakenOptions
     }
 
     /// <summary>
+    /// Contiene las configuraciones necesarias para agregar
+    /// la caracteristica de documentacion
+    /// </summary>
+    internal IKrakenFeature? Documentation { get; set; }
+
+    /// <summary>
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 
     /// de memoria controlada
     /// </summary>
@@ -51,4 +58,7 @@ public class KrakenOptions
         this.modules.Clear();
         this.assemblies.Clear();
     }
+
+    
+
 }

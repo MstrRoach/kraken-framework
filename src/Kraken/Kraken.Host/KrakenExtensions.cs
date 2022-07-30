@@ -5,6 +5,7 @@ using Kraken.Core.Transaction;
 using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
 using Kraken.Host.EventBus;
+using Kraken.Host.Exceptions;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
@@ -17,8 +18,10 @@ using Kraken.Host.UnitWork;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
@@ -30,6 +33,12 @@ public static class KrakenExtensions
     /// Llave con la que identificamos al id de correlacion
     /// </summary>
     private const string CorrelationIdKey = "correlation-id";
+
+    /// <summary>
+    /// Llave con la que se obtiene el encabezado para obtener
+    /// la direccion ip del cliente
+    /// </summary>
+    private static string HeaderIpAddressKey = "x-forwarded-for";
 
     /// <summary>
     /// Agrega todos los servicios de kraken y los modulos de kraken
@@ -67,6 +76,12 @@ public static class KrakenExtensions
         services.AddModuleInfo(krakenOptions.modules);
         // Contexto de ejecucion
         services.AddContext();
+        // Agregamos el manejo de las excepciones
+        services.AddErrorHandling();
+
+        // ------------------------- Configuracion de las caracteristicas adicionales
+        // Agregamos la documentacion
+        krakenOptions.Documentation?.AddServices(services);
 
 
         // ------------------------- Configuracion de las partes opcionales de kraken
@@ -96,31 +111,37 @@ public static class KrakenExtensions
     /// </summary>
     /// <param name="app"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseKraken(this IApplicationBuilder app)
+    public static WebApplication UseKraken(this WebApplication app)
     {
+        // Creamos las opciones
+        var krakenOptions = app.Services.GetRequiredService<KrakenOptions>();
         // Agregamos los componentes para la canalizacion de solicitudes
+
+        // Usamos la redirecciones de headers
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.All
+        });
 
         // Agrega el id de correlacion al componente principal
         app.UseCorrelationId();
 
+        // Agregamos la administracion de errores globales
+        app.UseErrorHandling();
+
+        // Agregamos la documentacion
+        if(!app.Environment.IsProduction()) 
+            krakenOptions.Documentation?.UseServices(app);
+
         // Agrega la extraccion de contextos
         app.UseContext();
 
-        // Agregamos el middleware para el routeo de la aplicacion
-        app.UseRouting();
+        //// Agregamos el middleware para el routeo de la aplicacion
+        //app.UseRouting();
 
         // Agregamos las configuraciones de los modulos al pipeline
-        var krakenOptions = app.ApplicationServices.GetRequiredService<KrakenOptions>();
         krakenOptions?.modules.ForEach(module => module.Use(app));
         krakenOptions?.Clear();
-
-        // Agregamos el mapeo de endpoints
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-            endpoints.MapGet("/", context => context.Response.WriteAsync("Kraken Example API"));
-            endpoints.MapModuleInfo();
-        });
 
         // Devolvemos la applicacion
         return app;
@@ -161,7 +182,7 @@ public static class KrakenExtensions
         }
 
         var ipAddress = context.Connection.RemoteIpAddress?.ToString();
-        if (context.Request.Headers.TryGetValue("x-forwarded-for", out var forwardedFor))
+        if (context.Request.Headers.TryGetValue(HeaderIpAddressKey, out var forwardedFor))
         {
             var ipAddresses = forwardedFor.ToString().Split(",", StringSplitOptions.RemoveEmptyEntries);
             if (ipAddresses.Any())
