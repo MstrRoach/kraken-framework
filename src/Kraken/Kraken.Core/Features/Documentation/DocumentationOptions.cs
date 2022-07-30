@@ -43,7 +43,13 @@ namespace Kraken.Core.Features.Documentation
         /// el template {documentName} que sera llenado con la version del api
         /// especificada arriba
         /// </summary>
-        public string Url { get; set; } = "/kraken/docs/{documentName}/kraken.json";
+        public string Url { get; set; } = "/swagger/docs/{documentName}/swagger.json";
+
+        /// <summary>
+        /// Indica el prefix que debe aparecer en la liga del ui. Si es vacio, entonces
+        /// aparecera en la ruta raiz.
+        /// </summary>
+        public string RoutePrefix { get; set; } = "swagger";
 
         /// <summary>
         /// Titulo del documento donde se despliega la doc en json

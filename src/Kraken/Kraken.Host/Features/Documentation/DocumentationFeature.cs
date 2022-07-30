@@ -80,7 +80,7 @@ namespace Kraken.Host.Features.Documentation
                 app.UseSwaggerUI(ui =>
                 {
                     ui.SwaggerEndpoint(_options.Url.Replace("{documentName}", _options.Version), _options.Title);
-                    ui.RoutePrefix = string.Empty;
+                    ui.RoutePrefix = _options.RoutePrefix;
                     ui.DocumentTitle = _options.DocumentTitle;
                 });
             }

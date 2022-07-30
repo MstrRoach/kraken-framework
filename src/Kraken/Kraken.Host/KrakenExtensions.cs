@@ -46,10 +46,11 @@ public static class KrakenExtensions
     /// <param name="services"></param>
     /// <param name="setup"></param>
     /// <returns></returns>
-    public static IServiceCollection AddKraken(this IServiceCollection services, IConfiguration configuration ,Action<KrakenOptions> setup)
+    public static IServiceCollection AddKraken(this IServiceCollection services, 
+        IConfiguration configuration ,Action<AppDescriptor> setup)
     {
         // Creamos las configuraciones
-        KrakenOptions krakenOptions = new();
+        AppDescriptor krakenOptions = new();
         setup(krakenOptions);
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
@@ -82,7 +83,8 @@ public static class KrakenExtensions
         // ------------------------- Configuracion de las caracteristicas adicionales
         // Agregamos la documentacion
         krakenOptions.Documentation?.AddServices(services);
-
+        // Agregamos la configuracion de CORS
+        krakenOptions.Cors?.AddServices(services);
 
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
@@ -114,7 +116,7 @@ public static class KrakenExtensions
     public static WebApplication UseKraken(this WebApplication app)
     {
         // Creamos las opciones
-        var krakenOptions = app.Services.GetRequiredService<KrakenOptions>();
+        var krakenOptions = app.Services.GetRequiredService<AppDescriptor>();
         // Agregamos los componentes para la canalizacion de solicitudes
 
         // Usamos la redirecciones de headers
@@ -122,6 +124,8 @@ public static class KrakenExtensions
         {
             ForwardedHeaders = ForwardedHeaders.All
         });
+        // Agregamos la configuracion de las politicas de cors
+        krakenOptions.Cors?.UseServices(app);
 
         // Agrega el id de correlacion al componente principal
         app.UseCorrelationId();
@@ -129,15 +133,22 @@ public static class KrakenExtensions
         // Agregamos la administracion de errores globales
         app.UseErrorHandling();
 
+        // Agregamos la seleccion de punto final, La autenticacion
+        // debe hacerse despues de este punto en el pipeline para
+        // asegurar la toma de desiciones correctas
+        app.UseRouting();
+
         // Agregamos la documentacion
-        if(!app.Environment.IsProduction()) 
+        if (!app.Environment.IsProduction())
             krakenOptions.Documentation?.UseServices(app);
+
+        // Aqui debe de ir la seleccion de la autenticacion para
+        // tener la informacion lista para el contexto
 
         // Agrega la extraccion de contextos
         app.UseContext();
 
-        //// Agregamos el middleware para el routeo de la aplicacion
-        //app.UseRouting();
+        // Aqui agregamos el loggeo de la solicitud
 
         // Agregamos las configuraciones de los modulos al pipeline
         krakenOptions?.modules.ForEach(module => module.Use(app));

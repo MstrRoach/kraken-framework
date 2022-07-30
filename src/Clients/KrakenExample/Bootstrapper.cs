@@ -9,7 +9,7 @@ public static class Bootstrapper
     /// Configura el constructor del builder
     /// </summary>
     /// <returns></returns>
-    public static Action<KrakenOptions> KrakenBuilder() => (builder) =>
+    public static Action<AppDescriptor> KrakenBuilder() => (builder) =>
     {
         builder.AddModule<IdentityModule>();
     };

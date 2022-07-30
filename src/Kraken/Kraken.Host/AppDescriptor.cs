@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Host;
 
-public class KrakenOptions
+public class AppDescriptor
 {
     /// <summary>
     /// Lista de ensamblados en donde estan definidos los modulos
@@ -47,6 +47,11 @@ public class KrakenOptions
     /// la caracteristica de documentacion
     /// </summary>
     internal IKrakenFeature? Documentation { get; set; }
+
+    /// <summary>
+    /// Contiene las configuraciones para agregar las cors
+    /// </summary>
+    internal IKrakenFeature? Cors { get; set; }
 
     /// <summary>
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 

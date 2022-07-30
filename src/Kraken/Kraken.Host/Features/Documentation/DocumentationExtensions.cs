@@ -19,7 +19,7 @@ namespace Kraken.Host.Features.Documentation
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static KrakenOptions AddDocumentation(this KrakenOptions krakenOptions, 
+        public static AppDescriptor AddDocumentation(this AppDescriptor krakenOptions, 
             Action<DocumentationOptions>? setup = null)
         {
             if (krakenOptions.Documentation is not null)

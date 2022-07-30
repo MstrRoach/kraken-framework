@@ -28,7 +28,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
-        throw new UnsupportedException("Error al ejecutar la consulta");
+        
 
         var command = new CreateAccountCommand
         {
