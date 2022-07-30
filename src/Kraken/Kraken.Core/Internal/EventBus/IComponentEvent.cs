@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Internal.Events
+namespace Kraken.Core.Internal.EventBus
 {
     /// <summary>
     /// Interface para definir los eventos de arquitectura, que permiten

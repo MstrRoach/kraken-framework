@@ -3,6 +3,7 @@ using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Outbox;
 using Kraken.Core.UnitWork;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,21 +25,19 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     private readonly OutboxContextAccesor _outboxContextAccesor;
 
     /// <summary>
-    /// Acceso al contexto de solicitud actual
-    /// </summary>
-    private readonly IContext _context;
-
-    /// <summary>
     /// Orquestador de los eventos
     /// </summary>
     private readonly IEventDispatcher _eventOrchestrator;
 
-    public UnitWorkEventsHandler(OutboxContextAccesor outboxContextAccesor, IContext context,
-        IEventDispatcher eventOrchestrator)
+    /// <summary>
+    /// Proveedor de los servicios con alcance de la aplicacion
+    /// para resolver las dependencias necesarias
+    /// </summary>
+    private readonly IServiceProvider _serviceProvider;
+
+    public UnitWorkEventsHandler(IServiceProvider serviceProvider)
     {
-        _outboxContextAccesor = outboxContextAccesor;
-        _context = context;
-        _eventOrchestrator = eventOrchestrator;
+        _serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -50,8 +49,15 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     /// <returns></returns>
     public Task Handle(TransactionStarted notification, CancellationToken cancellationToken)
     {
+        // Obtenemos el accesor del contexto
+        var contextAccessor = _serviceProvider.GetRequiredService<OutboxContextAccesor>();
+        // Si es nulo, entonces no esta habilitado y salimos
+        if (contextAccessor is null)
+            return Task.CompletedTask;
         // Creamos el contexto
-        _outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id);
+        contextAccessor.Context = new DefaultOutboxContext(notification.Id);
+        //_outboxContextAccesor.Context = new DefaultOutboxContext(notification.Id);
+        // Salimos
         return Task.CompletedTask;
     }
 
@@ -64,13 +70,20 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     /// <returns></returns>
     public Task Handle(TransactionCommited notification, CancellationToken cancellationToken)
     {
+        // Obtenemos el contexto
+        var contextAccessor = _serviceProvider.GetRequiredService<OutboxContextAccesor>();
+        // Obtenemos el despachador de eventos
+        var eventDispatcher = _serviceProvider.GetRequiredService<IEventDispatcher>();
+        // Si alguno de los dos es nulo, entonces salimos
+        if (contextAccessor is null || eventDispatcher is null)
+            return Task.CompletedTask;
         // Obtenemos los eventos
-        var events = _outboxContextAccesor.Context.Events.ToList();
+        var events = contextAccessor.Context.Events.ToList();
         // Los agregamos al orquestador
         foreach (var evt in events)
-            _eventOrchestrator.EnqueueToExecute(evt);
+            eventDispatcher.EnqueueToExecute(evt);
         // Limpiamos el contexto
-        _outboxContextAccesor.Context.Cleanup();
+        contextAccessor.Context.Cleanup();
         // Salimos
         return Task.CompletedTask;
     }
@@ -84,7 +97,15 @@ internal class UnitWorkEventsHandler : IComponentEventHandler<TransactionStarted
     /// <returns></returns>
     public Task Handle(TransacctionFailed notification, CancellationToken cancellationToken)
     {
-        _outboxContextAccesor.Context.Cleanup();
+        // Obtenemos el accesor del contexto
+        var contextAccessor = _serviceProvider.GetRequiredService<OutboxContextAccesor>();
+        // Si es nulo, entonces no esta habilitado y salimos
+        if (contextAccessor is null)
+            return Task.CompletedTask;
+        // Limpiamos el contexto
+        contextAccessor.Context.Cleanup();
+        //_outboxContextAccesor.Context.Cleanup();
+        // Salimos
         return Task.CompletedTask;
     }
 }

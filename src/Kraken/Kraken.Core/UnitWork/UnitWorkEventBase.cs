@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Internal.Events;
+﻿using Kraken.Core.Internal.EventBus;
 
 namespace Kraken.Core.UnitWork;
 
@@ -16,4 +16,9 @@ public record UnitWorkEventBase : IComponentEvent
     /// Nombre del componente que genera el evento
     /// </summary>
     public string Component => "UnitWork";
+
+    /// <summary>
+    /// Indica la fecha en la que ocurrio el evento
+    /// </summary>
+    public DateTime OccurredOn { get; } = DateTime.UtcNow;
 }

@@ -1,5 +1,5 @@
 ﻿using Aethel.Extensions.Domain;
-using Kraken.Core.Internal.Events;
+using Kraken.Core.Internal.EventBus;
 using System;
 using System.Collections.Generic;
 using System.Text;

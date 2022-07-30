@@ -56,7 +56,11 @@ namespace Kraken.Host.Reaction
                 _logger.LogInformation("[TRANSACTION] Can not built a unit work from current command");
                 throw new InvalidOperationException("Can not built a unit work from current command");
             }
-            await unitWork.ExecuteAsync(() => next());
+            // La llamada de la funcion debe de ser hecha con el await interno, para que el sistema
+            // no piense que se debe de generar en otro hilo aparte, sino mas bien debe de generarlo
+            // dentro del mismo hilo de ejecucion para contener los servicios de ambito creados a
+            // partir de la construccion del event handler
+            await unitWork.ExecuteAsync(async () => await next());
             _logger.LogInformation("[TRANSACTION] Transaction process ending.");
 
         }

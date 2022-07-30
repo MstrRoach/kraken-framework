@@ -17,6 +17,11 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Internal\EventBus\IComponentEvent.cs" />
+    <Compile Remove="Internal\EventBus\IDomainEvent.cs" />
+    <Compile Remove="Internal\EventBus\IModuleEvent.cs" />
+    <Compile Remove="Outbox\InterceptedDomainEvent.cs" />
+    <Compile Remove="Outbox\OutboxExtensions.cs" />
     <Compile Remove="Processing\IProcessor.cs" />
     <Compile Remove="Processing\ProcessingContext.cs" />
     <Compile Remove="Reaction\IReactionLog.cs" />

@@ -1,7 +1,6 @@
 ﻿using IdentityManagement.Infrastructure.Services.KrakenServices;
 using Kraken.Core;
 using Kraken.Core.Internal.EventBus;
-using Kraken.Core.Internal.Events;
 using Kraken.Core.Internal.Mediator;
 using Kraken.Core.Outbox;
 using MediatR;

@@ -12,10 +12,13 @@ namespace Kraken.Host.Outbox;
 /// </summary>
 public sealed class OutboxContextAccesor
 {
+
     /// <summary>
     /// Accesor para el contexto de la bandeja de salida
     /// </summary>
     private ContextHolder _holder = new();
+
+    public Guid Id { get; } = Guid.NewGuid();
 
     public IOutboxContext Context
     {
@@ -24,7 +27,7 @@ public sealed class OutboxContextAccesor
         {
             if (_holder is not null)
                 _holder.Context = null;
-            if(value is not null)
+            if (value is not null)
                 _holder = new ContextHolder { Context = value };
         }
     }

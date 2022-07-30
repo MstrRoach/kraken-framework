@@ -121,6 +121,4 @@ public abstract class UnitWork : IUnitWork
     /// </summary>
     /// <returns></returns>
     public abstract Task Rollback();
-
-
 }

@@ -20,10 +20,8 @@
     <Compile Remove="Internal\InfinityProcessingServer.cs" />
     <Compile Remove="Internal\KrakenServer.cs" />
     <Compile Remove="Outbox\DefaultOutboxContextRegistry.cs" />
-    <Compile Remove="Outbox\OutboxEventHub.cs" />
     <Compile Remove="Outbox\TransactionContext.cs" />
     <Compile Remove="Outbox\TransactionContextAccessor.cs" />
-    <Compile Remove="Outbox\UnitWorkEventsHandler.cs" />
     <Compile Remove="Reaction\ReactionReprocessor.cs" />
     <Compile Remove="UnitWork\AbstractUnitWork.cs" />
   </ItemGroup>

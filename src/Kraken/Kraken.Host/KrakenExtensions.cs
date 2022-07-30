@@ -46,9 +46,9 @@ public static class KrakenExtensions
         services.AddContext();
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
-        //services.AddUnitWorks(krakenOptions.assemblies);
+        services.AddUnitWorks(krakenOptions.assemblies);
         // Agrega soporte de bandeja de salida para los eventos asincronos
-        //services.AddOutbox(krakenOptions.assemblies);
+        services.AddOutbox(krakenOptions.assemblies);
         // Agrega soporte para las reacciones
         //services.AddReactions(krakenOptions.assemblies);
         // ------------------------- Configuracion de los modulos

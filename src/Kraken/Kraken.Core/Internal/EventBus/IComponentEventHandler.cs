@@ -1,5 +1,4 @@
-﻿using Kraken.Core.Internal.Events;
-using MediatR;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

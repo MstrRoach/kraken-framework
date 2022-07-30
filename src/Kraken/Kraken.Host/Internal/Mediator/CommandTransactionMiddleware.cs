@@ -48,12 +48,12 @@ namespace Kraken.Host.Internal.Mediator
         {
             _logger.LogInformation("[TRANSACTION] Start transaction processing for {type}. . .", request.GetType());
             var unitWork = _unitWorkFactory.CreateUnitWork<TRequest>();
-            if(unitWork is null)
+            if (unitWork is null)
             {
                 _logger.LogInformation("[TRANSACTION] Can not built a unit work from current command");
                 throw new InvalidOperationException("Can not built a unit work from current command");
             }
-            var result = await unitWork.ExecuteAsync(() => next());
+            var result = await unitWork.ExecuteAsync(async () => await next());
             _logger.LogInformation("[TRANSACTION] Transaction process ending.");
             return result;
         }

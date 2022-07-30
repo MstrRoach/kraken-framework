@@ -12,6 +12,7 @@ internal class SendWelcomeEmailHandler : IDomainEventHandler<AccountCreatedSucce
 {
     public Task Handle(AccountCreatedSuccessfull notification, CancellationToken cancellationToken)
     {
+        Console.WriteLine("=============== SendWelcomeEmailHandler Evento de dominio consumido consumido ==============");
         return Task.CompletedTask;
     }
 }
@@ -20,7 +21,7 @@ internal class NormalNotificationHandler : IDomainEventHandler<AccountCreatedSuc
 {
     public Task Handle(AccountCreatedSuccessfull notification, CancellationToken cancellationToken)
     {
-        Console.WriteLine(notification.AccountId);
+        Console.WriteLine("=============== NormalNotificationHandler Evento de dominio consumido ==============");
         return Task.CompletedTask;
     
     }

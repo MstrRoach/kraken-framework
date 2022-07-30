@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Internal.Events
+namespace Kraken.Core.Internal.EventBus
 {
     /// <summary>
     /// Interface base para los eventos dentro generados dentro de

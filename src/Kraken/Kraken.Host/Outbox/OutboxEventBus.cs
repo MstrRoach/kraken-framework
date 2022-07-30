@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Kraken.Core;
 using Kraken.Core.Contexts;
+using Kraken.Core.Internal.EventBus;
 using Kraken.Core.Outbox;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -25,12 +26,13 @@ namespace Kraken.Host.Outbox;
 ///     canal de procesamiento de eventos asincronos
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class OutboxEventHub : INotificationHandler<InterceptedEvent>
+public sealed class OutboxEventBus : IEventBus
+    //INotificationHandler<InterceptedEvent>
 {
     /// <summary>
     /// Logger del handler
     /// </summary>
-    private readonly ILogger<OutboxEventHub> _logger;
+    private readonly ILogger<OutboxEventBus> _logger;
 
     /// <summary>
     /// Contexto de la solicitud
@@ -47,36 +49,59 @@ public sealed class OutboxEventHub : INotificationHandler<InterceptedEvent>
     /// </summary>
     private readonly IOutboxBroker _outboxBroker;
 
-    public OutboxEventHub(ILogger<OutboxEventHub> logger,
+    /// <summary>
+    /// Publicador de eventos planos 
+    /// </summary>
+    private readonly IPublisher _publisher;
+
+    public OutboxEventBus(ILogger<OutboxEventBus> logger,
         IContext context, OutboxContextAccesor outboxContextAccessor,
-        IOutboxBroker outboxBroker)
+        IOutboxBroker outboxBroker, IPublisher publisher, IServiceProvider serviceProvider)
     {
+        var id = Thread.CurrentThread.ManagedThreadId;
         _logger = logger;
         _context = context;
         _outboxContextAccessor = outboxContextAccessor;
         _outboxBroker = outboxBroker;
+        _publisher = publisher;
     }
 
     /// <summary>
-    /// Todos los eventos de dominio son centralizados en este handler para meterlos dentro del contexto de
-    /// bandeja de salida que tiene ejecutandose en el alcance actual. Ademas, se agrega directamente al stream
-    /// de la bandeja de salida del modulo al que pertenece
+    /// Se encarga de procesar todos los eventos del modulo a traves de la distincion entre
+    /// eventos base de notificacion, eventos de conponente, eventos de modulo y eventos de
+    /// dominio, para tratar a cada uno de ellos de manera especial segun la bandeja de salida
+    /// transaccional
     /// </summary>
+    /// <typeparam name="T"></typeparam>
     /// <param name="notification"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task Handle(InterceptedEvent notification, CancellationToken cancellationToken)
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task Publish<T>(T notification, CancellationToken cancellationToken = default) where T : INotification
     {
-        if (notification is null)
+        _logger.LogInformation("[OUTBOX EVENT BUS] Start event processing . . .");
+        // Si la notificacion es nula, salimos
+        if (notification is null) return;
+        // Si no es un evento especial, lo mandamos con el mediador
+        if (IsNotDomainOrModuleEvent(notification))
+        {
+            _logger.LogInformation("[OUTBOX EVENT BUS] Publish notification in system . . .");
+            await _publisher.Publish(notification, cancellationToken);
+            _logger.LogInformation("[OUTBOX EVENT BUS] Notification dispatching successfully");
             return;
-
-        // Reunimos la informacion para el procesamiento del evento
-        var module = notification.SourceModule;
-        var name = notification.Event.GetType().Name.Underscore();
+        }
+        _logger.LogInformation("[OUTBOX EVENT BUS] Creating message from notification");
+        // Convertimos el tipo a un evento base, para obtener la informacion
+        var message = notification as IEvent ?? 
+            throw new InvalidOperationException("Event can not parsear as IEvent");
+        _logger.LogInformation("[OUTBOX EVENT BUS] Get information abount message");
+        // Reunimos la informacion del evento
+        var module = message.GetModuleName();
+        var name = message.GetType().Name.Underscore();
         var requestId = _context.RequestId;
         var traceId = _context.TraceId;
         var userId = _context.Identity?.Id;
-        var messageId = notification.Id;
+        var messageId = message.Id;
         var correlationId = _context.CorrelationId;
         // Logeamos la informacion del evento almacenado
         _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: {RequestId}, Message ID: {MessageId}, Correlation ID: {CorrelationId}, Trace ID: '{TraceId}', User ID: '{UserId}]...",
@@ -84,16 +109,30 @@ public sealed class OutboxEventHub : INotificationHandler<InterceptedEvent>
         // Envolvemos el evento en una entidad enriquecida para almacenarlo
         var processMessage = new ProcessMessage
         {
-            Id = notification.Id,
+            Id = messageId,
             CorrelationId = correlationId,
             UserId = userId,
-            Event = notification.Event,
+            Event = message,
             TraceId = traceId
         };
+        _logger.LogInformation("[OUTBOX EVENT BUS] Store message in outbox");
         // Mandamos el evento al corredor de bandeja de salida
         await _outboxBroker.SendAsync(processMessage);
+        _logger.LogInformation("[OUTBOX EVENT BUS] Save event in context for later processing");
         // Agregamos el evento al contexto de la bandeja de salida
         _outboxContextAccessor.Context.AddProcessMessage(processMessage);
+        _logger.LogInformation("[OUTBOX EVENT BUS] Finish event processing");
     }
 
+    /// <summary>
+    /// Revisa si la notificacion contiene ademas una implementacion de
+    /// otro tipo de evento que necesita manejo especifico por el bus de
+    /// evento
+    /// </summary>
+    /// <param name="notification"></param>
+    /// <returns></returns>
+    private bool IsNotDomainOrModuleEvent(INotification notification)
+        => notification is not IDomainEvent && notification is not IModuleEvent;
+    
+     
 }

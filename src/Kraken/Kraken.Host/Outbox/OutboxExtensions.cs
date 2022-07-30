@@ -1,4 +1,5 @@
-﻿using Kraken.Core.Outbox;
+﻿using Kraken.Core.Internal.EventBus;
+using Kraken.Core.Outbox;
 using Kraken.Core.Processing;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace Kraken.Host.Outbox
     {
         public static IServiceCollection AddOutbox(this IServiceCollection services, List<Assembly> assemblies)
         {
+            // Agregamos el bus de eventos basado en la bandeja de salida
+            services.AddTransient<IEventBus, OutboxEventBus>();
             // Agregamos como singlenton el accesor para el contexto
             services.AddScoped<OutboxContextAccesor>();
             // El outbox hub se registra automaticamente cuando se analizan los modulos

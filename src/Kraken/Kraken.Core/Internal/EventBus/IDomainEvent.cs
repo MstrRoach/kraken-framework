@@ -5,21 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Internal.Events
+namespace Kraken.Core.Internal.EventBus
 {
     /// <summary>
     /// Interface para definir los eventos de dominio
     /// </summary>
-    public interface IDomainEvent : INotification
+    public interface IDomainEvent : IEvent
     {
-        /// <summary>
-        /// Id del evento de dominio
-        /// </summary>
-        Guid Id { get; }
 
-        /// <summary>
-        /// Fecha en la que ocurrio el evento
-        /// </summary>
-        DateTime OccurredOn { get; }
     }
 }
