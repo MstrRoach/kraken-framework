@@ -1,4 +1,4 @@
-﻿using Kraken.Core.Features.Authorization;
+﻿using Kraken.Core.Features;
 using System.Security.Claims;
 
 namespace KrakenExample.Features

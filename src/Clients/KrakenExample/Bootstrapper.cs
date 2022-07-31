@@ -44,5 +44,6 @@ public static class Bootstrapper
             x.allowedOrigins = new string[] { "*" };
         });
         builder.AddCustomAuthorization();
+        builder.AddCustomAuthentication();
     };
 }

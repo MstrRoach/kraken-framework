@@ -88,7 +88,8 @@ public static class KrakenExtensions
         krakenOptions.Cors?.AddServices(services);
         // Agregamos la authorizacion
         krakenOptions.Authorization?.AddServices(services);
-
+        // Agregamos la autenticacion
+        krakenOptions.Authentication?.AddServices(services);
 
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
@@ -148,6 +149,7 @@ public static class KrakenExtensions
 
         // Aqui debe de ir la seleccion de la autenticacion para
         // tener la informacion lista para el contexto
+        krakenOptions.Authentication?.UseServices(app);
 
         // Agregamos la authorizacion en dado caso que sea confirmada
         krakenOptions.Authorization?.UseServices(app);

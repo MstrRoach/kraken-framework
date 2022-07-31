@@ -1,6 +1,5 @@
 ﻿using Kraken.Core;
 using Kraken.Core.Features;
-using Kraken.Core.Features.Authorization;
 using Kraken.Core.Features.Cors;
 using Kraken.Core.Features.Documentation;
 using System;

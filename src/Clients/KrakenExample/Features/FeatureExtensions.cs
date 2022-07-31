@@ -19,5 +19,17 @@ namespace KrakenExample.Features
             appDescriptor.Authorization = new CustomAuthorizationFeature();
             return appDescriptor;
         }
+
+        /// <summary>
+        /// Agrega la autenticacion definida por el usuario para limitar quien entra o no al
+        /// sistema
+        /// </summary>
+        /// <param name="appDescriptor"></param>
+        /// <returns></returns>
+        public static AppDescriptor AddCustomAuthentication(this AppDescriptor appDescriptor)
+        {
+            appDescriptor.Authentication = new CustomAuthenticationFeature();
+            return appDescriptor;
+        }
     }
 }

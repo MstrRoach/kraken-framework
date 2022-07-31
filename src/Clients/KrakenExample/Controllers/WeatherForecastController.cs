@@ -2,6 +2,7 @@ using IdentityManagement;
 using IdentityManagement.App.AccountManagement;
 using Kraken.Core;
 using Kraken.Core.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -25,10 +26,11 @@ public class WeatherForecastController : ControllerBase
         _apphost = apphost;
     }
 
+    [Authorize]
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
-        
+        var claims = HttpContext.User.Claims;
 
         var command = new CreateAccountCommand
         {
