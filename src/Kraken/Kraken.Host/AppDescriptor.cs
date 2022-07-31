@@ -1,5 +1,8 @@
 ﻿using Kraken.Core;
 using Kraken.Core.Features;
+using Kraken.Core.Features.Authorization;
+using Kraken.Core.Features.Cors;
+using Kraken.Core.Features.Documentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,12 +49,22 @@ public class AppDescriptor
     /// Contiene las configuraciones necesarias para agregar
     /// la caracteristica de documentacion
     /// </summary>
-    internal IKrakenFeature? Documentation { get; set; }
+    public IDocumentationFeature? Documentation { get; set; }
 
     /// <summary>
     /// Contiene las configuraciones para agregar las cors
     /// </summary>
-    internal IKrakenFeature? Cors { get; set; }
+    public ICorsFeature? Cors { get; set; }
+
+    /// <summary>
+    /// Slot para agregar las configuraciones para laa authorizacion
+    /// </summary>
+    public IAuthorizationFeature? Authorization { get; set; }
+
+    /// <summary>
+    /// Lugar donde almacenar las configuraciones para la autenticacion
+    /// </summary>
+    public IKrakenFeature? Authentication { get; set; }
 
     /// <summary>
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 

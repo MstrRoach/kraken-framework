@@ -6,6 +6,7 @@ using Kraken.Core.UnitWork;
 using Kraken.Host.Contexts;
 using Kraken.Host.EventBus;
 using Kraken.Host.Exceptions;
+using Kraken.Host.Logging;
 using Kraken.Host.Mediator;
 using Kraken.Host.Modules;
 using Kraken.Host.Outbox;
@@ -85,6 +86,9 @@ public static class KrakenExtensions
         krakenOptions.Documentation?.AddServices(services);
         // Agregamos la configuracion de CORS
         krakenOptions.Cors?.AddServices(services);
+        // Agregamos la authorizacion
+        krakenOptions.Authorization?.AddServices(services);
+
 
         // ------------------------- Configuracion de las partes opcionales de kraken
         // Agrega las operaciones de transaccionalidad
@@ -145,10 +149,14 @@ public static class KrakenExtensions
         // Aqui debe de ir la seleccion de la autenticacion para
         // tener la informacion lista para el contexto
 
+        // Agregamos la authorizacion en dado caso que sea confirmada
+        krakenOptions.Authorization?.UseServices(app);
+
         // Agrega la extraccion de contextos
         app.UseContext();
 
         // Aqui agregamos el loggeo de la solicitud
+        app.UseLogging();
 
         // Agregamos las configuraciones de los modulos al pipeline
         krakenOptions?.modules.ForEach(module => module.Use(app));

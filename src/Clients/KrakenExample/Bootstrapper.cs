@@ -1,5 +1,10 @@
 ﻿using IdentityManagement;
 using Kraken.Host;
+using Kraken.Host.Features.Cors;
+using Kraken.Host.Features.Documentation;
+using KrakenExample.Features;
+using Microsoft.OpenApi.Models;
+using ProfileManagement;
 
 namespace KrakenExample;
 
@@ -12,5 +17,32 @@ public static class Bootstrapper
     public static Action<AppDescriptor> KrakenBuilder() => (builder) =>
     {
         builder.AddModule<IdentityModule>();
+        builder.AddModule<ProfileModule>();
+        builder.AddDocumentation(x =>
+        {
+            x.Title = "Example Web Api";
+            x.SecurityScheme = new OpenApiSecurityScheme
+            {
+                Name = "JWT Authentication",
+                Description = "Enter JWT Bearer token **_only_**",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
+        });
+        builder.AddCorsPolicy(x =>
+        {
+            x.allowCredentials = true;
+            x.allowedMethods = new string[] { "*" };
+            x.allowedHeaders = new string[] { "*" };
+            x.allowedOrigins = new string[] { "*" };
+        });
+        builder.AddCustomAuthorization();
     };
 }
