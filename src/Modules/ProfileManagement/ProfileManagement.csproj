@@ -11,8 +11,4 @@
     <ProjectReference Include="..\ModuleEvents\ModuleEvents.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
-
 </Project>
