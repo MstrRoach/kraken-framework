@@ -31,7 +31,6 @@ namespace IdentityManagement
             services.AddScoped<IdentityUnitWork>();
             services.AddScoped<IdentityOutboxStore>();
             services.AddScoped<IdentityReactionStorage>();
-            //services.Configure<IdentityModule>(options => options = this);
         }
 
         /// <summary>

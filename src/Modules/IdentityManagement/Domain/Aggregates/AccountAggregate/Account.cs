@@ -1,5 +1,4 @@
 ﻿using Kraken.Core.Domain;
-using Kraken.Core.EventBus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,15 +27,4 @@ public class Account : Aggregate<Account,Guid>
             Name = this.Name
         });
     }
-}
-
-public record AccountCreated : IDomainEvent
-{
-    public Guid Id { get; } = Guid.NewGuid();
-
-    public DateTime OccurredOn { get; } = DateTime.UtcNow;
-
-    public Guid AccountId { get; set; }
-
-    public string Name { get; set;}
 }

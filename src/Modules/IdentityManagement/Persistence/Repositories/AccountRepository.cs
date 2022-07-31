@@ -10,33 +10,61 @@ using System.Threading.Tasks;
 
 namespace IdentityManagement.Persistence.Repositories
 {
+    /// <summary>
+    /// Repositorio para las cuentas
+    /// </summary>
     public class AccountRepository : IRepository<Account>
     {
         private static ConcurrentDictionary<Guid,Account> Accounts = new ConcurrentDictionary<Guid, Account>();
 
+        /// <summary>
+        /// Crea una cuenta en el repositorio
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public Task Create(Account account)
         {
             Accounts[account.Id] = account;
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Elimina una cuenta del repositorio
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public Task Delete(Account account)
         {
             Accounts.TryRemove(account.Id, out _);
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Obtiene una cuenta del repositorio que coincida con la especificacion
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
         public Task<Account> Get(ISpecification<Account> specification)
         {
             var account = Accounts.Values.Where(specification.IsSatisfiedBy).FirstOrDefault();
             return Task.FromResult(account);
         }
 
+        /// <summary>
+        /// Obtiene todas las cuentas que coincidan con la especificacion
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
         public Task<List<Account>> GetAll(ISpecification<Account> specification)
         {
             return Task.FromResult(Accounts.Values.Where(specification.IsSatisfiedBy).ToList());
         }
 
+        /// <summary>
+        /// Actualiza una cuenta en el repositorio
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
         public Task Update(Account account)
         {
             Accounts[account.Id] = account;
@@ -44,6 +72,9 @@ namespace IdentityManagement.Persistence.Repositories
         }
     }
 
+    /// <summary>
+    /// Especificacion para obtener una cuenta por id
+    /// </summary>
     public class AccountById : Specification<Account>
     {
         public AccountById(Guid accountId)
@@ -52,7 +83,10 @@ namespace IdentityManagement.Persistence.Repositories
 
         }
     }
-
+    
+    /// <summary>
+    /// Especificacion para obtener cuentas por id y nombre
+    /// </summary>
     public class AccountByIdAndName : Specification<Account>
     {
         public AccountByIdAndName(Guid accountId, string name) : 

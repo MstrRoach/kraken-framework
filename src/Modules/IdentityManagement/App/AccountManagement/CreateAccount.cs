@@ -1,13 +1,8 @@
 ﻿using IdentityManagement.Domain.Aggregates.AccountAggregate;
-using IdentityManagement.Infrastructure.Services.KrakenServices;
 using IdentityManagement.Persistence.Repositories;
-using Kraken.Core;
 using Kraken.Core.EventBus;
 using Kraken.Core.Mediator;
-using Kraken.Core.Outbox;
 using Kraken.Core.Storage;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using ModuleEvents.IdentityManagement;
 using System;
 using System.Collections.Generic;
@@ -55,13 +50,7 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
         var account = new Account("Jesus Antonio");
         await _repository.Create(account);
         var accountById = await _repository.Get(new AccountByIdAndName(account.Id, "Jesus"));
-
-        //var accountId = Guid.NewGuid();
-        //await _mediator.Publish(new NormalNotification { Message = "Prieba" });
-        //await _eventBus.Publish(new AccountCreatedSuccessfull { AccountId = accountId });
-        //await _eventBus.Publish(new AccountCreatedEvent { AccountId = accountId, Name = "Jesus Antonio" });
-
-        //await _mediator.Send(new AccountCreatedSuccessfull { AccountId = accountId });
+        await _eventBus.Publish(new AccountCreatedEvent { AccountId = account.Id });
         return new AccountCreatedSuccessfull
         {
             AccountId = account.Id
@@ -72,24 +61,4 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
 public class AccountCreatedSuccessfull
 {
     public Guid AccountId { get; set; }
-}
-
-public class NormalNotification : IModuleEvent
-{
-    /// <summary>
-    /// Id del evento
-    /// </summary>
-    public Guid Id { get; } = Guid.NewGuid();
-
-    /// <summary>
-    /// Modulo desde donde se lanza el evento
-    /// </summary>
-    public string Module { get; }
-
-    /// <summary>
-    /// Mensaje del evento
-    /// </summary>
-    public string Message { get; set; }
-
-    public DateTime OccurredOn { get; } = DateTime.UtcNow;
 }

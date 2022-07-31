@@ -30,8 +30,6 @@ public class WeatherForecastController : ControllerBase
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
-        var claims = HttpContext.User.Claims;
-
         var command = new CreateAccountCommand
         {
             Email = "imct.jesus.antonio@gmail.com",
