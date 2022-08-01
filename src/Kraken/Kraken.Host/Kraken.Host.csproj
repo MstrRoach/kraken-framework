@@ -77,7 +77,7 @@
 	<PackagePath></PackagePath>
         <Pack>True</Pack>
     </None>
-    <None Update="MIT-LICENCE">
+    <None Update="MIT-LICENCE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	<PackagePath></PackagePath>
         <Pack>True</Pack>
