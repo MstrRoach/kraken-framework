@@ -6,7 +6,7 @@
 	  <TargetFramework>net6.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
-	  <PackageId>Kraken.Core</PackageId>
+	  <PackageId>Kraken.Framework.Core</PackageId>
 	  <Version>2.3.0</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
