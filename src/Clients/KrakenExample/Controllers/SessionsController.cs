@@ -17,9 +17,9 @@ namespace KrakenExample.Controllers
         /// <param name="_userData"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginData _userData)
+        public IActionResult Login([FromBody]LoginData _userData)
         {
-            if (_userData != null && _userData.Email != null && _userData.Password != null)
+            if (_userData.Email != null && _userData.Password != null)
             {
                 //create claims details based on the user information
                 var claims = new[] {
@@ -52,7 +52,7 @@ namespace KrakenExample.Controllers
 
     public record LoginData
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
     }
 }

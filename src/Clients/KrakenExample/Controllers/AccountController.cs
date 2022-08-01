@@ -10,24 +10,24 @@ namespace KrakenExample.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+public class AccountController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
     {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<AccountController> _logger;
     private readonly IAppHost _apphost;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IAppHost apphost)
+    public AccountController(ILogger<AccountController> logger, IAppHost apphost)
     {
         _logger = logger;
         _apphost = apphost;
     }
 
-    [Authorize]
-    [HttpGet(Name = "GetWeatherForecast")]
+    //[Authorize]
+    [HttpGet]
     public async Task<IActionResult> Get()
     {
         var command = new CreateAccountCommand

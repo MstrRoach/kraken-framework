@@ -69,13 +69,21 @@ public class AppDescriptor
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 
     /// de memoria controlada
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
     internal void Clear()
     {
         this.modules.Clear();
         this.assemblies.Clear();
     }
 
-    
-
 }
+
+/// <summary>
+/// Opciones para la instancia
+/// </summary>
+public class AppOptions
+{
+    public string Name { get; set; } = "Kraken";
+    public string Instance { get; set; } = "Default";
+    public string Version { get; set; } = "1.0.0";
+}
+

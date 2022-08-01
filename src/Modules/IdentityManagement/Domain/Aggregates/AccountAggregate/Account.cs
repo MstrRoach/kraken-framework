@@ -1,4 +1,5 @@
-﻿using Kraken.Core.Domain;
+﻿using IdentityManagement.Domain.Aggregates.AccountAggregate.Events;
+using Kraken.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

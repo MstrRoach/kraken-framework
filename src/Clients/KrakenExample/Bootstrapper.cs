@@ -14,7 +14,8 @@ public static class Bootstrapper
     /// Configura el constructor del builder
     /// </summary>
     /// <returns></returns>
-    public static Action<AppDescriptor> KrakenBuilder() => (builder) =>
+    public static Action<AppDescriptor> KrakenBuilder(IConfiguration configuration) 
+        => (builder) =>
     {
         builder.AddModule<IdentityModule>();
         builder.AddModule<ProfileModule>();
@@ -39,9 +40,9 @@ public static class Bootstrapper
         builder.AddCorsPolicy(x =>
         {
             x.allowCredentials = true;
-            x.allowedMethods = new string[] { "*" };
-            x.allowedHeaders = new string[] { "*" };
-            x.allowedOrigins = new string[] { "*" };
+            x.allowedMethods = new[] { "*" };
+            x.allowedHeaders = new[] { "*" };
+            x.allowedOrigins = new[] { "*" };
         });
         builder.AddCustomAuthorization();
         builder.AddCustomAuthentication();

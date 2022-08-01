@@ -1,7 +1,4 @@
-﻿using Kraken.Core.Exceptions;
-using System;
-
-namespace Kraken.Host.Exceptions;
+﻿namespace Kraken.Core.Exceptions;
 
 /// <summary>
 /// Interface para mapear las excepciones a errores 

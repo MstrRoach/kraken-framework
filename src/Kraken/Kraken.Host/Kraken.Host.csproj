@@ -9,10 +9,13 @@
   <ItemGroup>
     <Compile Remove="Commands\**" />
     <Compile Remove="Events\**" />
+    <Compile Remove="Logging\Providers\**" />
     <EmbeddedResource Remove="Commands\**" />
     <EmbeddedResource Remove="Events\**" />
+    <EmbeddedResource Remove="Logging\Providers\**" />
     <None Remove="Commands\**" />
     <None Remove="Events\**" />
+    <None Remove="Logging\Providers\**" />
   </ItemGroup>
 
   <ItemGroup>

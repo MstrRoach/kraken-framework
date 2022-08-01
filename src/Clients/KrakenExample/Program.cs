@@ -3,20 +3,25 @@ using Kraken.Core.UnitWork;
 using Kraken.Host;
 using Kraken.Host.Features.Cors;
 using Kraken.Host.Features.Documentation;
+using Kraken.Host.Logging.Providers;
 using Kraken.Host.Modules;
 using KrakenExample;
 using KrakenExample.Features;
 using MediatR;
 using Microsoft.OpenApi.Models;
 using ProfileManagement;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuramos el logging
-//builder.Host.UseKrakenLogging();
+builder.Host.UseSerilogKrakenLogging(writeTo =>
+{
+    writeTo.Console(outputTemplate: "{Timestamp:HH:mm:ss} [{Level:u3}] {Message}{NewLine}{Exception}");
+});
 
 // Add services to the container.
-builder.Services.AddKraken(builder.Configuration ,Bootstrapper.KrakenBuilder());
+builder.Services.AddKraken(builder.Configuration ,Bootstrapper.KrakenBuilder(builder.Configuration));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

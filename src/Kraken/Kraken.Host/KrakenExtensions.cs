@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using Kraken.Core.Processing;
 
 namespace Kraken.Host;
 
@@ -53,6 +54,8 @@ public static class KrakenExtensions
         // Creamos las configuraciones
         AppDescriptor krakenOptions = new();
         setup(krakenOptions);
+        // Registramos la configuracion de la applicacion como opcion disponible
+        services.AddSingleton<AppOptions>(configuration.GetNamedSection<AppOptions>());
         // Las registramos como singlenton
         services.AddSingleton(krakenOptions);
 
@@ -213,5 +216,24 @@ public static class KrakenExtensions
         }
 
         return ipAddress ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Devuelve una instancia configurada del tipo pasado por
+    /// parametros
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="configuration"></param>
+    public static T GetNamedSection<T>(this IConfiguration configuration)
+        where T : new()
+    {
+        // Creamos la instancia con los valores por defecto
+        var options = new T();
+        // Obtenemos el valor de la seccion
+        var optionName = typeof(T).Name;
+        // bindeamos con el nombre de la clase
+        configuration.GetSection(optionName).Bind(options);
+        // devolvemos el valor configurado
+        return options;
     }
 }
