@@ -8,7 +8,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageId>Kraken.Framework.Core</PackageId>
-	  <Version>2.3.0</Version>
+	  <Version>2.4.0</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>krakenlogo.jpg</PackageIcon>
@@ -18,8 +18,9 @@
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
 	  <Summary>Framework for the development of progressive, reactive and domain-oriented backend applications on a clean architecture. Defines the contracts needed to implement a module as a separate unit of work.</Summary>
-	  <PackageReleaseNotes>Release inicial con los componentes basicos para la arquitectura limpia, utilizando el patron de transaccionalidad
-	  de Unitwork, con una bandeja de salida transaccional y una distribucion de eventos sin seguridad transaccional y reacciones con seguridad transaccional</PackageReleaseNotes>
+	  <PackageReleaseNotes>Agregando metodos por defecto a la interface de repositorio que permitan revisar si existe algun elemento que cumpla con especificaciones y que permita
+	  contar cuantos registros coinciden con la especificacion pasada. Se agrega comportamiento por defecto a ambos metodos para que sea opcional la implementacion en cada uno de los
+      implementadores. Se agrega la entidad Answer que permite envolver las respuestas en el patron matching y la entidad error, que permite escribir errores mas descriptivos al cliente</PackageReleaseNotes>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
