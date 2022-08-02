@@ -26,6 +26,7 @@ namespace Kraken.Host.Storage
             var aggregates = modules
                 .SelectMany(x => x.GetTypes())
                 .Where(x => !x.IsOpenGeneric())
+                .Where(x => !x.IsAbstract)
                 .Where(x => x.GetInterface(nameof(IAggregate)) is not null)
                 .ToList();
             //.ToDictionary(key => key,element => default(Type));

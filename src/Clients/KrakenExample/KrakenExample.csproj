@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Kraken.Framework.Host" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
     <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
@@ -16,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kraken\Kraken.Host\Kraken.Host.csproj" />
     <ProjectReference Include="..\..\Modules\IdentityManagement\IdentityManagement.csproj" />
     <ProjectReference Include="..\..\Modules\ProfileManagement\ProfileManagement.csproj" />
   </ItemGroup>

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kraken\Kraken.Core\Kraken.Core.csproj" />
     <ProjectReference Include="..\ModuleEvents\ModuleEvents.csproj" />
   </ItemGroup>
 

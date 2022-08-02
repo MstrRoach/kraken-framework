@@ -48,6 +48,7 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer" Version="2.14.1" />
+    <PackageReference Include="Kraken.Framework.Core" Version="2.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
@@ -65,10 +66,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kraken.Core\Kraken.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

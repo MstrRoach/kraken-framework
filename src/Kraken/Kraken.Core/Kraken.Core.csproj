@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+	  <Title>Kraken Framework</Title>
 	  <Authors>Jesus A. Martinez</Authors>
 	  <Description>Progressive framework for building domain-oriented reactive and transactional applications with clean architecture</Description>
 	  <Copyright>Copyright Jesus A. Martinez</Copyright>
