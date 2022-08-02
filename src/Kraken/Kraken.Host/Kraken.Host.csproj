@@ -8,7 +8,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageId>Kraken.Framework.Host</PackageId>
-	  <Version>2.3.1</Version>
+	  <Version>2.3.2</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>krakenlogo.jpg</PackageIcon>
@@ -18,7 +18,7 @@
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
 	  <Summary>Framework for the development of progressive, reactive and domain-oriented backend applications on a clean architecture. Defines the contracts needed to implement a module as a separate unit of work.</Summary>
-	  <PackageReleaseNotes>Corrigiendo la busqueda de agregados para evitar la solicitud de repositorios para agregados abstractos</PackageReleaseNotes>
+	  <PackageReleaseNotes>Corrigiendo generacion de la identidad en el modulo</PackageReleaseNotes>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
