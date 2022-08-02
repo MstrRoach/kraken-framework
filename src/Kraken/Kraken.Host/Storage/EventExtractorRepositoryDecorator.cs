@@ -76,6 +76,24 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
         => await _inner.GetAll(specification);
 
     /// <summary>
+    /// Indica si existe algun registro que coincida con la especificacion
+    /// </summary>
+    /// <param name="specification"></param>
+    /// <returns></returns>
+    public Task<bool> Exist(ISpecification<T> specification)
+        => _inner.Exist(specification);
+
+    /// <summary>
+    /// Realiza el conteo de los registros que coincidan con la
+    /// especificacion pasada por parametro
+    /// </summary>
+    /// <param name="specification"></param>
+    /// <returns></returns>
+    public Task<int> Count(ISpecification<T>? specification = null)
+        => _inner.Count(specification);
+
+
+    /// <summary>
     /// Actualiza un reeegistro deel agregado dentro
     /// del reepositorio y distribuye los eventos
     /// </summary>
