@@ -48,5 +48,22 @@ namespace Kraken.Core.Storage
         /// <returns></returns>
         public Task<List<T>> GetAll(ISpecification<T> specification);
 
+        /// <summary>
+        /// Indica si existe algun registro con la especificacion
+        /// pasada por parametro
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+        public Task<bool> Exist(ISpecification<T> specification)
+            => Task.FromResult(false);
+
+        /// <summary>
+        /// Realiza el conteo de los registros que coincidan con la
+        /// especificacion pasada por parametro
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+        public Task<int> Count(ISpecification<T>? specification = null)
+            => Task.FromResult(0);
     }
 }
