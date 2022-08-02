@@ -42,7 +42,7 @@ public class IdentityContext : IIdentityContext
         }
 
         IsAuthenticated = principal.Identity?.IsAuthenticated is true;
-        Id = IsAuthenticated ? Guid.Parse(principal.Identity.Name) : Guid.Empty;
+        Id = IsAuthenticated ? Guid.Parse(principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value) : Guid.Empty;
         Role = principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
         Claims = principal.Claims.GroupBy(x => x.Type)
             .ToDictionary(x => x.Key, x => x.Select(c => c.Value.ToString()));
