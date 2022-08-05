@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Kraken.Framework.Core" Version="2.3.0" />
+    <PackageReference Include="Kraken.Framework.Core" Version="2.4.0" />
   </ItemGroup>
 
 </Project>

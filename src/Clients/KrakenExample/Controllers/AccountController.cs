@@ -30,13 +30,13 @@ public class AccountController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var command = new CreateAccountCommand
-        {
-            Email = "imct.jesus.antonio@gmail.com",
-            Password = "adafsfsfsfsdfs"
-        };
-        var response = await _apphost.SendAsync(command);
-        return StatusCode(StatusCodes.Status200OK,response);
+        //var command = new CreateAccountCommand
+        //{
+        //    Email = "imct.jesus.antonio@gmail.com",
+        //    Password = "adafsfsfsfsdfs"
+        //};
+        //var response = await _apphost.SendAsync(command);
+        return StatusCode(StatusCodes.Status200OK, Summaries);
     }
 }
 

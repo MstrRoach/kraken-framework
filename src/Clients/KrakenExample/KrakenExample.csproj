@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Kraken\Kraken.Host\Kraken.Host.csproj" />
     <ProjectReference Include="..\..\Modules\IdentityManagement\IdentityManagement.csproj" />
     <ProjectReference Include="..\..\Modules\ProfileManagement\ProfileManagement.csproj" />
   </ItemGroup>

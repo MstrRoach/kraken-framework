@@ -48,7 +48,10 @@ internal class CreateAccountHandler : ICommandHandler<CreateAccountCommand, Acco
     public async Task<AccountCreatedSuccessfull> Handle(CreateAccountCommand command, CancellationToken cancellationToken = default)
     {
         var account = new Account("Jesus Antonio");
+        if (await _repository.Exist(new AccountById(account.Id)))
+            return new AccountCreatedSuccessfull();
         await _repository.Create(account);
+        var elements = await _repository.Count();
         var accountById = await _repository.Get(new AccountByIdAndName(account.Id, "Jesus"));
         await _eventBus.Publish(new AccountCreatedEvent { AccountId = account.Id });
         return new AccountCreatedSuccessfull

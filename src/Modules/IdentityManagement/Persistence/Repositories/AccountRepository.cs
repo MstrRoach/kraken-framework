@@ -70,6 +70,17 @@ namespace IdentityManagement.Persistence.Repositories
             Accounts[account.Id] = account;
             return Task.CompletedTask;
         }
+
+        public Task<bool> Exist(ISpecification<Account> specification)
+            => Task.FromResult(Accounts.Values.Any(specification.IsSatisfiedBy));
+
+        public Task<int> Count(ISpecification<Account>? specification = null)
+        {
+            var quantity = specification is not null ?
+                Accounts.Values.Count(specification.IsSatisfiedBy) :
+                Accounts.Values.Count;
+            return Task.FromResult(quantity);
+        }
     }
 
     /// <summary>
