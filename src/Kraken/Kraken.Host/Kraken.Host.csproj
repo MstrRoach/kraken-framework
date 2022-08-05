@@ -8,7 +8,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageId>Kraken.Framework.Host</PackageId>
-	  <Version>2.4.2</Version>
+	  <Version>2.4.3</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>krakenlogo.jpg</PackageIcon>
@@ -18,7 +18,7 @@
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
 	  <Summary>Framework for the development of progressive, reactive and domain-oriented backend applications on a clean architecture. Defines the contracts needed to implement a module as a separate unit of work.</Summary>
-	  <PackageReleaseNotes>Implementando las modificaciones al decorador de repositorio para canalizar las operaciones de conteo y verificacion de existencia realizadas en la interface.</PackageReleaseNotes>
+	  <PackageReleaseNotes>Correccion de bug de contexto desreferenciado debido a una llamada sin await que eliminaba el contexto de base de datos. Curiosamente solo pasó cuando se implemento EfCore con Mysql</PackageReleaseNotes>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
