@@ -17,14 +17,14 @@ public class AccountController : ControllerBase
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-    private readonly ILogger<AccountController> _logger;
-    private readonly IAppHost _apphost;
+    //private readonly ILogger<AccountController> _logger;
+    //private readonly IAppHost _apphost;
 
-    public AccountController(ILogger<AccountController> logger, IAppHost apphost)
-    {
-        _logger = logger;
-        _apphost = apphost;
-    }
+    //public AccountController(ILogger<AccountController> logger, IAppHost apphost)
+    //{
+    //    //_logger = logger;
+    //    //_apphost = apphost;
+    //}
 
     //[Authorize]
     [HttpGet]

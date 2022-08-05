@@ -24,9 +24,9 @@ namespace KrakenExample.Features
                 {
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier));
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier));
-                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "http://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
+                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "https://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.Role));
-                    policy.RequireAssertion(context => context.User.HasClaim("http://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
+                    policy.RequireAssertion(context => context.User.HasClaim("https://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
                     //policy.RequireAssertion(context => context.User.HasClaim(ClaimTypes.Role, "unknow"));
                 });
 
@@ -39,9 +39,9 @@ namespace KrakenExample.Features
                 options.AddPolicy("ShouldBeGarageWorker", policy =>
                 {
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier));
-                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "http://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
+                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "https://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.Role));
-                    policy.RequireAssertion(context => !context.User.HasClaim("http://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
+                    policy.RequireAssertion(context => !context.User.HasClaim("https://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
                     policy.RequireAssertion(context => !context.User.HasClaim(ClaimTypes.Role, "unknow"));
                 });
 
@@ -54,9 +54,9 @@ namespace KrakenExample.Features
                 options.AddPolicy("ShouldBeKazamWorker", policy =>
                 {
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier));
-                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "http://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
+                    policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "https://schemas.kazam.com/ws/2022/03/identity/claims/tenant"));
                     policy.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == ClaimTypes.Role));
-                    policy.RequireAssertion(context => context.User.HasClaim("http://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
+                    policy.RequireAssertion(context => context.User.HasClaim("https://schemas.kazam.com/ws/2022/03/identity/claims/tenant", "unknow"));
                     policy.RequireAssertion(context => !context.User.HasClaim(ClaimTypes.Role, "unknow"));
                 });
             });
