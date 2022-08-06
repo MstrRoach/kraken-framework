@@ -8,7 +8,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageId>Kraken.Framework.Core</PackageId>
-	  <Version>2.4.0</Version>
+	  <Version>2.5.0</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>krakenlogo.jpg</PackageIcon>
@@ -18,9 +18,8 @@
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
 	  <Summary>Framework for the development of progressive, reactive and domain-oriented backend applications on a clean architecture. Defines the contracts needed to implement a module as a separate unit of work.</Summary>
-	  <PackageReleaseNotes>Agregando metodos por defecto a la interface de repositorio que permitan revisar si existe algun elemento que cumpla con especificaciones y que permita
-	  contar cuantos registros coinciden con la especificacion pasada. Se agrega comportamiento por defecto a ambos metodos para que sea opcional la implementacion en cada uno de los
-      implementadores. Se agrega la entidad Answer que permite envolver las respuestas en el patron matching y la entidad error, que permite escribir errores mas descriptivos al cliente</PackageReleaseNotes>
+	  <PackageReleaseNotes>Agregando un accesor a modelos de lectura para cada modulo a traves de SqlKata y Dapper. Ademas se agrega funcionalidad para agregar paginacion como una especializacion de queries que permita
+	  controlar de mejor forma la paginacion de listas</PackageReleaseNotes>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -48,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
@@ -57,6 +57,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
+    <PackageReference Include="SqlKata" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>
