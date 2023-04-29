@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleEvents", "Modules\Mod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileManagement", "Modules\ProfileManagement\ProfileManagement.csproj", "{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Support", "Modules\Support\Support.csproj", "{692B8267-F61F-4796-8F00-873EB3692D24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{692B8267-F61F-4796-8F00-873EB3692D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{692B8267-F61F-4796-8F00-873EB3692D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{692B8267-F61F-4796-8F00-873EB3692D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{692B8267-F61F-4796-8F00-873EB3692D24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{DCDFE4B1-4767-4FC8-B960-ED66380685D7} = {C4DDF074-346C-426B-A9F4-37375255D35E}
 		{1F8F6B58-68F7-487E-AF9D-D1DC837B204A} = {92A38728-E6F0-43A1-A579-65508C9045AA}
 		{D987E45A-2181-4A01-A6BF-68DB58BEFE2F} = {92A38728-E6F0-43A1-A579-65508C9045AA}
+		{692B8267-F61F-4796-8F00-873EB3692D24} = {92A38728-E6F0-43A1-A579-65508C9045AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}
