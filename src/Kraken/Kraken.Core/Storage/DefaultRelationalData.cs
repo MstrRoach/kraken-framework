@@ -125,7 +125,7 @@ internal class DefaultRelationalData<M> : IRelationalData<M>
             // Ejecutamos cada consulta
             var quantity = await connection.QueryFirstOrDefaultAsync<int>(countCommand);
             var elements = await connection.QueryAsync<T>(queryCommand);
-            var totalPages = (int)Math.Round((double)quantity / (double)pagedQuery.Results);// Math.Round(decimal(())
+            var totalPages = (int)Math.Ceiling((double)quantity / (double)pagedQuery.Results);// Math.Round(decimal(())
             // Creamos la respuesta paginada
             return new Paged<T>(elements.ToList().AsReadOnly(),pagedQuery.Page,pagedQuery.Results, totalPages, quantity);
         }
