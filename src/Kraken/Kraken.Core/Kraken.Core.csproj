@@ -8,7 +8,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageId>Kraken.Framework.Core</PackageId>
-	  <Version>2.5.0</Version>
+	  <Version>2.6.0</Version>
 	  <PackageTags>Domain Driven Design Framework; Reactive Applications; Transaction Outbox; Modular Monoliths</PackageTags>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>krakenlogo.jpg</PackageIcon>
@@ -18,8 +18,7 @@
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
 	  <Summary>Framework for the development of progressive, reactive and domain-oriented backend applications on a clean architecture. Defines the contracts needed to implement a module as a separate unit of work.</Summary>
-	  <PackageReleaseNotes>Agregando un accesor a modelos de lectura para cada modulo a traves de SqlKata y Dapper. Ademas se agrega funcionalidad para agregar paginacion como una especializacion de queries que permita
-	  controlar de mejor forma la paginacion de listas</PackageReleaseNotes>
+	  <PackageReleaseNotes>Correccion al bug de paginacion que redondeaba las paginas hacia el entero inferior. Actualizacion de librerias</PackageReleaseNotes>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -53,11 +52,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
-    <PackageReference Include="SqlKata" Version="2.3.7" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.3" />
+    <PackageReference Include="SqlKata" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
