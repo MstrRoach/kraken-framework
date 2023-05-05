@@ -1,4 +1,4 @@
-﻿namespace Kraken.Core.UnitWork;
+﻿namespace Kraken.Core.Complements.UnitWork;
 
 /// <summary>
 /// Evento para indicar que una transaccion ha sido iniciada

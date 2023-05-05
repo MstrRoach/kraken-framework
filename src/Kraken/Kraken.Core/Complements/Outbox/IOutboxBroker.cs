@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Outbox
+namespace Kraken.Core.Complements.Outbox
 {
     /// <summary>
     /// Componente encargado de administrar las bandejas de
@@ -12,7 +12,7 @@ namespace Kraken.Core.Outbox
     /// a donde registrar cada mensaje segun el modulo proveniente.
     /// Esto en caso de
     /// </summary>
-    public interface IOutboxBroker 
+    public interface IOutboxBroker
     {
         /// <summary>
         /// Envia un evento a la bandeja de salida correspondiente

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Outbox;
+namespace Kraken.Core.Complements.Outbox;
 
 /// <summary>
 /// Clase base para guardar los mensajes en la bandeja de salida
