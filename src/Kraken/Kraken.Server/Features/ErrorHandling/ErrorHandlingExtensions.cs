@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Kraken.Standard.Exceptions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,8 @@ public static class ErrorHandlingExtensions
     public static IServiceCollection AddErrorHandling(this IServiceCollection services)
         => services
             .AddScoped<ErrorHandlerMiddleware>()
-            .AddSingleton<IExceptionToResponseMapper, ExceptionToResponseMapper>()
-            .AddSingleton<IExceptionCompositionRoot, ExceptionCompositionRoot>();
+            .AddSingleton<IExceptionToResponseMapper, DefaultExceptionToResponseMapper>()
+            .AddSingleton<ExceptionCompositionRoot>();
 
     /// <summary>
     /// Usa la administracion en la canalizacion especificada

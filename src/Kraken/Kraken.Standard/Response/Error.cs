@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Standard.Commands
+namespace Kraken.Standard.Response
 {
     /// <summary>
     /// Define una estructura standar para envolver un error

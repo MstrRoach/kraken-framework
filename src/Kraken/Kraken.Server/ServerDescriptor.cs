@@ -68,6 +68,11 @@ public class ServerDescriptor
     public IFeature? Authentication { get; set; }
 
     /// <summary>
+    /// Indica si la redireccion esta activa
+    /// </summary>
+    public bool UseHttpsRedirection { get; set; } = false;
+
+    /// <summary>
     /// Contiene la aplicacion web con los servicios agregados
     /// </summary>
     public WebApplication App { get; internal set; }

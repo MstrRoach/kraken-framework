@@ -14,10 +14,10 @@ namespace Kraken.Server.Features.ErrorHandling;
 /// </summary>
 internal sealed class ErrorHandlerMiddleware
 {
-    private readonly IExceptionCompositionRoot _exceptionCompositionRoot;
+    private readonly ExceptionCompositionRoot _exceptionCompositionRoot;
     private readonly ILogger<ErrorHandlerMiddleware> _logger;
 
-    public ErrorHandlerMiddleware(IExceptionCompositionRoot exceptionCompositionRoot,
+    public ErrorHandlerMiddleware(ExceptionCompositionRoot exceptionCompositionRoot,
         ILogger<ErrorHandlerMiddleware> logger)
     {
         _exceptionCompositionRoot = exceptionCompositionRoot;

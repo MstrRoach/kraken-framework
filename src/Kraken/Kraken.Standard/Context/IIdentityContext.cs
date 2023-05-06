@@ -13,7 +13,12 @@ public interface IIdentityContext
     /// <summary>
     /// Id del solicitante
     /// </summary>
-    public Guid Id { get; }
+    string Id { get; }
+
+    /// <summary>
+    /// Nombre del usuario actual
+    /// </summary>
+    string Name { get; }
 
     /// <summary>
     /// Rol del solicitante
@@ -26,14 +31,9 @@ public interface IIdentityContext
     Dictionary<string, IEnumerable<string>> Claims { get; }
 
     /// <summary>
-    /// Indica si es usuario
+    /// Intenta obtener el claim especificado
     /// </summary>
+    /// <param name="claimName"></param>
     /// <returns></returns>
-    bool IsUser();
-
-    /// <summary>
-    /// Indica si es administrador
-    /// </summary>
-    /// <returns></returns>
-    bool IsAdmin();
+    string TryGetClaim(string claimName);
 }

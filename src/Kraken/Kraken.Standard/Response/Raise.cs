@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Standard.Commands;
+namespace Kraken.Standard.Response;
 
 /// <summary>
 /// Wrapper para envolver la respuesta en un objeto que acepta como fallo

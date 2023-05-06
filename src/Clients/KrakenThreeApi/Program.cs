@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var krakenApp = builder.ConfigureKrakenServer(server =>
 {
-
+    server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>
     {
         doc.Title = "Example Web Api v3.0";
