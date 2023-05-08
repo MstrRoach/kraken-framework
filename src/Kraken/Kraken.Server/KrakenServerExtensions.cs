@@ -1,6 +1,7 @@
 ﻿using Kraken.Server.Features.Contexts;
 using Kraken.Server.Features.Correlation;
 using Kraken.Server.Features.ErrorHandling;
+using Kraken.Server.Features.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -22,21 +23,25 @@ public static class KrakenServerExtensions
         builder.Services.AddSingleton<ServerOptions>(builder.Configuration.GetNamedSection<ServerOptions>());
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
-        // --------------- Configurando las partes centrales de kraken -----------
+
+        // =============== Configurando las partes centrales de kraken ==================
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
-        // --------------- Configuracion de las caracteristicas ------------------
+
+        // =============== Configuracion de las caracteristicas del server ==============
         serverDescriptor.Documentation?.AddServices(builder.Services);
         serverDescriptor.Cors?.AddServices(builder.Services);
         serverDescriptor.Authorization?.AddServices(builder.Services);
         serverDescriptor.Authentication?.AddServices(builder.Services);
-        // -------------- Configuracion de las caracteristicas centrales ---------
-        // -------------- Configuracion por defecto de web api -------------------
+
+        // =============== Configuracion de las caracteristicas centrales ===============
+
+        // =============== Configuracion por defecto de web api =========================
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
+        // =============== Configuracion del pipeline del server ========================
         // Construimos la app
         serverDescriptor.App = builder.Build();
-        // --------------- Configuracion del pipeline del server -----------------
         // Reenvio de headers
         serverDescriptor.App.UseForwardedHeaders(new ForwardedHeadersOptions
         {
@@ -59,11 +64,14 @@ public static class KrakenServerExtensions
         serverDescriptor.Authorization?.UseServices(serverDescriptor.App);
         // Agregamos la configuracion de contextos
         serverDescriptor.App.UseContext();
+        // Agregamos el loggeo de la solicitud
+        serverDescriptor.App.UseLogging();
         // Redireccion http
         if(serverDescriptor.UseHttpsRedirection)
             serverDescriptor.App.UseHttpsRedirection();
         // Mapeo de controladores
         serverDescriptor.App.MapControllers();
+        // Devolvemos la app configurada
         return serverDescriptor.App;
     }
 
