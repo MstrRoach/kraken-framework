@@ -28,7 +28,7 @@ public class Context : IContext
     {
         CorrelationId = correlationId ?? Guid.NewGuid();
         TraceId = traceId;
-        Identity = identity ?? IdentityContext.Empty;
+        Identity = identity ?? new IdentityContext();
         IpAddress = ipAddress;
         UserAgent = userAgent;
     }

@@ -1,4 +1,5 @@
-﻿using Kraken.Standard.Server;
+﻿using Kraken.Server.Features.Contexts;
+using Kraken.Standard.Server;
 using Microsoft.AspNetCore.Builder;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,17 @@ public class ServerDescriptor
     /// Indica si la redireccion esta activa
     /// </summary>
     public bool UseHttpsRedirection { get; set; } = false;
+
+    /// <summary>
+    /// Bandera para habilitar el mostrar u ocultar la documentacion
+    /// </summary>
+    public bool ShowDocumentation { get; set; } = false;
+
+    /// <summary>
+    /// Objeto para definir las propiedades de claim para obtener los valores
+    /// en el contexto de identidad
+    /// </summary>
+    public IdentityContextProperties IdentityContextProperties { get; set; } = new();
 
     /// <summary>
     /// Contiene la aplicacion web con los servicios agregados

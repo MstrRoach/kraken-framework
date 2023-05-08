@@ -18,9 +18,7 @@ public static class ErrorHandlingExtensions
     /// <param name="services"></param>
     /// <returns></returns>
     public static IServiceCollection AddErrorHandling(this IServiceCollection services)
-        => services
-            .AddScoped<ErrorHandlerMiddleware>()
-            .AddSingleton<IExceptionToResponseMapper, DefaultExceptionToResponseMapper>()
+        => services.AddSingleton<IExceptionToResponseMapper, DefaultExceptionToResponseMapper>()
             .AddSingleton<ExceptionCompositionRoot>();
 
     /// <summary>

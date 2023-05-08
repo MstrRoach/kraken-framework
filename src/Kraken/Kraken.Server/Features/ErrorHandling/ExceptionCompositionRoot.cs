@@ -14,9 +14,9 @@ internal sealed class ExceptionCompositionRoot
     /// Lista de mapeadores
     /// </summary>
     readonly List<IExceptionToResponseMapper> _mappers;
-    public ExceptionCompositionRoot(List<IExceptionToResponseMapper> mappers)
+    public ExceptionCompositionRoot(IEnumerable<IExceptionToResponseMapper> mappers)
     {
-        _mappers = mappers;
+        _mappers = mappers.ToList();
     }
 
     /// <summary>

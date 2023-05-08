@@ -1,5 +1,5 @@
 ﻿using Kraken.Standard.Exceptions;
-using Kraken.Standard.Commands;
+using Kraken.Standard.Response;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ internal sealed class DefaultExceptionToResponseMapper : IExceptionToResponseMap
         => exception switch
         {
             Exception ex => new ExceptionResponse(
-                new Errors(new Error("InternalServer", InternalServerMessage)),
+                new ErrorsResponse(new Error("InternalServer", InternalServerMessage)),
                 HttpStatusCode.InternalServerError)
         };
 }

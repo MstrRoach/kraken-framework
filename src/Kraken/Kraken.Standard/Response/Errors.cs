@@ -10,4 +10,4 @@ namespace Kraken.Standard.Response;
 /// Lista de errores 
 /// </summary>
 /// <param name="Errors"></param>
-public record Errors(params Error[] Errors);
+public record ErrorsResponse(params Error[] Errors);

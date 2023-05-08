@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Kraken.Standard.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,15 @@ internal sealed class ErrorHandlerMiddleware
 {
     private readonly ExceptionCompositionRoot _exceptionCompositionRoot;
     private readonly ILogger<ErrorHandlerMiddleware> _logger;
+    private readonly RequestDelegate _next;
 
-    public ErrorHandlerMiddleware(ExceptionCompositionRoot exceptionCompositionRoot,
-        ILogger<ErrorHandlerMiddleware> logger)
+    public ErrorHandlerMiddleware(RequestDelegate next,
+        ILogger<ErrorHandlerMiddleware> logger,
+        ExceptionCompositionRoot exceptionCompositionRoot)
     {
-        _exceptionCompositionRoot = exceptionCompositionRoot;
+        _next = next;
         _logger = logger;
+        _exceptionCompositionRoot = exceptionCompositionRoot;
     }
 
     /// <summary>
@@ -30,11 +34,11 @@ internal sealed class ErrorHandlerMiddleware
     /// <param name="context"></param>
     /// <param name="next"></param>
     /// <returns></returns>
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await next(context);
+            await _next(context);
         }
         catch (Exception exception)
         {
@@ -55,10 +59,7 @@ internal sealed class ErrorHandlerMiddleware
         context.Response.StatusCode = (int)(errorResponse?.StatusCode ?? HttpStatusCode.InternalServerError);
         var response = errorResponse?.Response;
         if (response is null)
-        {
             return;
-        }
-
         await context.Response.WriteAsJsonAsync(response);
     }
 }

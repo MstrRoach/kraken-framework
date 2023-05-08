@@ -1,13 +1,16 @@
 using Kraken.Server;
+using Kraken.Server.Features.Contexts;
 using Kraken.Server.Features.Cors;
 using Kraken.Server.Features.Documentation;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var krakenApp = builder.ConfigureKrakenServer(server =>
 {
+    server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>
     {
@@ -34,25 +37,6 @@ var krakenApp = builder.ConfigureKrakenServer(server =>
         cors.allowedHeaders = new[] { "*" };
         cors.allowedOrigins = new[] { "*" };
     });
-},
-services =>
-{
-    services.AddControllers();
-    services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen();
-}, app =>
-{
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-
-    app.UseHttpsRedirection();
-
-    app.UseAuthorization();
-
-    app.MapControllers();
 });
 
 // Run kraken server

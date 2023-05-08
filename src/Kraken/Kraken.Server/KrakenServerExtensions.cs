@@ -1,4 +1,5 @@
-﻿using Kraken.Server.Features.Correlation;
+﻿using Kraken.Server.Features.Contexts;
+using Kraken.Server.Features.Correlation;
 using Kraken.Server.Features.ErrorHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -12,8 +13,7 @@ public static class KrakenServerExtensions
 {
 
     public static WebApplication ConfigureKrakenServer(this WebApplicationBuilder builder,
-        Action<ServerDescriptor> krakenSetup, 
-        Action<WebApplication> pipelineSetup)
+        Action<ServerDescriptor> krakenSetup)
     {
         // Creamos la descripcion de los servicios configurados
         ServerDescriptor serverDescriptor = new();
@@ -23,6 +23,7 @@ public static class KrakenServerExtensions
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
         // --------------- Configurando las partes centrales de kraken -----------
+        builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
         // --------------- Configuracion de las caracteristicas ------------------
         serverDescriptor.Documentation?.AddServices(builder.Services);
@@ -50,12 +51,14 @@ public static class KrakenServerExtensions
         // Routing activado
         serverDescriptor.App.UseRouting();
         // Documentacion
-        if (!serverDescriptor.App.Environment.IsProduction())
+        if (serverDescriptor.ShowDocumentation)
             serverDescriptor.Documentation?.UseServices(serverDescriptor.App);
         // Autenticacion
         serverDescriptor.Authentication?.UseServices(serverDescriptor.App);
         // Authorizacion
         serverDescriptor.Authorization?.UseServices(serverDescriptor.App);
+        // Agregamos la configuracion de contextos
+        serverDescriptor.App.UseContext();
         // Redireccion http
         if(serverDescriptor.UseHttpsRedirection)
             serverDescriptor.App.UseHttpsRedirection();

@@ -1,7 +1,10 @@
-﻿using Kraken.Standard.Context;
+﻿using Kraken.Server.Features.Correlation;
+using Kraken.Standard.Context;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,12 +45,31 @@ public class DefaultContext : IContext
     /// </summary>
     public IIdentityContext Identity { get; }
 
-    public DefaultContext(Guid? correlationId, string traceId, 
-        IIdentityContext identity = null, string ipAddress = null, string userAgent = null)
+    /// <summary>
+    /// Construccion del contexto por defecto
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="identityBuilder"></param>
+    public DefaultContext(HttpContext context, DefaultIdentityContextBuilder identityBuilder)
+        : this(context.TryGetCorrelationId(), context.TraceIdentifier, 
+              identityBuilder.Build(context.User) ?? identityBuilder.Empty(),
+              context.GetUserIpAddress(), context.Request.Headers["user-agent"])
+    { }
+
+    /// <summary>
+    /// Construccion explicita del contexto
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="traceId"></param>
+    /// <param name="identity"></param>
+    /// <param name="ipAddress"></param>
+    /// <param name="userAgent"></param>
+    public DefaultContext(Guid? correlationId, string traceId, IIdentityContext identity, 
+        string ipAddress = null, string userAgent = null)
     {
         CorrelationId = correlationId ?? Guid.NewGuid();
         TraceId = traceId;
-        Identity = identity ?? IIdentityContext.Empty;
+        Identity = identity;
         IpAddress = ipAddress;
         UserAgent = userAgent;
     }
