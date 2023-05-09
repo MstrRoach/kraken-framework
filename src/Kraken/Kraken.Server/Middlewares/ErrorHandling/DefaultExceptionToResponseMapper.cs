@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Humanizer;
 
-namespace Kraken.Server.Features.ErrorHandling;
+namespace Kraken.Server.Middlewares.ErrorHandling;
 
 internal sealed class DefaultExceptionToResponseMapper : IExceptionToResponseMapper
 {

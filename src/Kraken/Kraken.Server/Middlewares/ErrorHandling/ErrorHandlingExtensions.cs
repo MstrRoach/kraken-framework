@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.ErrorHandling;
+namespace Kraken.Server.Middlewares.ErrorHandling;
 
 public static class ErrorHandlingExtensions
 {

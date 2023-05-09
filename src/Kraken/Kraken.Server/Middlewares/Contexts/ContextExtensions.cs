@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Contexts;
+namespace Kraken.Server.Middlewares.Contexts;
 
 public static class ContextExtensions
 {
@@ -22,7 +22,7 @@ public static class ContextExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="IdentityContextBuilderType"></param>
-    public static void AddContext(this IServiceCollection services, 
+    public static void AddContext(this IServiceCollection services,
         IdentityContextProperties identityContextProperties)
     {
         services.AddSingleton<ContextProvider>();

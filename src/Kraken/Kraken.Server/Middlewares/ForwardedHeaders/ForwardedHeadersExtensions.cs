@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.ForwardedHeaders;
+namespace Kraken.Server.Middlewares.ForwardedHeaders;
 
 public static class ForwardedHeadersExtensions
 {

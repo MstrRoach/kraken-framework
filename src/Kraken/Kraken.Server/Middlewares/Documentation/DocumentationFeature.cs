@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Documentation
+namespace Kraken.Server.Middlewares.Documentation
 {
     public class DocumentationFeature : IFeature
     {

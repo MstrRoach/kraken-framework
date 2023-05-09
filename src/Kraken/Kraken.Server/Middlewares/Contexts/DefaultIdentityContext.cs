@@ -1,7 +1,7 @@
 ﻿using Kraken.Standard.Context;
 using System.Security.Claims;
 
-namespace Kraken.Server.Features.Contexts;
+namespace Kraken.Server.Middlewares.Contexts;
 
 internal class DefaultIdentityContext : IIdentityContext
 {
@@ -20,7 +20,7 @@ internal class DefaultIdentityContext : IIdentityContext
     /// </summary>
     public DefaultIdentityContext()
     {
-        
+
     }
 
     /// <summary>

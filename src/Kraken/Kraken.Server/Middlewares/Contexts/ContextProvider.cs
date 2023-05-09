@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Contexts;
+namespace Kraken.Server.Middlewares.Contexts;
 
 /// <summary>
 /// Contiene y administra los contextos a partir de las solicitudes

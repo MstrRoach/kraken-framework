@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Contexts;
+namespace Kraken.Server.Middlewares.Contexts;
 
 public sealed class DefaultIdentityContextBuilder
 {

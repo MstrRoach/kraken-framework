@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Cors
+namespace Kraken.Server.Middlewares.Cors
 {
     /// <summary>
     /// Configura las politicas del Cors

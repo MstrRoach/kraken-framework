@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.ErrorHandling;
+namespace Kraken.Server.Middlewares.ErrorHandling;
 
 /// <summary>
 /// Middleware para la administracion de los errores

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Logging;
+namespace Kraken.Server.Middlewares.Logging;
 
 public static class LoggingExtensions
 {

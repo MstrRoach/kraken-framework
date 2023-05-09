@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Correlation;
+namespace Kraken.Server.Middlewares.Correlation;
 
 public static class CorrelationExtensions
 {

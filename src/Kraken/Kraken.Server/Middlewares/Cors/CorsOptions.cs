@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Features.Cors
+namespace Kraken.Server.Middlewares.Cors
 {
     /// <summary>
     /// Optiones configurables para las cors en el sistema, que permiten definir el comportamiento
