@@ -1,7 +1,7 @@
+using AccessControl;
 using Kraken.Server;
-using Kraken.Server.Features.Contexts;
-using Kraken.Server.Features.Cors;
-using Kraken.Server.Features.Documentation;
+using Kraken.Server.Middlewares.Cors;
+using Kraken.Server.Middlewares.Documentation;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 
@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var krakenApp = builder.ConfigureKrakenServer(server =>
 {
+    server.AddModule<AccessControlModule>();
     server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>

@@ -1,7 +1,8 @@
-﻿using Kraken.Server.Features.Contexts;
-using Kraken.Server.Features.Correlation;
-using Kraken.Server.Features.ErrorHandling;
-using Kraken.Server.Features.Logging;
+﻿using Kraken.Server.Middlewares.Contexts;
+using Kraken.Server.Middlewares.Correlation;
+using Kraken.Server.Middlewares.ErrorHandling;
+using Kraken.Server.Middlewares.Logging;
+using Kraken.Server.Operation.Request;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +36,11 @@ public static class KrakenServerExtensions
         serverDescriptor.Authentication?.AddServices(builder.Services);
 
         // =============== Configuracion de las caracteristicas centrales ===============
+        builder.Services.AddCommandAndQueryProcessing(serverDescriptor.assemblies);
+        // =============== Configuracion de los servicios de modulo =====================
+        serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
 
+        serverDescriptor.modules.ForEach(module => module.Register(builder.Services));
         // =============== Configuracion por defecto de web api =========================
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

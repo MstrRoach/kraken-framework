@@ -1,4 +1,4 @@
-﻿using Kraken.Server.Features.Contexts;
+﻿using Kraken.Server.Middlewares.Contexts;
 using Kraken.Standard.Server;
 using Microsoft.AspNetCore.Builder;
 using System;

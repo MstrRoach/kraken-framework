@@ -1,3 +1,5 @@
+using AccessControl.App.Test;
+using Kraken.Server.Operation.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KrakenThreeApi.Controllers
@@ -12,15 +14,17 @@ namespace KrakenThreeApi.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly IAppHost _appHost;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IAppHost appHost)
         {
             _logger = logger;
+            _appHost = appHost;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+            await _appHost.ExecuteAsync(new SayHelloWorldCommand());
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

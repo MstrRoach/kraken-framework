@@ -23,13 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileManagement", "Module
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Support", "Modules\Support\Support.csproj", "{692B8267-F61F-4796-8F00-873EB3692D24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kraken.Module", "Kraken\Kraken.Module\Kraken.Module.csproj", "{3B25168E-B9A6-42FE-96AA-CADC204AEC7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Module", "Kraken\Kraken.Module\Kraken.Module.csproj", "{3B25168E-B9A6-42FE-96AA-CADC204AEC7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kraken.Standard", "Kraken\Kraken.Standard\Kraken.Standard.csproj", "{EDA7ACC1-651E-4B64-A928-0213BEB7AD0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Standard", "Kraken\Kraken.Standard\Kraken.Standard.csproj", "{EDA7ACC1-651E-4B64-A928-0213BEB7AD0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kraken.Server", "Kraken\Kraken.Server\Kraken.Server.csproj", "{49806677-90F6-4715-A1D1-9AB777EC154A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Server", "Kraken\Kraken.Server\Kraken.Server.csproj", "{49806677-90F6-4715-A1D1-9AB777EC154A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrakenThreeApi", "Clients\KrakenThreeApi\KrakenThreeApi.csproj", "{868634E9-EFDE-4325-8532-706CC2191C04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrakenThreeApi", "Clients\KrakenThreeApi\KrakenThreeApi.csproj", "{868634E9-EFDE-4325-8532-706CC2191C04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessControl", "Modules\AccessControl\AccessControl.csproj", "{39088B2B-52BA-4E0A-9B8D-B02050023480}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{868634E9-EFDE-4325-8532-706CC2191C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{868634E9-EFDE-4325-8532-706CC2191C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{868634E9-EFDE-4325-8532-706CC2191C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39088B2B-52BA-4E0A-9B8D-B02050023480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39088B2B-52BA-4E0A-9B8D-B02050023480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39088B2B-52BA-4E0A-9B8D-B02050023480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39088B2B-52BA-4E0A-9B8D-B02050023480}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{EDA7ACC1-651E-4B64-A928-0213BEB7AD0D} = {C4DDF074-346C-426B-A9F4-37375255D35E}
 		{49806677-90F6-4715-A1D1-9AB777EC154A} = {C4DDF074-346C-426B-A9F4-37375255D35E}
 		{868634E9-EFDE-4325-8532-706CC2191C04} = {9717CE5F-6F9A-426F-99B1-E964496E90B7}
+		{39088B2B-52BA-4E0A-9B8D-B02050023480} = {92A38728-E6F0-43A1-A579-65508C9045AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}
