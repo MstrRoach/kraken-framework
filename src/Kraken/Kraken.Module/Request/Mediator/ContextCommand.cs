@@ -13,9 +13,12 @@ namespace Kraken.Module.Request.Mediator;
 /// </summary>
 /// <typeparam name="TCommand"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
-public abstract class ComandHandlerBase<TCommand, TResponse> : ICommandHandler<TCommand, TResponse> where TCommand : ICommand<TResponse>
+public abstract class ContextCommand<TResponse> : ICommand<TResponse> 
 {
+    /// <summary>
+    /// Contiene el contexto que acompaña al comando con informacion
+    /// relevante.
+    /// </summary>
     public IContext Context { get; set; }
 
-    public abstract Task<TResponse> Handle(TCommand request, CancellationToken cancellationToken);
 }

@@ -24,6 +24,7 @@ internal static class RequestExtensions
         {
             configuration.RegisterServicesFromAssemblies(modules.ToArray());
             configuration.AddOpenBehavior(typeof(CommandLoggingMiddleware<,>));
+            configuration.AddOpenBehavior(typeof(ContextSetterMiddleware<,>));
         });
 
         services.AddScoped<IAppHost, DefaultAppHost>();

@@ -14,9 +14,4 @@ public interface ICommandHandler<in TCommand, TResult> : IRequestHandler<TComman
     where TCommand : ICommand<TResult>
 {
 
-    /// <summary>
-    /// Contiene la informacion acerca de la solicitud actual. Esta debe ser inyectada para estar disponible 
-    /// para la ejecucion del comando
-    /// </summary>
-    public IContext Context { get; set; }
 }

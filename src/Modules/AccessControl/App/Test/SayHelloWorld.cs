@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace AccessControl.App.Test;
 
-public class SayHelloWorldCommand : ICommand<HelloWorldSaid>
+public class SayHelloWorldCommand : ContextCommand<HelloWorldSaid>
 {
 }
 
-public class SayHelloWorldHandler : ComandHandlerBase<SayHelloWorldCommand, HelloWorldSaid>
+public class SayHelloWorldHandler : ICommandHandler<SayHelloWorldCommand, HelloWorldSaid>
 {
 
-    public override async Task<HelloWorldSaid> Handle(SayHelloWorldCommand request, CancellationToken cancellationToken)
+    public async Task<HelloWorldSaid> Handle(SayHelloWorldCommand request, CancellationToken cancellationToken)
     {
-        var name = Context?.Identity?.Name;
+        var name = request.Context?.Identity?.Name;
         await Task.CompletedTask;
         return new HelloWorldSaid
         {
