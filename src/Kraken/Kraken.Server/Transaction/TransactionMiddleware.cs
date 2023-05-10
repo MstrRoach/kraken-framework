@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Transaction;
+namespace Kraken.Server.Transaction;
 
 internal sealed class TransactionMiddleware<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : class, ICommand<TResponse>
 {

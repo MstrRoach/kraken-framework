@@ -1,4 +1,4 @@
-﻿using Kraken.Server.Operation.Transaction;
+﻿using Kraken.Server.Transaction;
 using Kraken.Standard.Request;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Request;
+namespace Kraken.Server.Request;
 
 internal static class RequestExtensions
 {

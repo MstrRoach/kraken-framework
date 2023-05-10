@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Transaction;
+namespace Kraken.Server.Transaction;
 
-internal class DefaultUnitWork<TModule> : IUnitWork<TModule> 
+internal class DefaultUnitWork<TModule> : IUnitWork<TModule>
     where TModule : IModule
 {
     /// <summary>
@@ -70,7 +70,7 @@ internal class DefaultUnitWork<TModule> : IUnitWork<TModule>
         return await action();
     }
 
-    
 
-    
+
+
 }

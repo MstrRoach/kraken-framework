@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Request;
+namespace Kraken.Server.Request;
 
 /// <summary>
 /// Punto de entrada para la ejecucion de todas las operaciones con kraken

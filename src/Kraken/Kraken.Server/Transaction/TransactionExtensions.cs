@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Transaction;
+namespace Kraken.Server.Transaction;
 
 internal static class TransactionExtensions
 {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Transaction;
+namespace Kraken.Server.Transaction;
 
 /// <summary>
 /// Fabrica para construir las unidades de trabajo para cada commando

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Operation.Request;
+namespace Kraken.Server.Request;
 
 internal sealed class DefaultAppHost : IAppHost
 {
