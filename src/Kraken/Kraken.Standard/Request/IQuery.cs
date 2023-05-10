@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Request.Mediator;
+namespace Kraken.Standard.Request;
 
 /// <summary>
 /// Interface para todas aquellas peticiones que solo son de lectura y no provocan cambios internos

@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Request.Mediator;
+﻿using Kraken.Standard.Request;
 using MediatR;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Request.Mediator;
+﻿using Kraken.Standard.Request;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

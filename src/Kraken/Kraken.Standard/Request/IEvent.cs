@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Request.Events;
+namespace Kraken.Standard.Request;
 
 /// <summary>
 /// Evento base para derivar todos las mismas

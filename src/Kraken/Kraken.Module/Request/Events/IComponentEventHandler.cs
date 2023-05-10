@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Kraken.Standard.Request;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

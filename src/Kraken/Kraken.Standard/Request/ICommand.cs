@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Kraken.Module.Request.Mediator;
+namespace Kraken.Standard.Request;
 
 //Marker
 public interface ICommand<out TResult> : IRequest<TResult>
