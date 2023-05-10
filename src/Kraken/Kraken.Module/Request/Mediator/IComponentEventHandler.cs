@@ -6,14 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Request.Events;
+namespace Kraken.Module.Request.Mediator;
 
 /// <summary>
-/// Define el handler para los eventos modulares
+/// Contrato para definir el handler para los eventos
+/// de arquitectura
 /// </summary>
 /// <typeparam name="TEvent"></typeparam>
-public interface IModuleEventHandler<in TEvent> :
+public interface IArchEventHandler<in TEvent> :
     INotificationHandler<TEvent>
-    where TEvent : IModuleEvent
+    where TEvent : IArchEvent
 {
 }

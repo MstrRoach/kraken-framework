@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Request.Events;
+namespace Kraken.Module.Request.Mediator;
 
 /// <summary>
 /// Handler para administrar los eventos de dominio
