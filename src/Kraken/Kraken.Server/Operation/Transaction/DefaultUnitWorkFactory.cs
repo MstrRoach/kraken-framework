@@ -1,4 +1,6 @@
-﻿using Kraken.Standard.Transactions;
+﻿using Kraken.Standard.Server;
+using Kraken.Standard.Transactions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ internal class DefaultUnitWorkFactory : IUnitWorkFactory
     /// Definicion de las unidades de trabajo asociadas
     /// a cada modulo
     /// </summary>
-    private readonly UnitWorkRegistry _unitWorkRegistry;
+    private readonly ModuleRegistry _moduleRegistry;
 
     /// <summary>
     /// Proveedor de los servicios para obtener la unidad de 
@@ -24,10 +26,10 @@ internal class DefaultUnitWorkFactory : IUnitWorkFactory
     /// </summary>
     private readonly IServiceProvider _serviceProvider;
 
-    public DefaultUnitWorkFactory(UnitWorkRegistry unitWorkRegistry,
-            IServiceProvider serviceProvider)
+    public DefaultUnitWorkFactory(ModuleRegistry moduleRegistry,
+        IServiceProvider serviceProvider)
     {
-        _unitWorkRegistry = unitWorkRegistry;
+        _moduleRegistry = moduleRegistry;
         _serviceProvider = serviceProvider;
     }
 
@@ -42,6 +44,19 @@ internal class DefaultUnitWorkFactory : IUnitWorkFactory
     public IUnitWork CreateUnitWork<T>()
     {
         // Obtenemos el modulo
-        throw new NotImplementedException();
+        var module = _moduleRegistry.Resolve<T>();
+        // Creamos el tipo que debe recuperarse de los servicios
+        var specificUnitWorkType = typeof(IUnitWork<>).MakeGenericType(module);
+        // Obtenemos el servicio
+        var specificUnitWork = _serviceProvider.GetService(specificUnitWorkType);
+        // Si no es nulo lo regresamos
+        if (specificUnitWork is not null)
+            return specificUnitWork as IUnitWork;
+        // Creamos el tipo cerrado para la unidad de trabajo por defecto
+        var defaultUnitWorkType = typeof(DefaultUnitWork<>).MakeGenericType(module);
+        // Obtenemos el servicio
+        var defaultUnitWork = _serviceProvider.GetService(defaultUnitWorkType);
+        // Lo regresamos como unidad de trabajo
+        return defaultUnitWork as IUnitWork;
     }
 }

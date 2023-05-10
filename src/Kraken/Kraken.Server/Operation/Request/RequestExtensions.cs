@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Kraken.Server.Operation.Transaction;
+using Kraken.Standard.Request;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +28,9 @@ internal static class RequestExtensions
             configuration.AddOpenBehavior(typeof(CommandLoggingMiddleware<,>));
             configuration.AddOpenBehavior(typeof(PerformanceMiddleware<,>));
             configuration.AddOpenBehavior(typeof(ContextSetterMiddleware<,>));
+            configuration.AddOpenBehavior(typeof(TransactionMiddleware<,>));
         });
-
+        services.AddScoped<IEventPublisher, DefaultEventPublisher>();
         services.AddScoped<IAppHost, DefaultAppHost>();
         // Agregamos los middlewares para el pipeline de mediatr
         return services;

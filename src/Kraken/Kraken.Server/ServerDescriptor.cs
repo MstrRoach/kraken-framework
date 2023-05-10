@@ -1,7 +1,9 @@
 ﻿using Kraken.Server.Middlewares.Contexts;
+using Kraken.Standard;
 using Kraken.Standard.Server;
 using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -27,6 +29,12 @@ public class ServerDescriptor
     internal List<IModule> modules = new List<IModule>();
 
     /// <summary>
+    /// Diccionario que almacena los modulos con sus tipos de configuracion para
+    /// las operaciones donde se requiera diferenciar servicios para cada modulo
+    /// </summary>
+    internal ModuleRegistry moduleRegistry = new ModuleRegistry();
+
+    /// <summary>
     /// Agrega los ensamblados de donde provienen los modulos especificados
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -45,6 +53,8 @@ public class ServerDescriptor
         var assembly = type.Assembly;
         // Agregamos el ensamblado a la lista de ensamblados
         this.assemblies.Add(assembly);
+        // Agregamos la relacion de modulos con sus clases diferenciadoras
+        this.moduleRegistry.Register<T>();
     }
 
     /// <summary>

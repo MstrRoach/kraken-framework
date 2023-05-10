@@ -3,6 +3,7 @@ using Kraken.Server.Middlewares.Correlation;
 using Kraken.Server.Middlewares.ErrorHandling;
 using Kraken.Server.Middlewares.Logging;
 using Kraken.Server.Operation.Request;
+using Kraken.Server.Operation.Transaction;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ public static class KrakenServerExtensions
         builder.Services.AddSingleton<ServerOptions>(builder.Configuration.GetNamedSection<ServerOptions>());
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
-
+        builder.Services.AddSingleton(serverDescriptor.moduleRegistry);
         // =============== Configurando las partes centrales de kraken ==================
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
@@ -37,6 +38,7 @@ public static class KrakenServerExtensions
 
         // =============== Configuracion de las caracteristicas centrales ===============
         builder.Services.AddCommandAndQueryProcessing(serverDescriptor.assemblies);
+        builder.Services.AddTransaction();
         // =============== Configuracion de los servicios de modulo =====================
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
 

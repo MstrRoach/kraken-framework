@@ -1,5 +1,4 @@
-﻿using Kraken.Module.Request.Events;
-using Kraken.Standard.Request;
+﻿using Kraken.Standard.Request;
 using Kraken.Standard.Transactions;
 using MediatR;
 using Microsoft.Extensions.Logging;

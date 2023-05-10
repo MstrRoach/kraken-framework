@@ -20,4 +20,4 @@ public record TransactionCommited(Guid TransactionId) : UnitWorkEventBase;
 /// <summary>
 /// Indica que una transaccion fallo y que se revirtio
 /// </summary>
-public record TransacctionFailed(Guid TransactionId) : UnitWorkEventBase:
+public record TransacctionFailed(Guid TransactionId) : UnitWorkEventBase;
