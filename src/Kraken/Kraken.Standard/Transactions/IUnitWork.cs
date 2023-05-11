@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kraken.Standard.Server;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,6 +42,7 @@ public interface IUnitWork
 /// </summary>
 /// <typeparam name="TModule"></typeparam>
 public interface IUnitWork<TModule> : IUnitWork
+    where TModule : IModule
 {
 
 }

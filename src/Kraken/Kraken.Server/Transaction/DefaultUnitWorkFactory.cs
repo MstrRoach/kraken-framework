@@ -40,7 +40,6 @@ internal class DefaultUnitWorkFactory : IUnitWorkFactory
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public IUnitWork CreateUnitWork<T>()
     {
         // Obtenemos el modulo

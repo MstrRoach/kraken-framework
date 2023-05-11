@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Request.Mediator;
+namespace Kraken.Server.Request;
 
 /// <summary>
 /// Contrato para definir el handler para los eventos

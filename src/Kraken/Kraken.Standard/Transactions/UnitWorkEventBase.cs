@@ -10,7 +10,7 @@ namespace Kraken.Standard.Transactions;
 /// <summary>
 /// Evento base para los eventos de la unidad de trabajo
 /// </summary>
-public record UnitWorkEventBase : IModuleEvent
+public record UnitWorkEventBase : IArchEvent
 {
     /// <summary>
     /// Id del evento
