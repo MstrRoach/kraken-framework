@@ -1,10 +1,12 @@
-﻿using Kraken.Server.Middlewares.Contexts;
+﻿using Kraken.Server.Common;
+using Kraken.Server.Middlewares.Contexts;
 using Kraken.Server.Middlewares.Correlation;
 using Kraken.Server.Middlewares.ErrorHandling;
 using Kraken.Server.Middlewares.Logging;
 using Kraken.Server.Outbox;
 using Kraken.Server.Request;
 using Kraken.Server.Transaction;
+using Kraken.Standard.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +32,7 @@ public static class KrakenServerExtensions
         // =============== Configurando las partes centrales de kraken ==================
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
-
+        builder.Services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
         // =============== Configuracion de las caracteristicas del server ==============
         serverDescriptor.Documentation?.AddServices(builder.Services);
         serverDescriptor.Cors?.AddServices(builder.Services);

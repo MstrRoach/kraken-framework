@@ -1,4 +1,5 @@
-﻿using Kraken.Standard.Request;
+﻿using Kraken.Standard.Outbox;
+using Kraken.Standard.Request;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,14 @@ namespace Kraken.Server.Outbox
             services.AddScoped<OutboxContextProvider>();
             // Decoramos el bus de eventos con el de la bandeja de salida
             services.TryDecorate<IEventPublisher, OutboxEventPublisher>();
+            // Registramos la fabrica para la bandeja de salida
+            services.AddScoped<DefaultOutboxFactory>();
+            // Registramos el tipo abierto para la bandeja de salida de tipo abierto
+            services.AddScoped(typeof(DefaultOutbox<>));
+            // Registramos la fabrica para la construccion
+            services.AddScoped<DefaultOutboxStorageFactory>();
+            // Registramos la implementacion por defecto y de tipo abierta para el storage
+            services.AddScoped(typeof(DefaultOutboxStorage<>));
             return services;
         }
     }

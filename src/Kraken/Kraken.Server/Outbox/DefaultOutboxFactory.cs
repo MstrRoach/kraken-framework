@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Server.Outbox;
 
-internal class DefaultOutboxFactory : IOutboxFactory
+internal class DefaultOutboxFactory
 {
     /// <summary>
     /// Logger para la fabrica de bandejas de salida
@@ -45,12 +45,12 @@ internal class DefaultOutboxFactory : IOutboxFactory
         // Obtenemos el modulo
         var module = _moduleRegistry.Resolve<T>();
         // Creamos el tipo de outbox que debe de recuperarse de los servicios
-        var specificOutboxType = typeof(IOutbox<>).MakeGenericType(module);
+        //var specificOutboxType = typeof(IOutbox<>).MakeGenericType(module);
         // Obtenemos el servicio
-        var specificOutbox = _serviceProvider.GetService(specificOutboxType);
+        //var specificOutbox = _serviceProvider.GetService(specificOutboxType);
         // Si no es nulo, lo regresamos
-        if (specificOutbox is not null)
-            return specificOutbox as IOutbox;
+        //if (specificOutbox is not null)
+        //    return specificOutbox as IOutbox;
         // Creamos el tipo cerrado para la bandeja de salida por defecto
         var defaultOutboxType = typeof(DefaultOutbox<>).MakeGenericType(module);
         // Obtenemos el servicio

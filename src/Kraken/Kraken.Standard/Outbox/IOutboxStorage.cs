@@ -12,7 +12,7 @@ namespace Kraken.Standard.Outbox;
 /// las bandejas de salida
 /// </summary>
 /// <typeparam name="TModule"></typeparam>
-public interface IOutboxStorage<TModule> : IOutbox
+public interface IOutboxStorage<TModule>
 where TModule : IModule
 {
     /// <summary>

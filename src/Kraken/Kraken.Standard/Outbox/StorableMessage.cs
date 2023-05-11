@@ -25,7 +25,7 @@ public class StorableMessage
     /// <summary>
     /// Usuario que desencadeno el evento
     /// </summary>
-    public Guid? UserId { get; set; }
+    public string UserId { get; set; }
 
     /// <summary>
     /// Nombre del evento
