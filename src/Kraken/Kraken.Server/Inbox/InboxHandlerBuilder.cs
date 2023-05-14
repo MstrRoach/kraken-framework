@@ -1,5 +1,5 @@
 ﻿using Kraken.Module.Context;
-using Kraken.Module.Reaction;
+using Kraken.Module.Inbox;
 using Kraken.Server.Middlewares.Contexts;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Reaction;
+namespace Kraken.Server.Inbox;
 
 /// <summary>
 /// Objeto encargado de construir toda la solicitud que maneja al evento
@@ -17,8 +17,8 @@ namespace Kraken.Server.Reaction;
 /// </summary>
 /// <typeparam name="TEvent"></typeparam>
 /// <typeparam name="TReaction"></typeparam>
-public class ReactionBuilder<TEvent, TReaction> :
-    ReactionBuilderBase
+public class InboxHandlerBuilder<TEvent, TReaction> :
+    InboxHandlerBuilderBase
     where TEvent : INotification
     where TReaction : INotificationHandler<TEvent>
 {
@@ -30,7 +30,7 @@ public class ReactionBuilder<TEvent, TReaction> :
     /// <param name="cancellationToken"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public override async Task Handle(INotification notification, ReactionMessage reactionMessage,
+    public override async Task Handle(INotification notification, InboxMessage reactionMessage,
         CancellationToken cancellationToken, IServiceProvider serviceProvider, IContext context)
     {
         // Creamos un alcance para el handler
@@ -40,7 +40,7 @@ public class ReactionBuilder<TEvent, TReaction> :
         // Hacemos el delegado para ejeuctar las operaciones
         Task Handler() => GetHandler<TReaction>(scope.ServiceProvider).Handle((TEvent)notification, cancellationToken);
         // Obtenemos los middlewares y encadena cada uno de ellos para envolver al handler
-        await scope.ServiceProvider.GetServices<IReactionMiddleware<TEvent, TReaction>>()
+        await scope.ServiceProvider.GetServices<IInboxMiddleware<TEvent, TReaction>>()
             .Reverse()
             .Aggregate((EventHandlerDelegate)Handler,
             (next, pipeline) =>

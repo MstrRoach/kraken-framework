@@ -1,5 +1,5 @@
 ﻿using Kraken.Module.Context;
-using Kraken.Module.Reaction;
+using Kraken.Module.Inbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Reaction;
+namespace Kraken.Server.Inbox;
 
-public abstract class ReactionBuilderBase
+public abstract class InboxHandlerBuilderBase
 {
     /// <summary>
     /// Maneja la notificacion desde un objeto anonimos
@@ -19,9 +19,9 @@ public abstract class ReactionBuilderBase
     /// <param name="cancellationToken"></param>
     /// <param name="serviceFactory"></param>
     /// <returns></returns>
-    public async Task Handle(object notification, ReactionMessage reactionMessage, CancellationToken cancellationToken,
+    public async Task Handle(object notification, InboxMessage inboxMessage, CancellationToken cancellationToken,
     IServiceProvider serviceProvider, IContext context) =>
-        await Handle((INotification)notification, reactionMessage, cancellationToken, serviceProvider, context);
+        await Handle((INotification)notification, inboxMessage, cancellationToken, serviceProvider, context);
 
     /// <summary>
     /// Ejecuta el handler para el evento junto con todos los middlewares 
@@ -32,7 +32,7 @@ public abstract class ReactionBuilderBase
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
     public abstract Task Handle(INotification notification,
-        ReactionMessage reactionMessage,
+        InboxMessage inboxMessage,
         CancellationToken cancellationToken,
         IServiceProvider serviceProvider,
         IContext context);

@@ -1,11 +1,11 @@
 ﻿using Kraken.Module.Common;
 using Kraken.Server.Common;
+using Kraken.Server.Inbox;
 using Kraken.Server.Middlewares.Contexts;
 using Kraken.Server.Middlewares.Correlation;
 using Kraken.Server.Middlewares.ErrorHandling;
 using Kraken.Server.Middlewares.Logging;
 using Kraken.Server.Outbox;
-using Kraken.Server.Reaction;
 using Kraken.Server.Request;
 using Kraken.Server.Transaction;
 using Microsoft.AspNetCore.Builder;

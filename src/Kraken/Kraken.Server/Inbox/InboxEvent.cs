@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Reaction;
+namespace Kraken.Server.Inbox;
 
-public record EventReaction(Type Event, Type Reaction);
+public record InboxEvent(Type Event, Type Handler);

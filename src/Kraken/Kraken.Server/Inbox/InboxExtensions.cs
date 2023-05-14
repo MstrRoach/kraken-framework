@@ -9,33 +9,33 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Reaction;
+namespace Kraken.Server.Inbox;
 
-public static class ReactionExtensions
+public static class InboxExtensions
 {
 
     /// <summary>
-    /// Agrega el componente de reacciones a la aplicacion
+    /// Agrega el componente de inbox a la aplicacion
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
     public static IServiceCollection AddReactions(this IServiceCollection services, List<Assembly> assemblies)
     {
-        // Obtenemos el registro de reacciones
-        var reactionRegistry = assemblies.GetReactionRegistry();
-        // Registramos cada unos de las reacciones 
-        reactionRegistry
-            .GetAllReactions()
+        // Obtenemos el registro de handlers
+        var inboxHandlerRegistry = assemblies.GetInboxHandlerRegistry();
+        // Registramos cada uno de los handlers 
+        inboxHandlerRegistry
+            .GetAllHandlers()
             .ToList()
             .ForEach(x => services.AddTransient(x));
         // Lo registramos como singlenton
-        services.AddSingleton(reactionRegistry);
+        services.AddSingleton(inboxHandlerRegistry);
         // Registramos el procesador para que lo tome en lugar del default
-        services.AddSingleton<IOutboxDispatcher, DefaultReactionDispatcher>();
-        // Registramos el accesor al almacen de reacciones
-        services.AddSingleton<DefaultReactionStorageAccessor>();
+        services.AddSingleton<IOutboxDispatcher, DefaultInboxDispatcher>();
+        // Registramos el accesor al almacen de handlers
+        services.AddSingleton<DefaultInboxStorageAccessor>();
         // Registramos el almacen por defecto
-        services.AddScoped(typeof(DefaultReactionStorage<>));
+        services.AddScoped(typeof(DefaultInboxStorage<>));
         // Registramos los middlewares
 
         return services;
@@ -46,21 +46,21 @@ public static class ReactionExtensions
     /// </summary>
     /// <param name="assemblies"></param>
     /// <returns></returns>
-    private static ReactionRegistry GetReactionRegistry(this List<Assembly> assemblies)
+    private static InboxHandlerRegistry GetInboxHandlerRegistry(this List<Assembly> assemblies)
     {
         // Definicion de interfaces abiertas
         var domainEventHandlerOpenType = typeof(IDomainEventHandler<>);
         var moduleEventHandlerOpenType = typeof(IModuleEventHandler<>);
 
         // Hacemos la busqueda en los ensamblados de los handlers de dominio
-        var domainEventReactions = assemblies.LocateReactionsFor(domainEventHandlerOpenType);
-        var moduleEventReactions = assemblies.LocateReactionsFor(moduleEventHandlerOpenType);
+        var domainEventReactions = assemblies.LocateHandlersFor(domainEventHandlerOpenType);
+        var moduleEventReactions = assemblies.LocateHandlersFor(moduleEventHandlerOpenType);
 
         // Reunimos todas las reacciones en una sola lista
         domainEventReactions.AddRange(moduleEventReactions);
 
         // Creamos el contenedor de las reacciones
-        var reactionRegistry = new ReactionRegistry();
+        var reactionRegistry = new InboxHandlerRegistry();
 
         // Agregamos cada reaccion agrupada al registro de reacciones
         domainEventReactions.ForEach(x => reactionRegistry.Register(x.Key, x.ToList()));
@@ -74,12 +74,12 @@ public static class ReactionExtensions
     /// <param name="assemblies"></param>
     /// <param name="openTypeToSearch"></param>
     /// <returns></returns>
-    private static List<IGrouping<Type, Type>> LocateReactionsFor(this List<Assembly> assemblies, Type openTypeToSearch) => 
+    private static List<IGrouping<Type, Type>> LocateHandlersFor(this List<Assembly> assemblies, Type openTypeToSearch) =>
         assemblies
         .SelectMany(assembly => assembly.GetTypes())
         .Where(type => !type.IsOpenGeneric())
         .Where(type => type.FindInterfacesThatClose(openTypeToSearch).Any())
-        .Select(type => new EventReaction(type.GetHandlerArgument(openTypeToSearch.Name), type))
-        .GroupBy(eventReaction => eventReaction.Event, eventReaction => eventReaction.Reaction)
+        .Select(type => new InboxEvent(type.GetHandlerArgument(openTypeToSearch.Name), type))
+        .GroupBy(eventReaction => eventReaction.Event, eventReaction => eventReaction.Handler)
         .ToList();
 }

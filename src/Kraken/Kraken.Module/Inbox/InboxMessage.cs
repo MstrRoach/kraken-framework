@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Reaction;
+namespace Kraken.Module.Inbox;
 
 /// <summary>
 /// Registro con el evento y la reaccion que debe procesar
 /// </summary>
-public class ReactionMessage
+public class InboxMessage
 {
     /// <summary>
     /// Id de la reaccion que debe de ser unica
@@ -34,5 +34,5 @@ public class ReactionMessage
     /// <summary>
     /// Objeto que contiene la reaccion que debe de ejecutarse
     /// </summary>
-    public Type Reaction { get; set; }
+    public Type Handler { get; set; }
 }

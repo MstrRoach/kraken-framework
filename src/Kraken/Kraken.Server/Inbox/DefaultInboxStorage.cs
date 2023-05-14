@@ -1,4 +1,5 @@
 ﻿using Kraken.Module.Inbox;
+using Kraken.Module.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -6,16 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccessControl.Infrastructure;
+namespace Kraken.Server.Inbox;
 
-internal class CommonReactionStorage : IInboxStorage<AccessControlModule>
+internal class DefaultInboxStorage<TModule> : IInboxStorage<TModule>
+    where TModule : IModule
 {
-    private static ConcurrentBag<InboxRecord> reactionRecords = new ConcurrentBag<InboxRecord>();
+    private static ConcurrentBag<InboxRecord> inboxRecords = new ConcurrentBag<InboxRecord>();
 
     public Task Save(InboxRecord record)
     {
-        if (!reactionRecords.Any(x => x.Id == record.Id))
-            reactionRecords.Add(record);
+        if (!inboxRecords.Any(x => x.Id == record.Id))
+            inboxRecords.Add(record);
         return Task.CompletedTask;
     }
 
@@ -30,7 +32,7 @@ internal class CommonReactionStorage : IInboxStorage<AccessControlModule>
 
     public Task Update(Guid id, InboxRecordStatus status, string error = null)
     {
-        var record = reactionRecords.FirstOrDefault(x => x.Id == id);
+        var record = inboxRecords.FirstOrDefault(x => x.Id == id);
         if (record is null)
             return Task.CompletedTask;
         record.UpdateAt = DateTime.UtcNow;
@@ -41,7 +43,8 @@ internal class CommonReactionStorage : IInboxStorage<AccessControlModule>
 
     public Task<List<InboxRecord>> GetUnprocessed()
     {
-        var processables = reactionRecords.Where(x => x.Status == InboxRecordStatus.Scheduled).ToList();
+        var processables = inboxRecords.Where(x => x.Status == InboxRecordStatus.Scheduled).ToList();
         return Task.FromResult(processables);
     }
+
 }

@@ -185,7 +185,7 @@ internal class ServerBootstrapper : BackgroundService
             - Cqrs processing
             - Transaccional support
             - Outbox pattern event
-            - Reaction to events
+            - Handler to events
             - Preconfigured server
             - Support for modular monoliths and microservices
 ";

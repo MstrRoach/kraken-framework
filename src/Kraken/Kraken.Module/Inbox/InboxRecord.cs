@@ -4,41 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Reaction;
+namespace Kraken.Module.Inbox;
 
 /// <summary>
 /// Define el registro utilizado para guardar una reaccion
 /// en el sistema de almacenamiento predeterminado
 /// </summary>
-public class ReactionRecord
+public class InboxRecord
 {
     /// <summary>
-    /// Id de la reaccion
+    /// Id deel handler
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Id de correlacion para la reaccion
+    /// Id de correlacion parael handler
     /// </summary>
     public Guid CorrelationId { get; set; }
 
     /// <summary>
-    /// Id del evento que genero la reaccion
+    /// Id del evento que generoel handler
     /// </summary>
     public Guid EventId { get; set; }
 
     /// <summary>
-    /// Tipo del evento asociado a la reaccion
+    /// Tipo del evento asociado ael handler
     /// </summary>
     public string EventType { get; set; }
 
     /// <summary>
-    /// Nombre de la reaccion
+    /// Nombre deel handler
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Typo de la reaccion
+    /// Typo deel handler
     /// </summary>
     public string Type { get; set; }
 
@@ -61,10 +61,10 @@ public class ReactionRecord
     /// <summary>
     /// Indica el status de registro
     /// </summary>
-    public ReactionRecordStatus Status { get; set; } = ReactionRecordStatus.Scheduled;
+    public InboxRecordStatus Status { get; set; } = InboxRecordStatus.Scheduled;
 }
 
 /// <summary>
 /// Estados por los que puede pasar el mensaje
 /// </summary>
-public enum ReactionRecordStatus { Scheduled, OnProcess, Processed, OnError }
+public enum InboxRecordStatus { Scheduled, OnProcess, Processed, OnError }

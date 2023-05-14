@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Reaction;
+namespace Kraken.Module.Inbox;
 
-public interface IReactionMiddleware<TEvent, TReaction>
+public interface IInboxMiddleware<TEvent, TReaction>
         where TEvent : INotification
         where TReaction : INotificationHandler<TEvent>
 {
@@ -18,7 +18,7 @@ public interface IReactionMiddleware<TEvent, TReaction>
     /// <param name="cancellationToken"></param>
     /// <param name="next"></param>
     /// <returns></returns>
-    Task Handle(TEvent @event, ReactionMessage processRecord, CancellationToken cancellationToken, EventHandlerDelegate next);
+    Task Handle(TEvent @event, InboxMessage processRecord, CancellationToken cancellationToken, EventHandlerDelegate next);
 }
 
 /// <summary>
