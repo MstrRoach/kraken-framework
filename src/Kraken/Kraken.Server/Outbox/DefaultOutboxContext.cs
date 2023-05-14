@@ -1,4 +1,4 @@
-﻿using Kraken.Standard.Outbox;
+﻿using Kraken.Module.Outbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;

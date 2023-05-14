@@ -1,5 +1,5 @@
 ﻿using Kraken.Server.Middlewares.Correlation;
-using Kraken.Standard.Context;
+using Kraken.Module.Context;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

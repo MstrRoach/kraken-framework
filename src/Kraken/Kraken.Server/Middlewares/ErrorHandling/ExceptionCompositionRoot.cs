@@ -1,4 +1,4 @@
-﻿using Kraken.Standard.Exceptions;
+﻿using Kraken.Module.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

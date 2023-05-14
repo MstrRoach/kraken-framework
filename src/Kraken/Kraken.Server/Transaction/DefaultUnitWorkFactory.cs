@@ -1,5 +1,5 @@
-﻿using Kraken.Standard.Server;
-using Kraken.Standard.Transactions;
+﻿using Kraken.Module.Server;
+using Kraken.Module.Transactions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

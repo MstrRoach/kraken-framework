@@ -1,5 +1,5 @@
-﻿using Kraken.Standard.Outbox;
-using Kraken.Standard.Server;
+﻿using Kraken.Module.Outbox;
+using Kraken.Module.Server;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
-﻿using Kraken.Server.Middlewares.Contexts;
-using Kraken.Standard;
-using Kraken.Standard.Server;
+﻿using Kraken.Module.Server;
+using Kraken.Server.Middlewares.Contexts;
 using Microsoft.AspNetCore.Builder;
 using System;
 using System.Collections;

@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kraken.Standard\Kraken.Standard.csproj" />
+    <ProjectReference Include="..\Kraken.Module\Kraken.Module.csproj" />
   </ItemGroup>
 
 </Project>

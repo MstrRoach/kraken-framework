@@ -1,5 +1,5 @@
-﻿using Kraken.Standard.Exceptions;
-using Kraken.Standard.Response;
+﻿using Kraken.Module.Exceptions;
+using Kraken.Module.Response;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

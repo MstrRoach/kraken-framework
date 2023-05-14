@@ -1,4 +1,4 @@
-﻿using Kraken.Standard.Outbox;
+﻿using Kraken.Module.Outbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;

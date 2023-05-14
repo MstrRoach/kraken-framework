@@ -1,5 +1,5 @@
-﻿using Kraken.Standard.Context;
-using Kraken.Standard.Request;
+﻿using Kraken.Module.Context;
+using Kraken.Module.Request.Mediator;
 using MediatR;
 using System;
 using System.Collections.Generic;

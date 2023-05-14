@@ -27,7 +27,6 @@ namespace Kraken.Host.Outbox
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task ProcessAsync(ProcessMessage message, CancellationToken cancellationToken = default)
         {
             try

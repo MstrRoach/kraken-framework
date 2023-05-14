@@ -1,6 +1,6 @@
 ﻿using Humanizer;
-using Kraken.Standard.Outbox;
-using Kraken.Standard.Processing;
+using Kraken.Module.Outbox;
+using Kraken.Module.Processing;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

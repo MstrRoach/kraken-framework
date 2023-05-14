@@ -1,6 +1,6 @@
-﻿using Kraken.Standard.Outbox;
-using Kraken.Standard.Processing;
-using Kraken.Standard.Request;
+﻿using Kraken.Module.Outbox;
+using Kraken.Module.Processing;
+using Kraken.Module.Request.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -29,10 +29,10 @@ namespace Kraken.Server.Outbox
             services.AddScoped(typeof(DefaultOutboxStorage<>));
             // Registro del despachador por defecto
             services.AddSingleton<IOutboxDispatcher, DefaultOutboxDispatcher>();
-            // Registro del distribuidor de mensajes
-            services.AddSingleton<DefaultOutboxBroker>();
             // Registramos el elemento a la lista de servicios de procesamiento
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingService, DefaultOutboxBroker>(sp => sp.GetRequiredService<DefaultOutboxBroker>()));
+            // Registro del distribuidor de mensajes
+            services.AddSingleton<DefaultOutboxBroker>();
             return services;
         }
     }

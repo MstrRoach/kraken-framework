@@ -1,7 +1,7 @@
 ﻿using AccessControl.Infrastructure;
-using Kraken.Standard.Outbox;
-using Kraken.Standard.Server;
-using Kraken.Standard.Transactions;
+using Kraken.Module.Outbox;
+using Kraken.Module.Server;
+using Kraken.Module.Transactions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AccessControl;

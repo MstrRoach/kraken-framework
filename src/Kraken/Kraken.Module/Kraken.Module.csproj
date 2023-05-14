@@ -11,18 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Reaction\" />
-    <Folder Include="Outbox\" />
-    <Folder Include="Transaction\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kraken.Standard\Kraken.Standard.csproj" />
   </ItemGroup>
 
 </Project>

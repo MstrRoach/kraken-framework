@@ -1,4 +1,4 @@
-﻿using Kraken.Standard.Exceptions;
+﻿using Kraken.Module.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;

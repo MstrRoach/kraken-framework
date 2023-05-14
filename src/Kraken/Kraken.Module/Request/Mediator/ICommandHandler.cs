@@ -1,6 +1,4 @@
-﻿using Kraken.Standard.Context;
-using Kraken.Standard.Request;
-using MediatR;
+﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 

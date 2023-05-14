@@ -1,5 +1,5 @@
-﻿using Kraken.Standard.Outbox;
-using Kraken.Standard.Server;
+﻿using Kraken.Module.Outbox;
+using Kraken.Module.Server;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

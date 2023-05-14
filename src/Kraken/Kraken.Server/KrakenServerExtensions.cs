@@ -1,4 +1,5 @@
-﻿using Kraken.Server.Common;
+﻿using Kraken.Module.Common;
+using Kraken.Server.Common;
 using Kraken.Server.Middlewares.Contexts;
 using Kraken.Server.Middlewares.Correlation;
 using Kraken.Server.Middlewares.ErrorHandling;
@@ -6,7 +7,6 @@ using Kraken.Server.Middlewares.Logging;
 using Kraken.Server.Outbox;
 using Kraken.Server.Request;
 using Kraken.Server.Transaction;
-using Kraken.Standard.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -47,6 +47,9 @@ public static class KrakenServerExtensions
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
 
         serverDescriptor.modules.ForEach(module => module.Register(builder.Services));
+
+        builder.Services.AddSingleton<ServerBootstrapper>()
+            .AddHostedService(x => x.GetRequiredService<ServerBootstrapper>());
         // =============== Configuracion por defecto de web api =========================
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

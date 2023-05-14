@@ -1,4 +1,4 @@
-﻿using Kraken.Standard.Context;
+﻿using Kraken.Module.Context;
 using System.Security.Claims;
 
 namespace Kraken.Server.Middlewares.Contexts;

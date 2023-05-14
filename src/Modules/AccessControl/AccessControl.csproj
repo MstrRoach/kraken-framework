@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Kraken\Kraken.Module\Kraken.Module.csproj" />
-    <ProjectReference Include="..\..\Kraken\Kraken.Standard\Kraken.Standard.csproj" />
   </ItemGroup>
 
   <ItemGroup>
