@@ -19,7 +19,7 @@ public static class InboxExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddReactions(this IServiceCollection services, List<Assembly> assemblies)
+    public static IServiceCollection AddTransactionalInbox(this IServiceCollection services, List<Assembly> assemblies)
     {
         // Obtenemos el registro de handlers
         var inboxHandlerRegistry = assemblies.GetInboxHandlerRegistry();
