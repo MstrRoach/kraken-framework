@@ -36,6 +36,8 @@ public static class ReactionExtensions
         services.AddSingleton<DefaultReactionStorageAccessor>();
         // Registramos el almacen por defecto
         services.AddScoped(typeof(DefaultReactionStorage<>));
+        // Registramos los middlewares
+
         return services;
     }
 
