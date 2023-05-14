@@ -44,7 +44,7 @@ internal class DefaultOutbox<TModule> : IOutbox
     public async Task Save(OutboxMessage message)
     {
         // Creamos la entidad de almacenamiento
-        var outboxMsg = new StorableMessage
+        var outboxMsg = new OutboxRecord
         {
             Id = message.Id,
             CorrelationId = message.CorrelationId,

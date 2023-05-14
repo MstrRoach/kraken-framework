@@ -29,10 +29,10 @@ internal class DefaultIdentityContext : IIdentityContext
     /// <param name="id"></param>
     /// <param name="role"></param>
     /// <param name="name"></param>
-    public DefaultIdentityContext(Guid? id, string role, string name)
+    public DefaultIdentityContext(string id, string role, string name)
     {
-        Id = id.ToString() ?? Guid.Empty.ToString();
-        IsAuthenticated = id.HasValue;
+        Id = id ?? Guid.Empty.ToString();
+        IsAuthenticated = Id != Guid.Empty.ToString();
         Role = role;
         Name = name;
     }

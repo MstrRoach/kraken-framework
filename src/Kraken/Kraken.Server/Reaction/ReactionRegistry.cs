@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,13 @@ internal class ReactionRegistry
     /// <returns></returns>
     public List<Type> Resolve(Type @event)
         => _eventReactions.TryGetValue(GetKey(@event), out var reactions) ? reactions : new();
+
+    /// <summary>
+    /// Obtiene la lista completa de las reacciones como una lista de solo lectura
+    /// </summary>
+    /// <returns></returns>
+    public ReadOnlyCollection<Type> GetAllReactions()
+        => _eventReactions.Values.SelectMany(x => x).ToList().AsReadOnly();
 
     /// <summary>
     /// Calcula la llave de un evento, a partir del tipo pasado por parametro

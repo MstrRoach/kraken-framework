@@ -17,14 +17,14 @@ namespace Kraken.Server.Outbox;
 internal class DefaultOutboxStorage<T> : IOutboxStorage<T>
     where T : IModule
 {
-    private static ConcurrentBag<StorableMessage> outboxMessages = new ConcurrentBag<StorableMessage>();
+    private static ConcurrentBag<OutboxRecord> outboxMessages = new ConcurrentBag<OutboxRecord>();
 
     /// <summary>
     /// Almmacena el mensaje en la lista de mensajes almacenables
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    public Task Save(StorableMessage message)
+    public Task Save(OutboxRecord message)
     {
         outboxMessages.Add(message);
         return Task.CompletedTask;
@@ -34,7 +34,7 @@ internal class DefaultOutboxStorage<T> : IOutboxStorage<T>
     /// Obtiene todos los menssajes que no estan enviados
     /// </summary>
     /// <returns></returns>
-    public Task<IEnumerable<StorableMessage>> GetUnsentAsync()
+    public Task<IEnumerable<OutboxRecord>> GetUnsentAsync()
     {
         var unsent = outboxMessages.Where(x => x.SentAt is null);
         return Task.FromResult(unsent);
@@ -54,7 +54,7 @@ internal class DefaultOutboxStorage<T> : IOutboxStorage<T>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<StorableMessage> Get(Guid id)
+    public Task<OutboxRecord> Get(Guid id)
     {
         var message = outboxMessages.Where(x => x.Id == id).FirstOrDefault();
         return Task.FromResult(message);

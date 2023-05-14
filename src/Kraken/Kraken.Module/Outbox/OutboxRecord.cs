@@ -10,7 +10,7 @@ namespace Kraken.Module.Outbox;
 /// Clase base para guardar los mensajes en la bandeja de salida
 /// transaccional
 /// </summary>
-public class StorableMessage
+public class OutboxRecord
 {
     /// <summary>
     /// Id del mensaje

@@ -20,20 +20,20 @@ where TModule : IModule
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    Task Save(StorableMessage message);
+    Task Save(OutboxRecord message);
 
     /// <summary>
     /// Obtiene los mensajes no enviados
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<StorableMessage>> GetUnsentAsync();
+    Task<IEnumerable<OutboxRecord>> GetUnsentAsync();
 
     /// <summary>
     /// Obtiene un evento por id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<StorableMessage> Get(Guid id);
+    Task<OutboxRecord> Get(Guid id);
 
     /// <summary>
     /// Realiza una limpieza de los eventos processados

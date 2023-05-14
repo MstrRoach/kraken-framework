@@ -33,6 +33,14 @@ public sealed class ModuleRegistry
     public Type? Resolve<T>() => _modules.TryGetValue(GetKey<T>(), out var type) ? type : null;
 
     /// <summary>
+    /// Obtiene a partir del tipo especificado el modulo al que pertenece y con ello
+    /// el configurador registrado segun ese ensamblado
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public Type? Resolve(Type type) => _modules.TryGetValue(type.GetModuleName(), out var module) ? module : null;
+
+    /// <summary>
     /// Obtiene el nombre del modulo a partir del tipo generico
     /// </summary>
     /// <typeparam name="T"></typeparam>

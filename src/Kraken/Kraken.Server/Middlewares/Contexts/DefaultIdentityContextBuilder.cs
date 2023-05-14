@@ -34,6 +34,17 @@ public sealed class DefaultIdentityContextBuilder
     }
 
     /// <summary>
+    /// Construye el contexto de identidad a partir de estos tres 
+    /// campos
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="role"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public IIdentityContext Build(string id, string role, string name)
+        => new DefaultIdentityContext(id, role, name);
+
+    /// <summary>
     /// Constructor no inicializado
     /// </summary>
     /// <returns></returns>
