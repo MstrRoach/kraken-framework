@@ -21,11 +21,18 @@ internal sealed class Outbox
     /// </summary>
     private readonly IJsonSerializer _serializer;
 
+    /// <summary>
+    /// Componente encargado de encolar los eventos y ejecutarlos
+    /// </summary>
+    private readonly OutboxBroker _outboxBroker;
+
     public Outbox(IOutboxStorage storage,
-        IJsonSerializer serializer)
+        IJsonSerializer serializer, 
+        OutboxBroker outboxBroker)
     {
         _storage = storage;
         _serializer = serializer;
+        _outboxBroker = outboxBroker;
     }
 
     /// <summary>
@@ -37,22 +44,22 @@ internal sealed class Outbox
     public async Task Save(OutboxMessage eventMessage)
     {
         // Convertimos el outbox message en outbox record para almacenarlo
-        var outboxRecord = new OutboxRecord(
-            eventMessage.Id,
-            eventMessage.CorrelationId,
-            eventMessage.TransactionId,
-            eventMessage.traceId,
-            eventMessage.origin,
-            eventMessage.User,
-            eventMessage.Username,
-            eventMessage.Event.GetType().Name.Underscore(),
-            eventMessage.Event.GetType().AssemblyQualifiedName,
-            _serializer.Serialize(eventMessage.Event),
-            DateTime.UtcNow,
-            null,
-            OutboxRecordStatus.InTransaction,
-            null
-        );
+        var outboxRecord = new OutboxRecord
+        {
+            Id = eventMessage.Id,
+            CorrelationId = eventMessage.CorrelationId,
+            TransactionId = eventMessage.TransactionId,
+            TraceId = eventMessage.traceId,
+            Origin = eventMessage.origin,
+            User = eventMessage.User,
+            Username = eventMessage.Username,
+            EventName = eventMessage.Event.GetType().Name.Underscore(),
+            EventType = eventMessage.Event.GetType().AssemblyQualifiedName,
+            Event = _serializer.Serialize(eventMessage.Event),
+            CreatedAt = DateTime.UtcNow,
+            LastUpdatedAt = DateTime.UtcNow,
+            Status = OutboxRecordStatus.Pending
+        };
         // Lo guardamos en el storage
         await _storage.Save(outboxRecord);
     }
@@ -62,11 +69,19 @@ internal sealed class Outbox
     /// </summary>
     /// <param name="transactionId"></param>
     /// <returns></returns>
-    public async Task ReleaseEvents(Guid transactionId)
+    public async Task Publish(Guid transactionId)
     {
         // Obtenemos los eventos de la transaccion desde el storage
         var events = await _storage.GetAll(transactionId);
-        
+        // Actualizamos los eventos para indicar su intento de procesamiento
+        var updatedEvents = events.ToList().Select(x => x with
+        {
+            ConfirmedAt = DateTime.UtcNow,
+            LastUpdatedAt = DateTime.UtcNow,
+            Status = OutboxRecordStatus.OnProcess
+        });
+        // Registramos en el storage
+        await _storage.UpdateAll(updatedEvents);
         // Convertimos todos los registros en eventos
         var messages = events.Select(x => new OutboxMessage(
                 x.Id,
@@ -80,11 +95,18 @@ internal sealed class Outbox
             )
         );
         // Recorremos la lista de mensajes para ponerlos en cola
-        foreach ( var message in messages )
-        {
-            // Lo agregamos a la cola de ejecucion
+        foreach (var message in messages)
+            _outboxBroker.EnqueueToExecute(message);
+    }
 
-        }
-        throw new NotImplementedException();
+    /// <summary>
+    /// Cancela los eventos para la transaccion pasada por parametro
+    /// </summary>
+    /// <param name="transactionId"></param>
+    /// <returns></returns>
+    public async Task Cleanup(Guid transactionId)
+    {
+        // Llamamos al storage para eliminar los registros que pertenecen a una transaccion
+        await _storage.DeleteAll(transactionId);
     }
 }

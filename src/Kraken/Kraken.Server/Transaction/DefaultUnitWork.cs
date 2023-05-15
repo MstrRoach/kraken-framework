@@ -16,7 +16,7 @@ internal class DefaultUnitWork<TModule> : IUnitWork<TModule>
     /// <summary>
     /// Id de la transaccion
     /// </summary>
-    public Guid TransactionId { get; private set; }
+    public Guid TransactionId { get; private set; } = Guid.NewGuid();
 
     /// <summary>
     /// Registro de eventos internos para logeo

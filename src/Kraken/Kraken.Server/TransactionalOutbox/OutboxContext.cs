@@ -24,31 +24,4 @@ internal class OutboxContext
     /// Solo puede existir una transaccion por modulo.
     /// </summary>
     public string Module { get; init; } = "Kraken";
-
-    /// <summary>
-    /// Lista de eventos de dominio que deben de enviarse a procesamiento
-    /// cuando se confirme la transaccion
-    /// </summary>
-    private List<OutboxMessage> events = new List<OutboxMessage>();
-
-    /// <summary>
-    /// Lista de solo lectura de los eventos almacenados dentro del contexto
-    /// </summary>
-    public IReadOnlyCollection<OutboxMessage> Events => events.AsReadOnly();
-
-    /// <summary>
-    /// Agrega el evento a la lista de eventos del contexto
-    /// </summary>
-    /// <param name="event"></param>
-    public void AddEventMessage(OutboxMessage @event)
-    {
-        if (@event is null)
-            return;
-        events.Add(@event);
-    }
-
-    /// <summary>
-    /// Limpia la lista de eventos
-    /// </summary>
-    public void Cleanup() => events.Clear();
 }

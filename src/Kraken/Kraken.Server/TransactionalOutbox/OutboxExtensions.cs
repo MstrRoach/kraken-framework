@@ -1,6 +1,8 @@
-﻿using Kraken.Module.Request.Mediator;
+﻿using Kraken.Module.Processing;
+using Kraken.Module.Request.Mediator;
 using Kraken.Module.TransactionalOutbox;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,13 @@ internal static class OutboxExtensions
         // Agregamos el servicio de bandeja de salidaa
         services.AddScoped<Outbox>();
         // Aggregamos el servicio de almacenamiento por defecto
-        services.AddScoped<IOutboxStorage, DefaultOutboxStorage>();
+        services.AddSingleton<IOutboxStorage, DefaultOutboxStorage>();
+        // Registramos el broker
+        services.AddSingleton<OutboxBroker>();
+        // Registramos el elemento a la lista de servicios de procesamiento
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingService, OutboxBroker>(sp => sp.GetRequiredService<OutboxBroker>()));
+        // Registramos el despachador por defecto
+        services.AddSingleton<IOutboxDispatcher, DefaultOutboxDispatcher>();
         return services;
     }
 }

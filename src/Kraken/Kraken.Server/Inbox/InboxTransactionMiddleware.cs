@@ -55,7 +55,7 @@ internal sealed class InboxTransactionMiddleware<TEvent, THandler> : IInboxMiddl
         }
         _logger.LogInformation("[TRANSACTION] Starting transaction");
         unitWork.StartTransaction();
-        await _eventPublisher.Publish(new TransactionStarted(unitWork.TransactionId));
+        //await _eventPublisher.Publish(new TransactionStarted(unitWork.TransactionId));
         _logger.LogInformation("[TRANSACTION] Transaction started with id {id}", unitWork.TransactionId);
         try
         {
@@ -63,14 +63,14 @@ internal sealed class InboxTransactionMiddleware<TEvent, THandler> : IInboxMiddl
             await next();
             _logger.LogInformation("[TRANSACTION] Command executed, confirming changes");
             await unitWork.Commit();
-            await _eventPublisher.Publish(new TransactionCommited(unitWork.TransactionId));
+            //await _eventPublisher.Publish(new TransactionCommited(unitWork.TransactionId));
             _logger.LogInformation("[TRANSACTION] <<<<<<<<<< Confirmed changes, finish operation");
         }
         catch (Exception)
         {
             _logger.LogInformation("[TRANSACTION] Error in the execution of the command. Reverting changes");
             await unitWork.Rollback();
-            await _eventPublisher.Publish(new TransacctionFailed(unitWork.TransactionId));
+            //await _eventPublisher.Publish(new TransacctionFailed(unitWork.TransactionId));
             _logger.LogInformation("[TRANSACTION] <<<<<<<<<< Reverted changes, finishing operation");
             throw;
         }

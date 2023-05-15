@@ -17,18 +17,16 @@ internal class CleanContextWhenTransactionFailed : IArchEventHandler<Transacctio
     /// <summary>
     /// Proveedor de contexto de bandeja de salida
     /// </summary>
-    private readonly ContextProvider _contextProvider;
+    private readonly Outbox _outbox;
 
-    public CleanContextWhenTransactionFailed(ContextProvider contextProvider)
+    public CleanContextWhenTransactionFailed(Outbox outbox)
     {
-        _contextProvider = contextProvider;
+        _outbox = outbox;
     }
 
-    public Task Handle(TransacctionFailed notification, CancellationToken cancellationToken)
+    public async Task Handle(TransacctionFailed notification, CancellationToken cancellationToken)
     {
-        // Limpiamos el contexto
-        _outboxContextProvider.Context.Cleanup();
-        // Salimos
-        return Task.CompletedTask;
+        // Cancelamos los eventos de la transaccion
+        await _outbox.Cleanup(notification.TransactionId);
     }
 }

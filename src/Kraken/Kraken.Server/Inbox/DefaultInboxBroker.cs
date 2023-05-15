@@ -1,5 +1,4 @@
 ﻿using Kraken.Module.Inbox;
-using Kraken.Module.Outbox;
 using Kraken.Module.Processing;
 using Microsoft.Extensions.Logging;
 using System;

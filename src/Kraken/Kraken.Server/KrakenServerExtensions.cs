@@ -44,7 +44,7 @@ public static class KrakenServerExtensions
         builder.Services.AddCommandAndQueryProcessing(serverDescriptor.assemblies);
         builder.Services.AddTransaction();
         builder.Services.AddTransactionalOutbox();
-        builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
+       // builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
         // =============== Configuracion de los servicios de modulo =====================
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
 

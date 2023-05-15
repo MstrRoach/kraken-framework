@@ -20,14 +20,6 @@ public interface IOutboxStorage
     Task Save(OutboxRecord record);
 
     /// <summary>
-    /// Actualiza los registros confirmando la transaccion y devolviendo todos
-    /// los registros actualizados
-    /// </summary>
-    /// <param name="transaction"></param>
-    /// <returns></returns>
-    Task<IEnumerable<OutboxRecord>> ConfirmTransaction(Guid transaction);
-
-    /// <summary>
     /// Obtiene todos los registros que pertenecen a la transaccion
     /// </summary>
     /// <param name="transaction"></param>
@@ -42,9 +34,27 @@ public interface IOutboxStorage
     Task Update(OutboxRecord record);
 
     /// <summary>
+    /// Actualiza un registro sin recuperarlo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="status"></param>
+    /// <param name="notes"></param>
+    /// <returns></returns>
+    Task Update(Guid id, OutboxRecordStatus status, DateTime? sentAt = null, string? notes = null);
+
+    /// <summary>
+    /// Actualiza todos los registros pasados de una sola vez
+    /// </summary>
+    /// <param name="updatedEvents"></param>
+    /// <returns></returns>
+    Task UpdateAll(IEnumerable<OutboxRecord> updatedEvents);
+
+    /// <summary>
     /// Elimina todos los registros que pertenecen a la transaccion
     /// </summary>
     /// <param name="transaction"></param>
     /// <returns></returns>
     Task DeleteAll(Guid transaction);
+
+    
 }

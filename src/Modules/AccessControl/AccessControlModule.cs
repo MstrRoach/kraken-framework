@@ -13,8 +13,8 @@ public class AccessControlModule : IModule
 
     public void Register(IServiceCollection services)
     {
-        services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
-        services.AddScoped<IOutboxStorage<AccessControlModule>, CommonOutboxStorage>();
-        services.AddScoped<IInboxStorage<AccessControlModule>, CommonReactionStorage>();
+        //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
+        //services.AddScoped<IOutboxStorage<AccessControlModule>, CommonOutboxStorage>();
+        //services.AddScoped<IInboxStorage<AccessControlModule>, CommonReactionStorage>();
     }
 }

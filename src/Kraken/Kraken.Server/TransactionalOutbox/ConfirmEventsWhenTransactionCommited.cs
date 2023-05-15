@@ -24,6 +24,6 @@ internal class ConfirmEventsWhenTransactionCommited : IArchEventHandler<Transact
 
     public async Task Handle(TransactionCommited notification, CancellationToken cancellationToken)
     {
-        await _outbox.ReleaseEvents(notification.TransactionId);
+        await _outbox.Publish(notification.TransactionId);
     }
 }

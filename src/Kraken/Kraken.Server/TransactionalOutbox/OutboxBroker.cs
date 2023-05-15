@@ -30,9 +30,15 @@ internal class OutboxBroker : IProcessingService
     /// </summary>
     private Channel<OutboxMessage> _raisedEventsChannel = default;
 
-    public OutboxBroker(ILogger<OutboxBroker> logger)
+    /// <summary>
+    /// Despachador de los eventos de bandeja de salida
+    /// </summary>
+    private IOutboxDispatcher _outboxDispatcher;
+
+    public OutboxBroker(ILogger<OutboxBroker> logger, IOutboxDispatcher outboxDispatcher)
     {
         _logger = logger;
+        _outboxDispatcher = outboxDispatcher;
     }
 
     /// <summary>
@@ -85,7 +91,7 @@ internal class OutboxBroker : IProcessingService
                     {
                         _logger.LogInformation("Message content: {data}", message.Event);
                         // Lo enviamos al despachador de eventos
-                        await _outboxDispatcher.ProcessAsync(message);
+                        await _outboxDispatcher.Process(message);
                     }
                     catch (OperationCanceledException)
                     {

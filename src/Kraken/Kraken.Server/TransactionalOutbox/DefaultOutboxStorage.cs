@@ -24,17 +24,6 @@ internal class DefaultOutboxStorage : IOutboxStorage
         return Task.CompletedTask;
     }
 
-    public Task<IEnumerable<OutboxRecord>> ConfirmTransaction(Guid transaction)
-    {
-        var processables = outboxRecords
-            .Where(x => x.Value.TransactionId == transaction)
-            .Select(x => x.Value).ToList();
-        processables.ForEach(x =>
-        {
-            x.
-        })
-    }
-
     public Task<IEnumerable<OutboxRecord>> GetAll(Guid transaction)
     {
         var processables = outboxRecords
@@ -52,6 +41,28 @@ internal class DefaultOutboxStorage : IOutboxStorage
         }
         outboxRecords[record.Id] = record;
         return Task.CompletedTask;
+    }
+
+    public Task Update(Guid id, OutboxRecordStatus status, DateTime? sentAt = null, string? notes = null)
+    {
+        if (!outboxRecords.ContainsKey(id))
+            return Task.CompletedTask;
+        outboxRecords[id] = outboxRecords[id] with
+        {
+            SentAt = sentAt,
+            LastUpdatedAt = DateTime.UtcNow,
+            Status = status,
+            Notes = notes
+        };
+        return Task.CompletedTask;
+    }
+
+    public async Task UpdateAll(IEnumerable<OutboxRecord> updatedEvents)
+    {
+        foreach (var record in updatedEvents)
+        {
+            await Update(record);
+        }
     }
 
     public async Task DeleteAll(Guid transaction)

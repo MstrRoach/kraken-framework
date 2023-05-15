@@ -1,4 +1,4 @@
-﻿using Kraken.Module.OutboxOld;
+﻿using Kraken.Module.TransactionalOutbox;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,27 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.OutboxOld;
+namespace Kraken.Server.TransactionalOutbox;
 
 internal class DefaultOutboxDispatcher : IOutboxDispatcher
 {
     /// <summary>
-    /// Proveedor de los servicios de la aplicacion
+    /// Almacen de los eventos despachados
+    /// </summary>
+    private readonly IOutboxStorage _storage;
+
+    /// <summary>
+    /// Proveedor de los servicios de aplicacion
     /// </summary>
     private readonly IServiceProvider _serviceProvider;
 
-    public DefaultOutboxDispatcher(IServiceProvider serviceProvider)
+    public DefaultOutboxDispatcher(IOutboxStorage storage, IServiceProvider serviceProvider)
     {
+        _storage = storage;
         _serviceProvider = serviceProvider;
     }
 
-    /// <summary>
-    /// Processa la distribucion de eventos.
-    /// </summary>
-    /// <param name="message"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    public async Task ProcessAsync(OutboxMessage message, CancellationToken cancellationToken = default)
+    public async Task Process(OutboxMessage message, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -37,10 +37,17 @@ internal class DefaultOutboxDispatcher : IOutboxDispatcher
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             await mediator.Publish(message.Event);
+            await _storage.Update(
+                id: message.Id, 
+                status: OutboxRecordStatus.Processed, 
+                sentAt: DateTime.UtcNow);
         }
         catch (Exception ex)
         {
-            // Loggeamos el error del evento
+            await _storage.Update(
+                id: message.Id, 
+                status: OutboxRecordStatus.Processed, 
+                notes: ex.Message);
         }
     }
 }
