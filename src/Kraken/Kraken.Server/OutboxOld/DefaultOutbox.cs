@@ -1,6 +1,6 @@
 ﻿using Humanizer;
 using Kraken.Module.Common;
-using Kraken.Module.Outbox;
+using Kraken.Module.OutboxOld;
 using Kraken.Module.Server;
 using System;
 using System.Collections.Generic;

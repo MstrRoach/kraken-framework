@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Outbox;
+namespace Kraken.Module.OutboxOld;
 
 /// <summary>
 /// Define el procesamiento de los eventos, de forma

@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Outbox;
+﻿using Kraken.Module.OutboxOld;
 using Kraken.Module.Server;
 using Microsoft.Extensions.Logging;
 using System;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Outbox;
+namespace Kraken.Module.OutboxOld;
 
 /// <summary>
 /// Interface para definir el sistema de almacenamiento para

@@ -1,27 +1,27 @@
-﻿using Kraken.Module.OutboxOld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.OutboxOld;
+namespace Kraken.Server.TransactionalOutbox;
 
 /// <summary>
-/// Proveedor de contexto asincrono para el control de la
-/// bandeja de salida transaccional
+/// Componente encargado de administrar el contexto para
+/// la bandeja de salida transaccional
 /// </summary>
-internal sealed class OutboxContextProvider
+internal sealed class ContextProvider
 {
     /// <summary>
-    /// Mantiene el contexto a traves de hilos de ejecucion
+    /// Mantiene el contexto para permitir la asignacion de un
+    /// contexto en el alcance de la solicitud actual
     /// </summary>
     private ContextHolder Holder = new();
 
     /// <summary>
     /// Accesor al contexto
     /// </summary>
-    public IOutboxContext Context
+    public OutboxContext Context
     {
         get => Holder.Context;
         set
@@ -47,6 +47,6 @@ internal sealed class OutboxContextProvider
     /// <param name="Context"></param>
     private record ContextHolder
     {
-        public IOutboxContext Context;
+        public OutboxContext Context;
     }
 }

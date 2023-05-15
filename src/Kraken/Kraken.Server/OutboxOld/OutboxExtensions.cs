@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Outbox;
+﻿using Kraken.Module.OutboxOld;
 using Kraken.Module.Processing;
 using Kraken.Module.Request.Mediator;
 using Microsoft.Extensions.DependencyInjection;

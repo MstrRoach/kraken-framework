@@ -1,6 +1,6 @@
 ﻿using Humanizer;
-using Kraken.Module.OutboxOld;
 using Kraken.Module.Processing;
+using Kraken.Module.TransactionalOutbox;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.OutboxOld;
+namespace Kraken.Server.TransactionalOutbox;
 
-internal class DefaultOutboxBroker : IProcessingService
+internal class OutboxBroker : IProcessingService
 {
     /// <summary>
     /// Logger del broker
     /// </summary>
-    private readonly ILogger<DefaultOutboxBroker> _logger;
+    private readonly ILogger<OutboxBroker> _logger;
 
     /// <summary>
     /// Origen del token de cancelacion
@@ -30,15 +30,9 @@ internal class DefaultOutboxBroker : IProcessingService
     /// </summary>
     private Channel<OutboxMessage> _raisedEventsChannel = default;
 
-    /// <summary>
-    /// Componente para procesar los eventos de la bandeja de salida
-    /// </summary>
-    private IOutboxDispatcher _outboxDispatcher;
-
-    public DefaultOutboxBroker(ILogger<DefaultOutboxBroker> logger, IOutboxDispatcher outboxDispatcher)
+    public OutboxBroker(ILogger<OutboxBroker> logger)
     {
         _logger = logger;
-        _outboxDispatcher = outboxDispatcher;
     }
 
     /// <summary>
@@ -48,7 +42,7 @@ internal class DefaultOutboxBroker : IProcessingService
     /// <exception cref="NotImplementedException"></exception>
     public void Start(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("[Outbox] Starting {name} processing >>>>>>", typeof(DefaultOutboxBroker).Name.Underscore());
+        _logger.LogInformation("[Outbox] Starting {name} processing >>>>>>", typeof(OutboxBroker).Name.Underscore());
         // Configuracion para la detencion del servicio
         stoppingToken.ThrowIfCancellationRequested();
         stoppingToken.Register(() => _cts.Cancel());
@@ -116,7 +110,6 @@ internal class DefaultOutboxBroker : IProcessingService
     /// Encola el mensaje dentro del canal para su procesamiento asincrono
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="NotImplementedException"></exception>
     public void EnqueueToExecute(OutboxMessage message)
     {
         try
@@ -146,6 +139,5 @@ internal class DefaultOutboxBroker : IProcessingService
         if (!_cts.IsCancellationRequested)
             _cts.Cancel();
     }
-
 
 }

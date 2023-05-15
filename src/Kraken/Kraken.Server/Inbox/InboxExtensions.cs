@@ -1,6 +1,6 @@
 ﻿using Kraken.Module;
 using Kraken.Module.Inbox;
-using Kraken.Module.Outbox;
+using Kraken.Module.OutboxOld;
 using Kraken.Module.Request.Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Humanizer;
 using Kraken.Module;
 using Kraken.Module.Context;
-using Kraken.Module.OutboxOld;
+using Kraken.Module.TransactionalOutbox;
 using Kraken.Module.Request.Mediator;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,8 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kraken.Module.OutboxOld;
 
-namespace Kraken.Server.OutboxOld;
+namespace Kraken.Server.TransactionalOutbox;
 
 /// <summary>
 /// Centralizador de los eventos de dominio. En kraken se definen diferentes tipos de
@@ -51,28 +52,24 @@ internal class OutboxEventPublisher : IEventPublisher
     /// <summary>
     /// Proveedor de contexto para el comando actual ejecutado
     /// </summary>
-    private readonly OutboxContextProvider _contextProvider;
+    private readonly ContextProvider _contextProvider;
 
     /// <summary>
-    /// Fabrica para la bandeja de salida
+    /// Bandeja de entrada encargada de coordinar las operaciones
     /// </summary>
-    private readonly DefaultOutboxFactory _outboxFactory;
+    private readonly Outbox _outbox;
 
-    /// <summary>
-    /// Constructor del bus de eventos
-    /// </summary>
-    /// <param name="inner"></param>
     public OutboxEventPublisher(IEventPublisher inner,
         ILogger<OutboxEventPublisher> logger,
         IContext context,
-        OutboxContextProvider contextProvider,
-        DefaultOutboxFactory outboxFactory)
+        ContextProvider contextProvider,
+        Outbox outbox)
     {
         _inner = inner;
         _logger = logger;
         _context = context;
         _contextProvider = contextProvider;
-        _outboxFactory = outboxFactory;
+        _outbox = outbox;
     }
 
     /// <summary>
@@ -85,23 +82,23 @@ internal class OutboxEventPublisher : IEventPublisher
     /// <param name="event"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task Publish<T>(T notification, CancellationToken cancellationToken = default) where T : INotification
+    public async Task Publish<T>(T @event, CancellationToken cancellationToken = default) where T : INotification
     {
         _logger.LogInformation("[OUTBOX EVENT BUS] Start event processing . . .");
         // Si la notificacion es nula, salimos
-        if (notification is null) return;
+        if (@event is null) return;
         // Si no es un evento de bandeja de salida
-        if (IsNotTransactionalEvent(notification))
+        if (IsNotTransactionalEvent(@event))
         {
             // Publicamos el evento en el publisher por defecto
             _logger.LogInformation("[OUTBOX EVENT BUS] Publish notification in system . . .");
-            await _inner.Publish(notification);
+            await _inner.Publish(@event);
             _logger.LogInformation("[OUTBOX EVENT BUS] Notification dispatching successfully");
             return;
         }
         _logger.LogInformation("[OUTBOX EVENT BUS] Creating message from notification");
         // Convertimos el tipo a un evento base, para obtener la informacion
-        var message = notification as IEvent ??
+        var message = @event as IEvent ??
             throw new InvalidOperationException("Event can not convert as IEvent");
         _logger.LogInformation("[OUTBOX EVENT BUS] Get information abount message");
         // Reunimos la informacion del evento
@@ -116,15 +113,23 @@ internal class OutboxEventPublisher : IEventPublisher
         // Logeamos la informacion del evento almacenado
         _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: {RequestId}, Message ID: {MessageId}, Correlation ID: {CorrelationId}, Trace ID: '{TraceId}', User ID: '{UserId}]...",
                 name, module, requestId, messageId, correlationId, traceId, userId);
-        // Envolvemos el evento en una entidad enriquecida para almacenarlo
-        var outboxMessage = new OutboxMessage(messageId, correlationId, userId, username, traceId, message);
+        // Creamos el envoltorio para el evento que permite almacenar el contexto
+        var eventMessage = new Module.TransactionalOutbox.OutboxMessage(
+            messageId,
+            correlationId,
+            _contextProvider.Context.TransactionId,
+            module,
+            userId,
+            username,
+            traceId,
+            message
+            );
         // Mandamos a guardar el menssaje en la bandeja de salida
         _logger.LogInformation("[OUTBOX EVENT BUS] Store message in outbox");
-        var outbox = _outboxFactory.Create<T>();
-        await outbox.Save(outboxMessage);
+        await _outbox.Save(eventMessage);
         _logger.LogInformation("[OUTBOX EVENT BUS] Save event in context for later processing");
-        // Lo agregamos al contexto de bandeja de salida
-        _contextProvider.Context.AddProcessMessage(outboxMessage);
+        // Ya no agregamos el evento al contexto a la espera de enviarlo
+        //_contextProvider.Context.AddEventMessage(eventMessage);
         _logger.LogInformation("[OUTBOX EVENT BUS] Finish event processing");
     }
 

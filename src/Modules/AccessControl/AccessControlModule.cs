@@ -1,6 +1,6 @@
 ﻿using AccessControl.Infrastructure;
 using Kraken.Module.Inbox;
-using Kraken.Module.Outbox;
+using Kraken.Module.OutboxOld;
 using Kraken.Module.Server;
 using Kraken.Module.Transactions;
 using Microsoft.Extensions.DependencyInjection;
