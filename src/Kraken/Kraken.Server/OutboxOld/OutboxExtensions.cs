@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Outbox
+namespace Kraken.Server.OutboxOld
 {
     internal static class OutboxExtensions
     {

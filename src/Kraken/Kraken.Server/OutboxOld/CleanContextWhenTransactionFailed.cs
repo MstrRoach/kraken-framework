@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Kraken.Module.Transactions;
 
-namespace Kraken.Server.Outbox;
+namespace Kraken.Server.OutboxOld;
 
 internal class CleanContextWhenTransactionFailed : IArchEventHandler<TransacctionFailed>
 {

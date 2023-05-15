@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Outbox;
+namespace Kraken.Server.OutboxOld;
 
 /// <summary>
 /// Implementacion por defecto para el almacen de los
@@ -60,7 +60,7 @@ internal class DefaultOutboxStorage<T> : IOutboxStorage<T>
         return Task.FromResult(message);
     }
 
-    
 
-    
+
+
 }

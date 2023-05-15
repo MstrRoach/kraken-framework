@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Outbox;
+namespace Kraken.Server.OutboxOld;
 
 internal class DefaultOutbox<TModule> : IOutbox
     where TModule : IModule
@@ -94,7 +94,7 @@ internal class DefaultOutbox<TModule> : IOutbox
         if (stored is null)
             return message;
         var @event = _serializer.Deserialize(stored.Data, Type.GetType(stored.Type));
-        message =  new OutboxMessage(stored.Id, stored.CorrelationId, stored.UserId, stored.Name, stored.TraceId, @event);
+        message = new OutboxMessage(stored.Id, stored.CorrelationId, stored.UserId, stored.Name, stored.TraceId, @event);
         return message;
     }
 

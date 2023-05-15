@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Outbox;
+namespace Kraken.Server.OutboxOld;
 
 internal class DefaultOutboxContext : IOutboxContext
 {
@@ -34,7 +34,7 @@ internal class DefaultOutboxContext : IOutboxContext
 
     public DefaultOutboxContext(Guid transactionId)
     {
-        this.TransactionId = transactionId;
+        TransactionId = transactionId;
     }
 
     /// <summary>
@@ -53,6 +53,6 @@ internal class DefaultOutboxContext : IOutboxContext
     /// </summary>
     public void Cleanup()
     {
-        this.events.Clear();
+        events.Clear();
     }
 }

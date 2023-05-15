@@ -5,7 +5,7 @@ using Kraken.Server.Middlewares.Contexts;
 using Kraken.Server.Middlewares.Correlation;
 using Kraken.Server.Middlewares.ErrorHandling;
 using Kraken.Server.Middlewares.Logging;
-using Kraken.Server.Outbox;
+using Kraken.Server.OutboxOld;
 using Kraken.Server.Request;
 using Kraken.Server.Transaction;
 using Microsoft.AspNetCore.Builder;

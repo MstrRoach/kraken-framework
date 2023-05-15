@@ -1,7 +1,7 @@
 ﻿using Kraken.Module.Transactions;
 using Kraken.Server.Request;
 
-namespace Kraken.Server.Outbox;
+namespace Kraken.Server.OutboxOld;
 
 internal class EnqueueEventsWhenTransactionCommited : IArchEventHandler<TransactionCommited>
 {
