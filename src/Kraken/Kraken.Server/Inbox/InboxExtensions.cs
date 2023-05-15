@@ -1,4 +1,5 @@
 ﻿using Kraken.Module;
+using Kraken.Module.Inbox;
 using Kraken.Module.Outbox;
 using Kraken.Module.Request.Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,13 +32,14 @@ public static class InboxExtensions
         // Lo registramos como singlenton
         services.AddSingleton(inboxHandlerRegistry);
         // Registramos el procesador para que lo tome en lugar del default
-        services.AddSingleton<IOutboxDispatcher, DefaultInboxDispatcher>();
+        services.AddSingleton<IOutboxDispatcher, InboxOutboxDispatcher>();
         // Registramos el accesor al almacen de handlers
         services.AddSingleton<DefaultInboxStorageAccessor>();
         // Registramos el almacen por defecto
         services.AddScoped(typeof(DefaultInboxStorage<>));
         // Registramos los middlewares
-
+        services.AddTransient(typeof(IInboxMiddleware<,>), typeof(InboxLoggingMiddleware<,>));
+        services.AddTransient(typeof(IInboxMiddleware<,>), typeof(InboxTransactionMiddleware<,>));
         return services;
     }
 

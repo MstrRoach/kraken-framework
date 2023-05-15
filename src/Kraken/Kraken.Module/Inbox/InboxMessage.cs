@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Module.Inbox;
 
+
 /// <summary>
 /// Registro con el evento y la reaccion que debe procesar
 /// </summary>
@@ -17,14 +18,14 @@ public class InboxMessage
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Id de correlacion para la reaccion
-    /// </summary>
-    public Guid CorrelationId { get; set; }
-
-    /// <summary>
     /// Id del evento que generó la reaccion
     /// </summary>
     public Guid EventId { get; set; }
+
+    /// <summary>
+    /// Id de correlacion para la reaccion
+    /// </summary>
+    public Guid CorrelationId { get; set; }
 
     /// <summary>
     /// Indica cual es el evento asociado a la reaccion

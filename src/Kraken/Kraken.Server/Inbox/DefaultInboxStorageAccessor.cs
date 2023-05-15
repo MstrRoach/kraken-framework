@@ -95,4 +95,10 @@ public class DefaultInboxStorageAccessor
             await defaultInboxStorage.SaveAll(moduleHandlersRelation[module]);
         }
     }
+
+    public Task Update(InboxMessage record)
+    {
+        throw new NotImplementedException();
+    }
+
 }

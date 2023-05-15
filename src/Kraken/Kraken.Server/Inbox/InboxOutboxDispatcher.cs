@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Kraken.Server.Inbox;
 
-internal class DefaultInboxDispatcher : IOutboxDispatcher
+internal class InboxOutboxDispatcher : IOutboxDispatcher
 {
     /// <summary>
     /// Registro donde tenemos el control de los handlers que corresponden a cada
@@ -33,7 +33,7 @@ internal class DefaultInboxDispatcher : IOutboxDispatcher
     /// </summary>
     /// <param name="inboxHandlerRegistry"></param>
     /// <param name="serviceProvider"></param>
-    public DefaultInboxDispatcher(InboxHandlerRegistry inboxHandlerRegistry,
+    public InboxOutboxDispatcher(InboxHandlerRegistry inboxHandlerRegistry,
             IServiceProvider serviceProvider,
             DefaultInboxStorageAccessor inboxStorageAccessor)
     {
@@ -67,6 +67,8 @@ internal class DefaultInboxDispatcher : IOutboxDispatcher
         }).ToList();
         // Mandamos a guardar los registros de reaccion
         await _inboxStorageAccessor.SaveAll(inboxMessages);
+        // Los mandamos a la cola para agregarlos
+
         // Creamos el tipo generico para el builder de reacciones
         var inboxHandlerBuilderOpenType = typeof(InboxHandlerBuilder<,>);
         // Recorremos las reacciones para procesarlas
