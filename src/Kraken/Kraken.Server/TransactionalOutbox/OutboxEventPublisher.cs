@@ -1,8 +1,8 @@
 ﻿using Humanizer;
 using Kraken.Module;
 using Kraken.Module.Context;
-using Kraken.Module.TransactionalOutbox;
 using Kraken.Module.Request.Mediator;
+using Kraken.Module.TransactionalOutbox;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

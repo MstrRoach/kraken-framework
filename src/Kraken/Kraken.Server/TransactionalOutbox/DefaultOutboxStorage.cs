@@ -1,5 +1,4 @@
-﻿using Kraken.Module.Inbox;
-using Kraken.Module.TransactionalOutbox;
+﻿using Kraken.Module.TransactionalOutbox;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

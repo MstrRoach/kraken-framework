@@ -63,6 +63,7 @@ public interface IModuleEvent : IEvent
 
 }
 
+
 /// <summary>
 /// Interface para definir los eventos de arquitectura, que permiten
 /// realizar un conjunto de operaciones de coordinacion entre componentes
@@ -77,3 +78,4 @@ public interface IArchEvent : IEvent
     string Component { get; }
 
 }
+

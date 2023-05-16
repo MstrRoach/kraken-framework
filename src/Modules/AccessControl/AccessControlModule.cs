@@ -1,5 +1,5 @@
 ﻿using AccessControl.Infrastructure;
-using Kraken.Module.Server;
+using Kraken.Module.Common;
 using Kraken.Module.Transaction;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +12,5 @@ public class AccessControlModule : IModule
     public void Register(IServiceCollection services)
     {
         //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
-        //services.AddScoped<IOutboxStorage<AccessControlModule>, CommonOutboxStorage>();
-        //services.AddScoped<IInboxStorage<AccessControlModule>, CommonReactionStorage>();
     }
 }

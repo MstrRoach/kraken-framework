@@ -11,12 +11,12 @@ namespace Kraken.Module.TransactionalOutbox;
 /// de un evento que debe ser ejecuctado
 /// </summary>
 public record OutboxMessage(
-    Guid Id, 
-    Guid CorrelationId, 
-    Guid TransactionId, 
-    string Origin, 
-    string User, 
-    string Username, 
-    string TraceId, 
+    Guid Id,
+    Guid CorrelationId,
+    Guid TransactionId,
+    string Origin,
+    string User,
+    string Username,
+    string TraceId,
     object Event
 );

@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Server;
+﻿using Kraken.Module.Common;
 using Kraken.Module.TransactionalOutbox;
 using Kraken.Module.TransactionalReaction;
 using Kraken.Server.Middlewares.Contexts;

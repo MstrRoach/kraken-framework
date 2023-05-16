@@ -1,5 +1,4 @@
 ﻿using Kraken.Server.Middlewares.Correlation;
-using Kraken.Module.Context;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Kraken.Module.Context;
 
 namespace Kraken.Server.Middlewares.Contexts;
 

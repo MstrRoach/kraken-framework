@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Server;
+﻿using Kraken.Module.Common;
 using Kraken.Module.Transaction;
 using System;
 using System.Collections.Generic;

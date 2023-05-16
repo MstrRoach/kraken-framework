@@ -56,5 +56,5 @@ public interface IOutboxStorage
     /// <returns></returns>
     Task DeleteAll(Guid transaction);
 
-    
+
 }

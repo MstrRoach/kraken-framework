@@ -1,10 +1,10 @@
 ﻿using Kraken.Module.Request.Mediator;
-using Kraken.Module.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kraken.Module.Context;
 
 namespace AccessControl.App.Test;
 

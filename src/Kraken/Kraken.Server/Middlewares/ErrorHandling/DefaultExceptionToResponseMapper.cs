@@ -1,5 +1,4 @@
-﻿using Kraken.Module.Exceptions;
-using Kraken.Module.Response;
+﻿using Kraken.Module.Response;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using Humanizer;
+using Kraken.Module.Exceptions;
 
 namespace Kraken.Server.Middlewares.ErrorHandling;
 

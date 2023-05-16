@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Server;
+﻿using Kraken.Module.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;

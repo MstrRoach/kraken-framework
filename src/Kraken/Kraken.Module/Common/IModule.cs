@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Server;
+namespace Kraken.Module.Common;
 
 /// <summary>
 /// Interface para configurar y usar los modulos

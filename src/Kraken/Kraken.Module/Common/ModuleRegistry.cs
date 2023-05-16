@@ -1,11 +1,10 @@
-﻿using Kraken.Module;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Server;
+namespace Kraken.Module.Common;
 
 public sealed class ModuleRegistry
 {

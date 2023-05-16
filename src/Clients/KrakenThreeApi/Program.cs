@@ -13,6 +13,7 @@ var krakenApp = builder.ConfigureKrakenServer(server =>
 {
     server.AddModule<AccessControlModule>();
     server.AddOutboxStorage<InMemoryOutboxStorage>();
+    server.AddReactionStorage<InMemoryReactionStorage>();
     server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>

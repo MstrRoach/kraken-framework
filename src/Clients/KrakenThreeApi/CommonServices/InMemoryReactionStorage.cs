@@ -1,18 +1,9 @@
 ﻿using Kraken.Module.TransactionalReaction;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Kraken.Server.TransactionalReaction;
+namespace KrakenThreeApi.CommonServices;
 
-/// <summary>
-/// Componente encargado de almacenar las reacciones
-/// utilizando una immplementacion por defecto
-/// </summary>
-internal class DefaultReactionStorage : IReactionStorage
+public class InMemoryReactionStorage : IReactionStorage
 {
     private static ConcurrentDictionary<Guid, ReactionRecord> reactionRecords = new ConcurrentDictionary<Guid, ReactionRecord>();
 

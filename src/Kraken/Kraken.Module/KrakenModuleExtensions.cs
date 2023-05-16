@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Kraken.Module;
 
-public static class KrakenExtensions
+public static class KrakenModuleExtensions
 {
     /// <summary>
     /// Obtiene el nombre del modulo al que pertenece el comando
