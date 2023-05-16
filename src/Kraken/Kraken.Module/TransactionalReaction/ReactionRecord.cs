@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Module.TransactionalReaction;
 
-public class ReactionRecord
+public record ReactionRecord
 {
     /// <summary>
     /// Id de la reaccion

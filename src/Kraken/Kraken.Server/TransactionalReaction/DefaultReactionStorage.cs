@@ -1,4 +1,5 @@
-﻿using Kraken.Module.TransactionalReaction;
+﻿using Kraken.Module.TransactionalOutbox;
+using Kraken.Module.TransactionalReaction;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -29,5 +30,19 @@ internal class DefaultReactionStorage : IReactionStorage
         {
             await Save(record);
         }
+    }
+
+    public Task Update(Guid id, ReactionRecordStatus status, DateTime? sentAt = null, string? notes = null)
+    {
+        if (!reactionRecords.ContainsKey(id))
+            return Task.CompletedTask;
+        reactionRecords[id] = reactionRecords[id] with
+        {
+            SentAt = sentAt,
+            LastUpdatedAt = DateTime.UtcNow,
+            Status = status,
+            Notes = notes
+        };
+        return Task.CompletedTask;
     }
 }

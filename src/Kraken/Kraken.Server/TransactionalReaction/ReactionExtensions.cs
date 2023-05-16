@@ -51,6 +51,7 @@ internal static class ReactionExtensions
         // Agregamos los middlewares
         services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionLoggingMiddleware<,>));
         services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionTransactionalMiddleware<,>));
+        services.AddTransient(typeof(IReactionMiddleware<,>),typeof(ReactionConfirmationMiddleware<,>));
         return services;
     }
 
