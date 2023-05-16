@@ -14,9 +14,9 @@ public record OutboxMessage(
     Guid Id, 
     Guid CorrelationId, 
     Guid TransactionId, 
-    string origin, 
+    string Origin, 
     string User, 
     string Username, 
-    string traceId, 
+    string TraceId, 
     object Event
 );

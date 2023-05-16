@@ -1,7 +1,10 @@
 ﻿using Kraken.Module;
-using Kraken.Module.Inbox;
+using Kraken.Module.Processing;
 using Kraken.Module.Request.Mediator;
+using Kraken.Module.TransactionalOutbox;
+using Kraken.Module.TransactionalReaction;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +12,16 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.Inbox;
+namespace Kraken.Server.TransactionalReaction;
 
-public static class InboxExtensions
+internal static class TransactionalReactionExtensions
 {
-
     /// <summary>
-    /// Agrega el componente de inbox a la aplicacion
+    /// Agrega el soporte para reacciones transaccionales en los modulos
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddTransactionalInbox(this IServiceCollection services, List<Assembly> assemblies)
+    public static IServiceCollection AddTransactionalReaction(this IServiceCollection services, List<Assembly> assemblies, ServiceDescriptor? reactionStorageDescriptor)
     {
         // Obtenemos el registro de handlers
         var inboxHandlerRegistry = assemblies.GetInboxHandlerRegistry();
@@ -28,17 +30,24 @@ public static class InboxExtensions
             .GetAllHandlers()
             .ToList()
             .ForEach(x => services.AddTransient(x));
-        // Lo registramos como singlenton
+        // Lo registramos como singleton
         services.AddSingleton(inboxHandlerRegistry);
-        // Registramos el procesador para que lo tome en lugar del default
-        //services.AddSingleton<IOutboxDispatcher, InboxOutboxDispatcher>();
-        // Registramos el accesor al almacen de handlers
-        services.AddSingleton<DefaultInboxStorageAccessor>();
-        // Registramos el almacen por defecto
-        services.AddScoped(typeof(DefaultInboxStorage<>));
-        // Registramos los middlewares
-        services.AddTransient(typeof(IInboxMiddleware<,>), typeof(InboxLoggingMiddleware<,>));
-        services.AddTransient(typeof(IInboxMiddleware<,>), typeof(InboxTransactionMiddleware<,>));
+        // Registramos el procesador de eventos
+        services.AddSingleton<IOutboxDispatcher, ReactionOutboxDispatcher>();
+        // Registramos el centralizador de reacciones
+        services.AddSingleton<Reactor>();
+        // Aggregamos el servicio de almacenamiento por defecto
+        services.Add(reactionStorageDescriptor ?? ServiceDescriptor.Describe(
+            typeof(IReactionStorage),
+            typeof(DefaultReactionStorage),
+            ServiceLifetime.Singleton
+            ));
+        // Agregamos el broker
+        services.AddSingleton<ReactionBroker>();
+        // Registraos el broker en los servicios de procesamiento
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingService,ReactionBroker>(sp => sp.GetRequiredService<ReactionBroker>()));
+        // Registramos el procesador
+        services.AddSingleton<ReactionProcessor>();
         return services;
     }
 
@@ -47,7 +56,7 @@ public static class InboxExtensions
     /// </summary>
     /// <param name="assemblies"></param>
     /// <returns></returns>
-    private static InboxHandlerRegistry GetInboxHandlerRegistry(this List<Assembly> assemblies)
+    private static ReactionRegistry GetInboxHandlerRegistry(this List<Assembly> assemblies)
     {
         // Definicion de interfaces abiertas
         var domainEventHandlerOpenType = typeof(IDomainEventHandler<>);
@@ -61,7 +70,7 @@ public static class InboxExtensions
         domainEventReactions.AddRange(moduleEventReactions);
 
         // Creamos el contenedor de las reacciones
-        var reactionRegistry = new InboxHandlerRegistry();
+        var reactionRegistry = new ReactionRegistry();
 
         // Agregamos cada reaccion agrupada al registro de reacciones
         domainEventReactions.ForEach(x => reactionRegistry.Register(x.Key, x.ToList()));
@@ -80,7 +89,7 @@ public static class InboxExtensions
         .SelectMany(assembly => assembly.GetTypes())
         .Where(type => !type.IsOpenGeneric())
         .Where(type => type.FindInterfacesThatClose(openTypeToSearch).Any())
-        .Select(type => new InboxEvent(type.GetHandlerArgument(openTypeToSearch.Name), type))
+        .Select(type => new ReactionEvent(type.GetHandlerArgument(openTypeToSearch.Name), type))
         .GroupBy(eventReaction => eventReaction.Event, eventReaction => eventReaction.Handler)
         .ToList();
 }

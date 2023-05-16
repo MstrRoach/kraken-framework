@@ -2,6 +2,7 @@ using AccessControl;
 using Kraken.Server;
 using Kraken.Server.Middlewares.Cors;
 using Kraken.Server.Middlewares.Documentation;
+using KrakenThreeApi.CommonServices;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var krakenApp = builder.ConfigureKrakenServer(server =>
 {
     server.AddModule<AccessControlModule>();
+    server.AddOutboxStorage<InMemoryOutboxStorage>();
     server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>

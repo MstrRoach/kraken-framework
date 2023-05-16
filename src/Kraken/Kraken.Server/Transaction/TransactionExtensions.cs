@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Transactions;
+﻿using Kraken.Module.Transaction;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

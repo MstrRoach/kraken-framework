@@ -1,6 +1,9 @@
 ﻿using Kraken.Module.Server;
+using Kraken.Module.TransactionalOutbox;
+using Kraken.Module.TransactionalReaction;
 using Kraken.Server.Middlewares.Contexts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -97,6 +100,46 @@ public class ServerDescriptor
     /// Contiene la aplicacion web con los servicios agregados
     /// </summary>
     public WebApplication App { get; internal set; }
+
+    /// <summary>
+    /// Descriptor del servicio de bandeja de salida
+    /// </summary>
+    internal ServiceDescriptor? OutboxStorageDescriptor;
+
+    /// <summary>
+    /// Permite registrar un servicio para el almacenamiento para la
+    /// bandeja de entrada transaccional
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public void AddOutboxStorage<T>()
+        where T : IOutboxStorage
+    {
+        OutboxStorageDescriptor = ServiceDescriptor.Describe(
+            typeof(IOutboxStorage),
+            typeof(T),
+            ServiceLifetime.Singleton
+        );
+    }
+
+    /// <summary>
+    /// Descriptor del servicio de almacenamiento para las reacciones
+    /// </summary>
+    internal ServiceDescriptor? ReactionStorageDescriptor;
+
+    /// <summary>
+    /// Permite registrar un servicio para el almacenamiento para
+    /// las reacciones
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public void AddReactionStorage<T>()
+        where T : IReactionStorage
+    {
+        ReactionStorageDescriptor = ServiceDescriptor.Describe(
+            typeof(IReactionStorage),
+            typeof(T),
+            ServiceLifetime.Singleton
+        );
+    }
 
     /// <summary>
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 

@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Kraken.Module.OutboxOld;
 
 namespace Kraken.Server.TransactionalOutbox;
 
@@ -114,7 +113,7 @@ internal class OutboxEventPublisher : IEventPublisher
         _logger.LogInformation("Publishing a message: {Name} ({Module}) [Request ID: {RequestId}, Message ID: {MessageId}, Correlation ID: {CorrelationId}, Trace ID: '{TraceId}', User ID: '{UserId}]...",
                 name, module, requestId, messageId, correlationId, traceId, userId);
         // Creamos el envoltorio para el evento que permite almacenar el contexto
-        var eventMessage = new Module.TransactionalOutbox.OutboxMessage(
+        var eventMessage = new OutboxMessage(
             messageId,
             correlationId,
             _contextProvider.Context.TransactionId,

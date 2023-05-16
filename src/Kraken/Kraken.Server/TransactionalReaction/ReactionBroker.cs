@@ -1,6 +1,6 @@
 ﻿using Humanizer;
 using Kraken.Module.Processing;
-using Kraken.Module.TransactionalOutbox;
+using Kraken.Module.TransactionalReaction;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Kraken.Server.TransactionalOutbox;
+namespace Kraken.Server.TransactionalReaction;
 
-internal class OutboxBroker : IProcessingService
+internal class ReactionBroker : IProcessingService
 {
     /// <summary>
     /// Logger del broker
     /// </summary>
-    private readonly ILogger<OutboxBroker> _logger;
+    private readonly ILogger<ReactionBroker> _logger;
 
     /// <summary>
     /// Origen del token de cancelacion
@@ -28,32 +28,27 @@ internal class OutboxBroker : IProcessingService
     /// que deben de procesarse despues que la unidad de
     /// trabajo confirmo cambios
     /// </summary>
-    private Channel<OutboxMessage> _raisedEventsChannel = default;
+    private Channel<ReactionMessage> _raisedReactionsChannel = default;
 
     /// <summary>
-    /// Despachador de los eventos de bandeja de salida
+    /// Procesador de los eventos
     /// </summary>
-    private OutboxProcessor _outboxProcessor;
+    private readonly ReactionProcessor _processor;
 
-    public OutboxBroker(ILogger<OutboxBroker> logger, OutboxProcessor outboxProcessor)
+    public ReactionBroker(ILogger<ReactionBroker> logger, ReactionProcessor processor)
     {
         _logger = logger;
-        _outboxProcessor = outboxProcessor;
+        _processor = processor;
     }
 
-    /// <summary>
-    /// Inicia la configuracion del proceso y la ejecucion del mismo
-    /// </summary>
-    /// <param name="stoppingToken"></param>
-    /// <exception cref="NotImplementedException"></exception>
     public void Start(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("[Outbox] Starting {name} processing >>>>>>", typeof(OutboxBroker).Name.Underscore());
+        _logger.LogInformation("[Reactor] Starting {name} processing >>>>>>", typeof(ReactionBroker).Name.Underscore());
         // Configuracion para la detencion del servicio
         stoppingToken.ThrowIfCancellationRequested();
         stoppingToken.Register(() => _cts.Cancel());
         // Configuracion de los canales
-        _raisedEventsChannel = Channel.CreateBounded<OutboxMessage>(new BoundedChannelOptions(5000)
+        _raisedReactionsChannel = Channel.CreateBounded<ReactionMessage>(new BoundedChannelOptions(5000)
         {
             AllowSynchronousContinuations = true,
             SingleReader = true,
@@ -82,16 +77,16 @@ internal class OutboxBroker : IProcessingService
         try
         {
             // Esperamos para leer del canal
-            while (await _raisedEventsChannel.Reader.WaitToReadAsync(cancellationToken))
+            while (await _raisedReactionsChannel.Reader.WaitToReadAsync(cancellationToken))
             {
                 // Intentamos recuperar un valor
-                while (_raisedEventsChannel.Reader.TryRead(out var message))
+                while (_raisedReactionsChannel.Reader.TryRead(out var message))
                 {
                     try
                     {
                         _logger.LogInformation("Message content: {data}", message.Event);
                         // Lo enviamos al despachador de eventos
-                        await _outboxProcessor.Process(message);
+                        await _processor.Process(message);
                     }
                     catch (OperationCanceledException)
                     {
@@ -116,18 +111,18 @@ internal class OutboxBroker : IProcessingService
     /// Encola el mensaje dentro del canal para su procesamiento asincrono
     /// </summary>
     /// <param name="message"></param>
-    public void EnqueueToExecute(OutboxMessage message)
+    public void EnqueueToExecute(ReactionMessage message)
     {
         try
         {
             // Si lo logra agregar, salimos
-            if (_raisedEventsChannel.Writer.TryWrite(message))
+            if (_raisedReactionsChannel.Writer.TryWrite(message))
                 return;
             // Esperamos para agregarlo al canal
-            while (_raisedEventsChannel.Writer.WaitToWriteAsync(_cts.Token).AsTask().ConfigureAwait(false).GetAwaiter().GetResult())
+            while (_raisedReactionsChannel.Writer.WaitToWriteAsync(_cts.Token).AsTask().ConfigureAwait(false).GetAwaiter().GetResult())
             {
                 // Si se agrega salimos
-                if (_raisedEventsChannel.Writer.TryWrite(message))
+                if (_raisedReactionsChannel.Writer.TryWrite(message))
                     return;
             }
         }
@@ -145,5 +140,4 @@ internal class OutboxBroker : IProcessingService
         if (!_cts.IsCancellationRequested)
             _cts.Cancel();
     }
-
 }

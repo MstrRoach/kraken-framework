@@ -1,6 +1,6 @@
 ﻿using Kraken.Module;
 using Kraken.Module.Request.Mediator;
-using Kraken.Module.Transactions;
+using Kraken.Module.Transaction;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

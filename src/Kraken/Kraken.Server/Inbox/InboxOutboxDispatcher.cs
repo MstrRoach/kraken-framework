@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediatR;
-using Kraken.Module.OutboxOld;
+using Kraken.Module.TransactionalOutbox;
 
 namespace Kraken.Server.Inbox;
 
@@ -42,7 +42,7 @@ internal class InboxOutboxDispatcher : IOutboxDispatcher
         _inboxStorageAccessor = inboxStorageAccessor;
     }
 
-    public async Task ProcessAsync(OutboxMessage message, CancellationToken cancellationToken = default)
+    public async Task Process(OutboxMessage message, CancellationToken cancellationToken = default)
     {
         // Obtenemos los handlers para los eventos entrantes
         var handlers = _inboxHandlerRegistry.Resolve(message.Event.GetType());
@@ -51,7 +51,7 @@ internal class InboxOutboxDispatcher : IOutboxDispatcher
             message.CorrelationId,
             message.TraceId,
             new DefaultIdentityContext(
-                message.UserId,
+                message.User,
                 "Unknow",
                 message.Username
                 )

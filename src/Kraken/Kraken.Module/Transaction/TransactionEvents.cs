@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Transactions;
+namespace Kraken.Module.Transaction;
 
 /// <summary>
 /// Evento para indicar que una transaccion ha sido iniciada

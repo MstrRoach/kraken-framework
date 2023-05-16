@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Transactions;
+namespace Kraken.Module.Transaction;
 
 /// <summary>
 /// Evento base para los eventos de la unidad de trabajo

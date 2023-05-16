@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Module.Transactions;
+namespace Kraken.Module.Transaction;
 
 /// <summary>
 /// Define la unidad de trabajo para las

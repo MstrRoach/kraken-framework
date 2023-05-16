@@ -13,7 +13,7 @@ namespace Kraken.Server.TransactionalOutbox;
 
 internal static class OutboxExtensions
 {
-    public static IServiceCollection AddTransactionalOutbox(this IServiceCollection services)
+    public static IServiceCollection AddTransactionalOutbox(this IServiceCollection services, ServiceDescriptor? outboxStorageDescriptor)
     {
         // Registramos el proveedor de contexto
         services.AddScoped<ContextProvider>();
@@ -22,12 +22,18 @@ internal static class OutboxExtensions
         // Agregamos el servicio de bandeja de salidaa
         services.AddScoped<Outbox>();
         // Aggregamos el servicio de almacenamiento por defecto
-        services.AddSingleton<IOutboxStorage, DefaultOutboxStorage>();
+        services.Add(outboxStorageDescriptor ?? ServiceDescriptor.Describe(
+            typeof(IOutboxStorage),
+            typeof(DefaultOutboxStorage),
+            ServiceLifetime.Singleton
+            ));
         // Registramos el broker
         services.AddSingleton<OutboxBroker>();
         // Registramos el elemento a la lista de servicios de procesamiento
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingService, OutboxBroker>(sp => sp.GetRequiredService<OutboxBroker>()));
         // Registramos el despachador por defecto
+        services.AddSingleton<OutboxProcessor>();
+        // Registramos el despachador de eventos
         services.AddSingleton<IOutboxDispatcher, DefaultOutboxDispatcher>();
         return services;
     }

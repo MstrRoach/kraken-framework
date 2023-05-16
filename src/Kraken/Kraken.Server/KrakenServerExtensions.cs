@@ -8,6 +8,7 @@ using Kraken.Server.Middlewares.Logging;
 using Kraken.Server.Request;
 using Kraken.Server.Transaction;
 using Kraken.Server.TransactionalOutbox;
+using Kraken.Server.TransactionalReaction;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +44,8 @@ public static class KrakenServerExtensions
         // =============== Configuracion de las caracteristicas centrales ===============
         builder.Services.AddCommandAndQueryProcessing(serverDescriptor.assemblies);
         builder.Services.AddTransaction();
-        builder.Services.AddTransactionalOutbox();
+        builder.Services.AddTransactionalOutbox(serverDescriptor.OutboxStorageDescriptor);
+        builder.Services.AddTransactionalReaction(serverDescriptor.assemblies, serverDescriptor.ReactionStorageDescriptor);
        // builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
         // =============== Configuracion de los servicios de modulo =====================
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
