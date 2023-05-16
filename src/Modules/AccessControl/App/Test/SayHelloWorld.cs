@@ -35,9 +35,10 @@ public class SayHelloWorldHandler : ICommandHandler<SayHelloWorldCommand, HelloW
 public record TestDomainEvent : IDomainEvent
 {
     public Guid Id { get; } = Guid.NewGuid();
-
+    public IContext Context { get; set; }
     public DateTime OccurredOn { get; } = DateTime.UtcNow;
     public string Message { get; set; }
+    
 
     public TestDomainEvent(string message)
     {

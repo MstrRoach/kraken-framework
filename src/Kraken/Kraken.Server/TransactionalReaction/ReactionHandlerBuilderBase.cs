@@ -14,9 +14,9 @@ public abstract class ReactionHandlerBuilderBase
     /// <param name="cancellationToken"></param>
     /// <param name="serviceFactory"></param>
     /// <returns></returns>
-    public async Task Handle(object notification, ReactionMessage inboxMessage, CancellationToken cancellationToken,
-    IServiceProvider serviceProvider, IContext context) =>
-        await Handle((INotification)notification, inboxMessage, cancellationToken, serviceProvider, context);
+    //public async Task Handle(ReactionMessage inboxMessage, CancellationToken cancellationToken,
+    //IServiceProvider serviceProvider, IContext context) =>
+    //    await Handle(inboxMessage, cancellationToken, serviceProvider, context);
 
     /// <summary>
     /// Ejecuta el handler para el evento junto con todos los middlewares 
@@ -26,8 +26,7 @@ public abstract class ReactionHandlerBuilderBase
     /// <param name="cancellationToken"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public abstract Task Handle(INotification notification,
-        ReactionMessage inboxMessage,
+    public abstract Task Handle(ReactionMessage inboxMessage,
         CancellationToken cancellationToken,
         IServiceProvider serviceProvider,
         IContext context);

@@ -45,7 +45,6 @@ internal class ReactionProcessor
         var reactionHandlerBuilder = (ReactionHandlerBuilderBase)Activator.CreateInstance(reactionHandlerBuilderType) ?? throw new ArgumentNullException($"Could not create wrapper for type {reactionHandlerBuilderType.Name}");
         // Ejecutamos el handler
         await reactionHandlerBuilder.Handle(
-            message.Event,
             message,
             cancellationToken,
             _serviceProvider,

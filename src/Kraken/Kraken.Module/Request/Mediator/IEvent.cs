@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Kraken.Module.Context;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,32 @@ public interface IEvent : INotification
 }
 
 /// <summary>
+/// Clase abstracta para los eventos con contexto
+/// </summary>
+public abstract class EventBase : IEvent
+{
+    /// <summary>
+    /// Id del evento
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    /// <summary>
+    /// Fecha que ocurre el evento
+    /// </summary>
+    public DateTime OccurredOn { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Contexto del evento
+    /// </summary>
+    public IContext Context { get; set; }
+}
+
+/// <summary>
 /// Interface para definir los eventos de dominio
 /// </summary>
 public interface IDomainEvent : IEvent
 {
-
+    
 }
 
 /// <summary>

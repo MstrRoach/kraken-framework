@@ -23,7 +23,7 @@ public class ReactionHandlerBuilder<TEvent, TReaction> :
     /// <param name="cancellationToken"></param>
     /// <param name="serviceProvider"></param>
     /// <returns></returns>
-    public override async Task Handle(INotification notification, ReactionMessage reactionMessage, CancellationToken cancellationToken, IServiceProvider serviceProvider, IContext context)
+    public override async Task Handle(ReactionMessage reactionMessage, CancellationToken cancellationToken, IServiceProvider serviceProvider, IContext context)
     {
         // Creamos un alcance para el handler
         using var scope = serviceProvider.CreateScope();

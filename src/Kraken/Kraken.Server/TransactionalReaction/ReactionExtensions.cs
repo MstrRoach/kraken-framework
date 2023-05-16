@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Kraken.Server.TransactionalReaction;
 
-internal static class TransactionalReactionExtensions
+internal static class ReactionExtensions
 {
     /// <summary>
     /// Agrega el soporte para reacciones transaccionales en los modulos
@@ -48,6 +48,9 @@ internal static class TransactionalReactionExtensions
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IProcessingService,ReactionBroker>(sp => sp.GetRequiredService<ReactionBroker>()));
         // Registramos el procesador
         services.AddSingleton<ReactionProcessor>();
+        // Agregamos los middlewares
+        services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionLoggingMiddleware<,>));
+        services.AddTransient(typeof(IReactionMiddleware<,>), typeof(ReactionTransactionalMiddleware<,>));
         return services;
     }
 
