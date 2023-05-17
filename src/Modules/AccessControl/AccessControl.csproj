@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kraken\Kraken.Module\Kraken.Module.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Persistence\" />
+    <ProjectReference Include="..\..\Kraken\Kraken.Domain\Kraken.Domain.csproj" />
   </ItemGroup>
 
 </Project>
