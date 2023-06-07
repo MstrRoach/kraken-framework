@@ -1,4 +1,5 @@
-﻿using AccessControl.Infrastructure;
+﻿using Domain.Repository.InMemory;
+using Kraken.Domain;
 using Kraken.Module.Common;
 using Kraken.Module.Transaction;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,5 +13,9 @@ public class AccessControlModule : IModule
     public void Register(IServiceCollection services)
     {
         //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
+        services.AddDomainDrivenDesign(builder =>
+        {
+            builder.UseInMemoryRepository();
+        });
     }
 }

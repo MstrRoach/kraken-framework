@@ -1,5 +1,5 @@
 ﻿using AccessControl.Domain.Aggregates.Events;
-using Kraken.Domain;
+using Kraken.Domain.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +15,21 @@ public class Account : Aggregate<Account, Guid>
     /// </summary>
     public string Name { get; private set; }
 
-    /// <summary>
-    /// Constructor de una cuenta
-    /// </summary>
-    /// <param name="name"></param>
-    public Account(string name)
+    public static Account Create(string Name)
     {
-        this.Id = Guid.NewGuid();
-        Name = name;
-        this.AddDomainEvent(new AccountCreated
+        var account = new Account
         {
-            AccountId = this.Id,
+            Id = Guid.NewGuid(),
             Name = Name
+        };
+        account.AddDomainEvent(new AccountCreated
+        {
+            AccountId = account.Id,
+            Name = account.Name
         });
+        return account;
     }
+
+    private Account() { }
+
 }

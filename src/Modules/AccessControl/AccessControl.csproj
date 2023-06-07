@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain.Repository.InMemory\Domain.Repository.InMemory.csproj" />
     <ProjectReference Include="..\..\Kraken\Kraken.Domain\Kraken.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistence\" />
   </ItemGroup>
 
 </Project>
