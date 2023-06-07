@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kraken.Domain;
+namespace Kraken.Domain.Core;
 
 /// <summary>
 /// Clase base para marcar una clase como una

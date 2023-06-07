@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kraken.Domain
+namespace Kraken.Domain.Core
 {
     /// <summary>
     /// Atributo oara ignorar un campo especifico

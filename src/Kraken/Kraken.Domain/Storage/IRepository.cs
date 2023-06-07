@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kraken.Domain.Core;
 
-namespace Kraken.Domain;
+namespace Kraken.Domain.Storage;
 
 /// <summary>
-/// Interface definida para las operaciones comunes para los 
-/// repositorios,asi como la consulta por especificaciones
+/// Define el repositorio para los agregados especificados para dominio
 /// </summary>
-public interface IRepository<Aggregate, Specification>
-        where Aggregate : IAggregate
-        where Specification : class, ISpecification<Aggregate>
+/// <typeparam name="Aggregate"></typeparam>
+public interface IRepository<Aggregate> where Aggregate : IAggregate
 {
     /// <summary>
     /// Crea una entidad dentro del repositorio
@@ -40,14 +39,14 @@ public interface IRepository<Aggregate, Specification>
     /// y lo devuelve
     /// </summary>
     /// <returns></returns>
-    public Task<Aggregate> Get(Specification specification);
+    public Task<Aggregate> Get(ISpecification<Aggregate> specification);
 
     /// <summary>
     /// Busca los elemmentos que coincidan con la especificacion
     /// y devuelve una lista de ellos
     /// </summary>
     /// <returns></returns>
-    public Task<List<Aggregate>> GetAll(Specification specification);
+    public Task<List<Aggregate>> GetAll(ISpecification<Aggregate> specification);
 
     /// <summary>
     /// Indica si existe algun registro con la especificacion
@@ -55,7 +54,7 @@ public interface IRepository<Aggregate, Specification>
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<bool> Exist(Specification specification)
+    public Task<bool> Exist(ISpecification<Aggregate> specification)
         => Task.FromResult(false);
 
     /// <summary>
@@ -64,7 +63,6 @@ public interface IRepository<Aggregate, Specification>
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<int> Count(Specification? specification = null)
+    public Task<int> Count(ISpecification<Aggregate>? specification = null)
         => Task.FromResult(0);
 }
-

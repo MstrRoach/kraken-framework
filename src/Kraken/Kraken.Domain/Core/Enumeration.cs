@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Kraken.Domain
+namespace Kraken.Domain.Core
 {
     /// <summary>
     /// Clase base que define a un enumerador de un tipo especifico

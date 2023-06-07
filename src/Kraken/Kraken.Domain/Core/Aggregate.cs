@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kraken.Domain;
+namespace Kraken.Domain.Core;
 
 /// <summary>
 /// Clase base que implementa la entidad y una raiza agregada
