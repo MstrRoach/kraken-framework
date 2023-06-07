@@ -1,4 +1,5 @@
-﻿using Kraken.Module.Request.Mediator;
+﻿using AccessControl.Domain.Aggregates.Events;
+using Kraken.Module.Request.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace AccessControl.App.Test;
 
-internal class ResponseWhenSomeGrettings : IDomainEventHandler<TestDomainEvent>
+internal class ResponseWhenSomeGrettings : IDomainEventHandler<AccountCreated>
 {
-    public Task Handle(TestDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(AccountCreated notification, CancellationToken cancellationToken)
     {
-        var response = "Hello there";
-        return Task.CompletedTask;
+        var response = $"Hello {notification.Name}";
+        await Task.Delay(TimeSpan.FromSeconds(5));
+        Console.WriteLine(response);
     }
 }
