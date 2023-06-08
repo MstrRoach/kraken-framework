@@ -5,7 +5,7 @@ namespace Kraken.Domain.Storage;
 /// <summary>
 /// Interface para la definicion de la configuracion para los repositorioss
 /// </summary>
-public interface IRepositoryExtension
+public interface IRepositoryExtension<TModule>
 {
     /// <summary>
     /// Agrega los servicios para la configuracion del repositorio en turno

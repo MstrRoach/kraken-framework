@@ -20,17 +20,22 @@ public static class DomainExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddDomainDrivenDesign(this IServiceCollection services, Action<DomainDrivenDesignOptions> builder)
+    public static IServiceCollection AddDomainDrivenDesign<TModule>(
+        this IServiceCollection services, 
+        Action<DomainDrivenDesignOptions<TModule>> builder)
+        where TModule : IModule
     {
         // Validamos que las opciones tengan lo obligatorio
-        var options = new DomainDrivenDesignOptions();
+        var options = new DomainDrivenDesignOptions<TModule>();
         // Las precargamos
         builder(options);
         // Validamos que este todo lo necesario
         options.Validate();
-        var callerAssembly = Assembly.GetCallingAssembly();
+        // Registramos las configuraciones
+        services.Configure(builder);
+        var moduleAssembly = typeof(TModule).Assembly;
         // Extraemos todos los agregados
-        var callerAggregates = callerAssembly.GetTypes()
+        var callerAggregates = moduleAssembly.GetTypes()
             .Where(x => !x.IsOpenGeneric())
             .Where(x => !x.IsAbstract)
             .Where(x => x.GetInterface(nameof(IAggregate)) is not null)
