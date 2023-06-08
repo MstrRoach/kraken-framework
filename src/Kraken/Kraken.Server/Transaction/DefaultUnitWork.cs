@@ -59,18 +59,4 @@ internal class DefaultUnitWork<TModule> : IUnitWork<TModule>
         _transactionLog.Push($"[{DateTime.UtcNow}] >>> Transaction reverted | Id = [{TransactionId.ToString()}]");
         return Task.CompletedTask;
     }
-
-    public async Task ExecuteAsync(Func<Task> action)
-    {
-        await action();
-    }
-
-    public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
-    {
-        return await action();
-    }
-
-
-
-
 }
