@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kraken\Kraken.Domain\Kraken.Domain.csproj" />
+    <ProjectReference Include="..\Kraken.Domain\Kraken.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccessControl", "Modules\Ac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kraken.Domain", "Kraken\Kraken.Domain\Kraken.Domain.csproj", "{E9EDB57C-3066-4C35-AD07-55800AA11ED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Repository.InMemory", "Domain.Repository.InMemory\Domain.Repository.InMemory.csproj", "{14043130-526F-476F-B43F-BCCBFF1E28D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Repository.InMemory", "Kraken\Domain.Repository.InMemory\Domain.Repository.InMemory.csproj", "{14043130-526F-476F-B43F-BCCBFF1E28D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
