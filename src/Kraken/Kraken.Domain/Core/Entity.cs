@@ -9,9 +9,8 @@ namespace Kraken.Domain.Core;
 /// entiddad de negocio de acuerdo a Domain
 /// Driven Design
 /// </summary>
-/// <typeparam name="TEntity"></typeparam>
 /// <typeparam name="TIdentifier"></typeparam>
-public abstract class Entity<TEntity, TIdentifier>
+public abstract class Entity<TIdentifier>
     where TIdentifier : IComparable
 {
     /// <summary>
@@ -32,7 +31,7 @@ public abstract class Entity<TEntity, TIdentifier>
     /// <returns></returns>
     public override bool Equals(object obj)
     {
-        if (!(obj is Entity<TEntity, TIdentifier> other))
+        if (!(obj is Entity<TIdentifier> other))
             return false;
 
         if (ReferenceEquals(this, other))
@@ -50,7 +49,7 @@ public abstract class Entity<TEntity, TIdentifier>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator ==(Entity<TEntity, TIdentifier> a, Entity<TEntity, TIdentifier> b)
+    public static bool operator ==(Entity<TIdentifier> a, Entity<TIdentifier> b)
     {
         if (a is null && b is null)
             return true;
@@ -67,7 +66,7 @@ public abstract class Entity<TEntity, TIdentifier>
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns></returns>
-    public static bool operator !=(Entity<TEntity, TIdentifier> a, Entity<TEntity, TIdentifier> b)
+    public static bool operator !=(Entity<TIdentifier> a, Entity<TIdentifier> b)
     {
         return !(a == b);
     }

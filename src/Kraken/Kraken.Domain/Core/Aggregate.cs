@@ -9,7 +9,7 @@ namespace Kraken.Domain.Core;
 /// Clase base que implementa la entidad y una raiza agregada
 /// </summary>
 /// <typeparam name="Type"></typeparam>
-public abstract class Aggregate<TType, TId> : Entity<TType, TId>, IAggregate
+public abstract class Aggregate<TId> : Entity<TId>, IAggregate
     where TId : IComparable
 {
     /// <summary>
