@@ -1,5 +1,6 @@
 ﻿using Kraken.Domain.Core;
 using Kraken.Domain.Storage;
+using Kraken.Module.Common;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -17,8 +18,9 @@ namespace Domain.Repository.InMemory;
 /// <typeparam name="TAggregate"></typeparam>
 /// <typeparam name="TType"></typeparam>
 /// <typeparam name="TId"></typeparam>
-public class DefaultRepository<TAggregate, TType, TId> : IRepository<TAggregate>
-    where TAggregate : Aggregate<TType, TId>, IAggregate
+public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate>
+    where TModule : IModule
+    where TAggregate : Aggregate<TId>, IAggregate
     where TId : IComparable
 {
     private static ConcurrentDictionary<TId, TAggregate> Aggregates = new();

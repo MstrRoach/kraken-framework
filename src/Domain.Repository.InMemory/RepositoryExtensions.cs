@@ -1,41 +1,28 @@
 ﻿using Kraken.Domain;
-using Kraken.Domain.Storage;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Kraken.Domain.Core;
+using Kraken.Module.Common;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Domain.Repository.InMemory;
 
 public static class DomainDrivenDesignOptionsExtensions
 {
-    public static DomainDrivenDesignOptions UseInMemoryRepository(this DomainDrivenDesignOptions extension)
+    /// <summary>
+    /// Agrega los repositorios en memoria y configura todo lo necesario
+    /// para el almacenamiento de estos elementos utilizando sqlite
+    /// </summary>
+    /// <typeparam name="TModule"></typeparam>
+    /// <param name="extension"></param>
+    /// <param name="inMemoryOptions"></param>
+    /// <returns></returns>
+    public static DomainDrivenDesignOptions<TModule> UseInMemoryRepository<TModule>(
+        this DomainDrivenDesignOptions<TModule> extension, Action<InMemoryRepositoryOptions<TModule>> inMemoryOptions = null)
+        where TModule : IModule
     {
-        extension.RegisterRepository(new RepositoryExtensions());
+        var options = new InMemoryRepositoryOptions<TModule>();
+        inMemoryOptions?.Invoke(options);
+        extension.RegisterRepository(new InMemoryRepositoryExtensions<TModule>(options));
         return extension;
-    }
-}
-
-/// <summary>
-/// Configuracion para el registro de los repositorios
-/// </summary>
-public class RepositoryExtensions : IRepositoryExtension
-{
-    public void AddServices(IServiceCollection services, List<Type> Aggregates)
-    {
-        var repositoryOpenType = typeof(IRepository<>);
-        var implementationRepositoryOpenType = typeof(DefaultRepository<,,>);
-        // Recorremos cada tipo de agregado
-        foreach (var aggregate in Aggregates)
-        {
-            // Obtenemos el tipo, el id
-            var baseType = aggregate.BaseType;
-            var repositoryType = repositoryOpenType.MakeGenericType(aggregate);
-            var implementationRepositoryType = implementationRepositoryOpenType.MakeGenericType(
-                aggregate, 
-                baseType.GenericTypeArguments[0], 
-                baseType.GenericTypeArguments[1]);
-            // Registramos el repositorio
-            services.AddScoped(repositoryType, implementationRepositoryType);
-        }
     }
 }
