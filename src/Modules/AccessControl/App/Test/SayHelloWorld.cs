@@ -26,7 +26,7 @@ public class SayHelloWorldHandler : ICommandHandler<SayHelloWorldCommand, HelloW
 
     public async Task<HelloWorldSaid> Handle(SayHelloWorldCommand request, CancellationToken cancellationToken)
     {
-        var account = Account.Create("Chuy");
+        var account = Account.Create("Chuy", "imct.jesus.antonio@gmail.com");
         await _repository.Create(account);
         var name = request.Context?.Identity?.Name;
         await _publisher.Publish(new TestDomainEvent("Hola mundo"));

@@ -13,7 +13,7 @@ public class AccessControlModule : IModule
     public void Register(IServiceCollection services)
     {
         //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
-        services.AddDomainDrivenDesign(builder =>
+        services.AddDomainDrivenDesign<AccessControlModule>(builder =>
         {
             builder.UseInMemoryRepository();
         });
