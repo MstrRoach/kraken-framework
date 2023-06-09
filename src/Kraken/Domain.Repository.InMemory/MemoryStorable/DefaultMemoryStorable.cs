@@ -4,8 +4,10 @@ using Kraken.Domain.Core;
 using Kraken.Module.Common;
 using Microsoft.Data.Sqlite;
 using System.Collections;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Domain.Repository.InMemory.MemoryStorable;
 
@@ -61,16 +63,16 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
                 paramName
                 );
             var columnValue = mapper.GetPropertyValue(aggregate);
-            columnsValue.Add(paramName,columnValue);
+            columnsValue.Add(paramName, columnValue);
         }
         var insertCommand = _insertCommand
             .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
             .Replace("$COLUMNS", string.Join(",", columnsNameParams.Keys))
             .Replace("$COLUMN_VALUES", string.Join(",", columnsNameParams.Values))
-            .Replace("$LAST_INSERTED", columnsNameParams.ContainsKey("ID") 
-                ? string.Empty : 
-                "SELECT LAST_INSERT_ROWID();"); 
-        
+            .Replace("$LAST_INSERTED", columnsNameParams.ContainsKey("ID")
+                ? string.Empty :
+                "SELECT LAST_INSERT_ROWID();");
+
         using var connection = new SqliteConnection(GetConnectionString());
         connection.Open();
         int result = columnsNameParams.ContainsKey("ID")
@@ -85,6 +87,32 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
             .First(x => x.GetPropertyName() == "Id")
             .SetPropertyValue(aggregate, result);
         return aggregate;
+    }
+
+    private string _selectCommand = "SELECT $COLUMNS FROM $TABLE;";
+
+    /// <summary>
+    /// Obtiene todos los elementos para un tipo especifico
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<TAggregate> GetAll()
+    {
+        var columns = String.Join(",",PropertyMappers.Select(x => x.GetColumnName()));
+        var selectCommand = _selectCommand
+            .Replace("$TABLE", typeof(TAggregate).Name.ToUpper())
+            .Replace("$COLUMNS", columns);
+        using var connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+        var result = connection.ExecuteReader(selectCommand);
+        while (result.Read())
+        {
+            var rootInstance = Activator.CreateInstance(typeof(TAggregate),true);
+            rootInstance = PropertyMappers.Aggregate(
+                rootInstance, 
+                (instance, mapper) => mapper.SetPropertyValue(instance, result));
+            yield return (TAggregate)rootInstance;
+        }
+        connection.Close();
     }
 
     /// <summary>

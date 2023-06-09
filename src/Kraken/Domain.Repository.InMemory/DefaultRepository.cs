@@ -67,8 +67,8 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <exception cref="NotImplementedException"></exception>
     public Task<TAggregate> Get(ISpecification<TAggregate> specification)
     {
-        var aggregate = Aggregates
-            .Values
+        var aggregate = _storage
+            .GetAll()
             .Where(specification.IsSatisfied)
             .FirstOrDefault();
         return Task.FromResult(aggregate);
@@ -83,8 +83,9 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <exception cref="NotImplementedException"></exception>
     public Task<List<TAggregate>> GetAll(ISpecification<TAggregate> specification)
     {
-        var aggregates = Aggregates
-           .Values
+        var aggregates = _storage
+            .GetAll()
+            .ToList()
            .Where(specification.IsSatisfied)
            .ToList();
         return Task.FromResult(aggregates);
@@ -107,7 +108,7 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <param name="specification"></param>
     /// <returns></returns>
     public Task<bool> Exist(ISpecification<TAggregate> specification)
-            => Task.FromResult(Aggregates.Values.Any(specification.IsSatisfied));
+            => Task.FromResult(_storage.GetAll().Any(specification.IsSatisfied));
 
     /// <summary>
     /// Cuenta la cantidad de elementos que coinciden con la busqueda
@@ -117,8 +118,8 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     public Task<int> Count(ISpecification<TAggregate>? specification = null)
     {
         var quantity = specification is not null ?
-            Aggregates.Values.Count(specification.IsSatisfied) :
-            Aggregates.Values.Count;
+            _storage.GetAll().Where(specification.IsSatisfied).Count() :
+            _storage.GetAll().Count();
         return Task.FromResult(quantity);
     }
 }

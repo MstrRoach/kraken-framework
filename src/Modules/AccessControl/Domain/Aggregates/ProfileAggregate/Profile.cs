@@ -35,4 +35,6 @@ public class Profile : Aggregate<int>
         };
         return profile;
     }
+
+    private Profile() { }
 }

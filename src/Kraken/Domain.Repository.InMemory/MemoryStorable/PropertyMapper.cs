@@ -1,4 +1,5 @@
 ﻿using Domain.Repository.InMemory.TypeMappers;
+using System.Data;
 
 namespace Domain.Repository.InMemory.MemoryStorable;
 
@@ -138,14 +139,14 @@ public class PropertyMapper<T> : PropertyMapperBase
     /// <param name="instance"></param>
     /// <param name="value"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public override void SetPropertyValue(object instance, object value)
+    public override object SetPropertyValue(object instance, object value)
     {
         // Si el contenedor es el mismo que de la instancia
         if(instance.GetType() == Container)
         {
             // Seteamos el valor dentro de aqui
             Container.GetProperty(Name).SetValue(instance, TypeMapper.FromDatabase(value));
-            return;
+            return instance;
         }
         // Obtenemos la instaancia del contenedor
         var containerInstance = instance
@@ -156,7 +157,7 @@ public class PropertyMapper<T> : PropertyMapperBase
         if (containerInstance is null)
         {
             // Creamos la instancia
-            containerInstance = Activator.CreateInstance(Container);
+            containerInstance = Activator.CreateInstance(Container,true);
         }
         // Mandamos a settear de nuevo la propiedad
         SetPropertyValue(containerInstance, value);
@@ -164,5 +165,9 @@ public class PropertyMapper<T> : PropertyMapperBase
         instance.GetType()
             .GetProperty(Container.Name)
             .SetValue(instance, containerInstance);
+        return instance;
     }
+
+    public override object SetPropertyValue(object instance, IDataReader value)
+        => SetPropertyValue(instance, value[GetColumnName()]);
 }

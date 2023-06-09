@@ -1,4 +1,6 @@
-﻿namespace Domain.Repository.InMemory.MemoryStorable;
+﻿using System.Data;
+
+namespace Domain.Repository.InMemory.MemoryStorable;
 
 /// <summary>
 /// Clase base para obtener informacion de cada propiedad
@@ -34,7 +36,15 @@ public abstract class PropertyMapperBase
     /// </summary>
     /// <param name="instance"></param>
     /// <param name="value"></param>
-    public abstract void SetPropertyValue(object instance, object value);
+    public abstract object SetPropertyValue(object instance, object value);
+
+    /// <summary>
+    /// Setea el valor en la instancia para la propiedad mapeada desde
+    /// un data reader
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="value"></param>
+    public abstract object SetPropertyValue(object instance, IDataReader value);
 
     /// <summary>
     /// Indica si una propiedad es autoincrementable
