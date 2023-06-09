@@ -85,7 +85,6 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     {
         var aggregates = _storage
             .GetAll()
-            .ToList()
            .Where(specification.IsSatisfied)
            .ToList();
         return Task.FromResult(aggregates);
@@ -98,7 +97,7 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <returns></returns>
     public Task Update(TAggregate aggregate)
     {
-        Aggregates[aggregate.Id] = aggregate;
+        _storage.Update(aggregate);
         return Task.CompletedTask;
     }
 

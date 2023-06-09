@@ -42,6 +42,12 @@ public class Account : Aggregate<Guid>
         return account;
     }
 
+    internal void Update(string name, Email email)
+    {
+        this.Name = name;
+        this.Email = email;
+    }
+
     private Account() { }
 
 }

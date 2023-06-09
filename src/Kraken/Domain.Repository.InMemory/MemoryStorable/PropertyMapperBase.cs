@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Kraken.Domain.Core;
+using System.Data;
 
 namespace Domain.Repository.InMemory.MemoryStorable;
 
@@ -51,4 +52,15 @@ public abstract class PropertyMapperBase
     /// </summary>
     /// <returns></returns>
     public abstract bool IsAutoincrement();
+
+    /// <summary>
+    /// Devuelve la actualizacion como un string para actualizar
+    /// </summary>
+    /// <typeparam name="TAggregate"></typeparam>
+    /// <param name="aggregate"></param>
+    /// <returns></returns>
+    public string GetColumnUpdate<TAggregate>(TAggregate aggregate) where TAggregate : IAggregate
+    {
+        throw new NotImplementedException();
+    }
 }

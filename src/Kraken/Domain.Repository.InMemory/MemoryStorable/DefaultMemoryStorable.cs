@@ -7,7 +7,6 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Xml.Linq;
 
 namespace Domain.Repository.InMemory.MemoryStorable;
 
@@ -113,6 +112,55 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
             yield return (TAggregate)rootInstance;
         }
         connection.Close();
+    }
+
+    private string _updateCommand = "UPDATE $TABLE_NAME SET $UPDATES WHERE $CONDITION";
+    private string _columnUpdate = "$COLUMN = $PARAM";
+    public TAggregate Update(TAggregate aggregate)
+    {
+        // Creacion de los contenedores para las columnas, parametros de
+        // columnas y valores de columnas
+        var columnsNameParams = new SortedList<string, string>();
+        // Contenedor de los valores para parametros
+        var columnsValue = new Dictionary<string, object>();
+        // Recorremos lass propiedades mapeadas
+        foreach (var mapper in PropertyMappers)
+        {
+            if (mapper.IsAutoincrement())
+                continue;
+            var paramName = "@$PARAM".Replace("$PARAM", mapper.GetPropertyName().ToUpper());
+            columnsNameParams.Add(
+                mapper.GetColumnName(),
+                paramName
+                );
+            var columnValue = mapper.GetPropertyValue(aggregate);
+            columnsValue.Add(paramName, columnValue);
+        }
+        // Creamos la lista de actualizacion
+        var updateColumn = columnsNameParams
+            .Where(x => x.Key != "ID")
+            .Select(x => _columnUpdate
+                .Replace("$COLUMN", x.Key)
+                .Replace("$PARAM", x.Value)
+            ).ToList();
+
+        var idCondition = columnsNameParams
+            .Where(x => x.Key == "ID")
+            .Select(x => _columnUpdate
+                .Replace("$COLUMN", x.Key)
+                .Replace("$PARAM", x.Value))
+            .FirstOrDefault();
+        // Remplazamos
+        var updatedCommand = _updateCommand
+            .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
+            .Replace("$UPDATES", string.Join(",", updateColumn))
+            .Replace("$CONDITION", idCondition);
+
+        using var connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+        var result = connection.Execute(updatedCommand, columnsValue);
+        connection.Close();
+        return default;
     }
 
     /// <summary>

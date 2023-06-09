@@ -1,4 +1,5 @@
 using AccessControl.App.Test;
+using AccessControl.Domain.Aggregates.AccountAggregate;
 using Kraken.Server.Request;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,6 +46,13 @@ public class WeatherForecastController : ControllerBase
     public async Task<IActionResult> GetAllAccount()
     {
         var response = await _appHost.ReadAsync(new GetAllAccounts());
+        return StatusCode(StatusCodes.Status200OK, response);
+    }
+
+    [HttpPut("Account")]
+    public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountCommand command)
+    {
+        var response = await _appHost.ExecuteAsync(command);
         return StatusCode(StatusCodes.Status200OK, response);
     }
 }
