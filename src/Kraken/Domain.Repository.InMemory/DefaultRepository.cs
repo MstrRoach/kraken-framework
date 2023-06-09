@@ -1,4 +1,5 @@
-﻿using Kraken.Domain.Core;
+﻿using Domain.Repository.InMemory.MemoryStorable;
+using Kraken.Domain.Core;
 using Kraken.Domain.Storage;
 using Kraken.Module.Common;
 using System;
@@ -24,7 +25,17 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     where TId : IComparable
 {
     private static ConcurrentDictionary<TId, TAggregate> Aggregates = new();
-    
+
+    /// <summary>
+    /// Accesor al almacen de base de datos en memoria
+    /// </summary>
+    private readonly DefaultMemoryStorable<TModule, TAggregate> _storage;
+
+    public DefaultRepository(DefaultMemoryStorable<TModule, TAggregate> storage)
+    {
+        _storage = storage;
+    }
+
     /// <summary>
     /// Agrega un nuevo registro del aggregado a la lista
     /// </summary>
@@ -32,7 +43,7 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <returns></returns>
     public Task Create(TAggregate aggregate)
     {
-        Aggregates[aggregate.Id] = aggregate;
+        _storage.Add(aggregate);
         return Task.CompletedTask;
     }
 

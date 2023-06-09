@@ -8,7 +8,12 @@ public class BooleanMapper : ITypeMapper<bool>
 
     public string DefaultValue => "DEFAULT 0";
 
+    public bool IsAutoIncrement => false;
+
     public bool FromDatabase(string data)
+        => Convert.ToBoolean(data);
+
+    public bool FromDatabase(object data)
         => Convert.ToBoolean(data);
 
     public string ToDatabase(bool data)

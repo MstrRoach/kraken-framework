@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Kraken.Module.Context;
 using Kraken.Domain.Storage;
-using AccessControl.Domain.Aggregates;
+using AccessControl.Domain.Aggregates.AccountAggregate;
+using AccessControl.Domain.Aggregates.ProfileAggregate;
 
 namespace AccessControl.App.Test;
 
@@ -17,21 +18,25 @@ public class SayHelloWorldCommand : ContextCommand<HelloWorldSaid>
 public class SayHelloWorldHandler : ICommandHandler<SayHelloWorldCommand, HelloWorldSaid>
 {
     private readonly IEventPublisher _publisher;
-    private readonly IRepository<Account> _repository;
-    public SayHelloWorldHandler(IEventPublisher publisher, IRepository<Account> repository)
+    private readonly IRepository<Profile> _repository;
+    private readonly IRepository<Account> _accountRepository;
+    public SayHelloWorldHandler(IEventPublisher publisher, IRepository<Profile> repository, IRepository<Account> accountRepository)
     {
         _publisher = publisher;
         _repository = repository;
+        _accountRepository = accountRepository;
     }
 
     public async Task<HelloWorldSaid> Handle(SayHelloWorldCommand request, CancellationToken cancellationToken)
     {
         var account = Account.Create("Chuy", "imct.jesus.antonio@gmail.com");
-        await _repository.Create(account);
+        var profile = Profile.Create("Jesus Antonio", new DateTime(1995,06,09));
+        //await _repository.Create(profile);
+        await _accountRepository.Create(account);
         var name = request.Context?.Identity?.Name;
         await _publisher.Publish(new TestDomainEvent("Hola mundo"));
         await Task.CompletedTask;
-        var accountStored = await _repository.Get(AccountSpecification.GetById(account.Id));
+        //var accountStored = await _repository.Get(AccountSpecification.GetById(account.Id));
         return new HelloWorldSaid
         {
             Message = $"Hola {name ?? "desconocido"}"

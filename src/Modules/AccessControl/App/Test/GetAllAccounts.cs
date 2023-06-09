@@ -1,4 +1,4 @@
-﻿using AccessControl.Domain.Aggregates;
+﻿using AccessControl.Domain.Aggregates.AccountAggregate;
 using Kraken.Domain.Storage;
 using Kraken.Module.Request.Mediator;
 using System;

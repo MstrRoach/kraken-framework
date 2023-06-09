@@ -1,4 +1,4 @@
-﻿using AccessControl.Domain.Aggregates.Events;
+﻿using AccessControl.Domain.Aggregates.AccountAggregate.Events;
 using Kraken.Domain.Core;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AccessControl.Domain.Aggregates;
+namespace AccessControl.Domain.Aggregates.AccountAggregate;
 
 public class Account : Aggregate<Guid>
 {

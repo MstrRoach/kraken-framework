@@ -1,6 +1,6 @@
 ﻿using Kraken.Domain.Storage;
 
-namespace AccessControl.Domain.Aggregates;
+namespace AccessControl.Domain.Aggregates.AccountAggregate;
 
 internal class AccountSpecification
 {

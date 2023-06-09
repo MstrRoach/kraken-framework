@@ -1,7 +1,6 @@
-﻿
-using Kraken.Module.Request.Mediator;
+﻿using Kraken.Module.Request.Mediator;
 
-namespace AccessControl.Domain.Aggregates.Events;
+namespace AccessControl.Domain.Aggregates.AccountAggregate.Events;
 
 public record AccountCreated : IDomainEvent
 {

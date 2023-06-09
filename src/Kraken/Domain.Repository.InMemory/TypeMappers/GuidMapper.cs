@@ -8,10 +8,12 @@ public class GuidMapper : ITypeMapper<Guid>
 
     public string DefaultValue => "DEFAULT '00000000-0000-0000-0000-000000000000'";
 
+    public bool IsAutoIncrement => false;
+
     public Guid FromDatabase(string data)
-    {
-        return Guid.Parse(data);
-    }
+        => Guid.Parse(data);
+    public Guid FromDatabase(object data)
+        => FromDatabase(Convert.ToString(data));
 
     public string ToDatabase(Guid data)
     {

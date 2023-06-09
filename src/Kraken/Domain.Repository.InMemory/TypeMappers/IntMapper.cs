@@ -8,6 +8,13 @@ public class IntMapper : ITypeMapper<int>
 
     public string DefaultValue => "DEFAULT 0";
 
+    public bool IsAutoIncrement => true;
+
+    public int FromDatabase(object data)
+    {
+        return Convert.ToInt32(data);
+    }
+
     public int FromDatabase(string data)
     {
         return Convert.ToInt32(data);

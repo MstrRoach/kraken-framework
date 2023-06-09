@@ -3,7 +3,9 @@ using Domain.Repository.InMemory.TypeMappers;
 using Kraken.Domain.Core;
 using Kraken.Module.Common;
 using Microsoft.Data.Sqlite;
+using System.Collections;
 using System.Reflection;
+using System.Text;
 
 namespace Domain.Repository.InMemory.MemoryStorable;
 
@@ -30,6 +32,59 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
     public DefaultMemoryStorable(InMemoryRepositoryOptions<TModule> options)
     {
         _options = options;
+        var aggregateType = typeof(TAggregate);
+        PropertyMappers = GetPropertyMappers(aggregateType, aggregateType.GetProperties());
+    }
+
+    private string _insertCommand = @"INSERT INTO $TABLE_NAME($COLUMNS) VALUES($COLUMN_VALUES);$LAST_INSERTED";
+
+    /// <summary>
+    /// Agrega al almmaacen una entidad del tipo agregado
+    /// </summary>
+    /// <param name="aggregate"></param>
+    /// <returns></returns>
+    public TAggregate Add(TAggregate aggregate)
+    {
+        // Creacion de los contenedores para las columnas, parametros de
+        // columnas y valores de columnas
+        var columnsNameParams = new SortedList<string, string>();
+        // Contenedor de los valores para parametros
+        var columnsValue = new Dictionary<string, object>();
+        // Recorremos lass propiedades mapeadas
+        foreach (var mapper in PropertyMappers)
+        {
+            if (mapper.IsAutoincrement())
+                continue;
+            var paramName = "@$PARAM".Replace("$PARAM", mapper.GetPropertyName().ToUpper());
+            columnsNameParams.Add(
+                mapper.GetColumnName(),
+                paramName
+                );
+            var columnValue = mapper.GetPropertyValue(aggregate);
+            columnsValue.Add(paramName,columnValue);
+        }
+        var insertCommand = _insertCommand
+            .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
+            .Replace("$COLUMNS", string.Join(",", columnsNameParams.Keys))
+            .Replace("$COLUMN_VALUES", string.Join(",", columnsNameParams.Values))
+            .Replace("$LAST_INSERTED", columnsNameParams.ContainsKey("ID") 
+                ? string.Empty : 
+                "SELECT LAST_INSERT_ROWID();"); 
+        
+        using var connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+        int result = columnsNameParams.ContainsKey("ID")
+            ? connection.Execute(insertCommand, columnsValue)
+            : connection.ExecuteScalar<int>(insertCommand, columnsValue);
+        connection.Close();
+        if (result == 0)
+            throw new Exception("Error to create aggregate");
+        if (columnsNameParams.ContainsKey("ID"))
+            return aggregate;
+        PropertyMappers
+            .First(x => x.GetPropertyName() == "Id")
+            .SetPropertyValue(aggregate, result);
+        return aggregate;
     }
 
     /// <summary>

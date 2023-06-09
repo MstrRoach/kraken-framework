@@ -20,4 +20,5 @@ public interface IMemoryStorable<TModule>
     /// Inicializa el almacenamiento en memoria
     /// </summary>
     Task Initialize();
+
 }
