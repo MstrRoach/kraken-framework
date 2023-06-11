@@ -12,6 +12,7 @@ internal class SqliteQueries
     public const string TableName = "$TABLE_NAME";
 
     public const string ColumnDefinition = "$COLUMNS_DEFINITION";
+
     public const string Column = "$COLUMN_NAME";
 
     public const string Condition = "$CONDITION";
