@@ -24,7 +24,6 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     where TAggregate : Aggregate<TId>, IAggregate
     where TId : IComparable
 {
-    private static ConcurrentDictionary<TId, TAggregate> Aggregates = new();
 
     /// <summary>
     /// Accesor al almacen de base de datos en memoria
@@ -54,7 +53,7 @@ public class DefaultRepository<TModule,TAggregate, TId> : IRepository<TAggregate
     /// <returns></returns>
     public Task Delete(TAggregate aggregate)
     {
-        Aggregates.TryRemove(aggregate.Id, out _);
+        _storage.Delete(aggregate);
         return Task.CompletedTask;
     }
 

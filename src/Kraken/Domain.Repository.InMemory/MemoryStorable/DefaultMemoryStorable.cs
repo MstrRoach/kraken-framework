@@ -37,8 +37,6 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
         PropertyMappers = GetPropertyMappers(aggregateType, aggregateType.GetProperties());
     }
 
-    private string _insertCommand = @"INSERT INTO $TABLE_NAME($COLUMNS) VALUES($COLUMN_VALUES);$LAST_INSERTED";
-
     /// <summary>
     /// Agrega al almmaacen una entidad del tipo agregado
     /// </summary>
@@ -64,7 +62,7 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
             var columnValue = mapper.GetPropertyValue(aggregate);
             columnsValue.Add(paramName, columnValue);
         }
-        var insertCommand = _insertCommand
+        var insertCommand = SqliteQueries.Insert
             .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
             .Replace("$COLUMNS", string.Join(",", columnsNameParams.Keys))
             .Replace("$COLUMN_VALUES", string.Join(",", columnsNameParams.Values))
@@ -88,8 +86,6 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
         return aggregate;
     }
 
-    private string _selectCommand = "SELECT $COLUMNS FROM $TABLE;";
-
     /// <summary>
     /// Obtiene todos los elementos para un tipo especifico
     /// </summary>
@@ -97,7 +93,7 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
     public IEnumerable<TAggregate> GetAll()
     {
         var columns = String.Join(",",PropertyMappers.Select(x => x.GetColumnName()));
-        var selectCommand = _selectCommand
+        var selectCommand = SqliteQueries.Select
             .Replace("$TABLE", typeof(TAggregate).Name.ToUpper())
             .Replace("$COLUMNS", columns);
         using var connection = new SqliteConnection(GetConnectionString());
@@ -114,8 +110,11 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
         connection.Close();
     }
 
-    private string _updateCommand = "UPDATE $TABLE_NAME SET $UPDATES WHERE $CONDITION";
-    private string _columnUpdate = "$COLUMN = $PARAM";
+    /// <summary>
+    /// Actualiza un registro
+    /// </summary>
+    /// <param name="aggregate"></param>
+    /// <returns></returns>
     public TAggregate Update(TAggregate aggregate)
     {
         // Creacion de los contenedores para las columnas, parametros de
@@ -139,19 +138,19 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
         // Creamos la lista de actualizacion
         var updateColumn = columnsNameParams
             .Where(x => x.Key != "ID")
-            .Select(x => _columnUpdate
+            .Select(x => SqliteQueries.ColumnEqual
                 .Replace("$COLUMN", x.Key)
                 .Replace("$PARAM", x.Value)
             ).ToList();
 
         var idCondition = columnsNameParams
             .Where(x => x.Key == "ID")
-            .Select(x => _columnUpdate
+            .Select(x => SqliteQueries.ColumnEqual
                 .Replace("$COLUMN", x.Key)
                 .Replace("$PARAM", x.Value))
             .FirstOrDefault();
         // Remplazamos
-        var updatedCommand = _updateCommand
+        var updatedCommand = SqliteQueries.Update
             .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
             .Replace("$UPDATES", string.Join(",", updateColumn))
             .Replace("$CONDITION", idCondition);
@@ -160,7 +159,38 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
         connection.Open();
         var result = connection.Execute(updatedCommand, columnsValue);
         connection.Close();
-        return default;
+        return aggregate;
+    }
+
+    /// <summary>
+    /// Elimina un registro del almacen
+    /// </summary>
+    /// <param name="aggregate"></param>
+    /// <returns></returns>
+    public TAggregate Delete(TAggregate aggregate)
+    {
+        // Obtenemos el mapeador del tipo id
+        var mapper = PropertyMappers.FirstOrDefault(x => x.GetPropertyName() == "Id");
+        // Creamos el nombre del parametro
+        var param = "@$PARAM".Replace("$PARAM", mapper.GetPropertyName().ToUpper());
+        // Creamos la condicion
+        var columnDelete = SqliteQueries.ColumnEqual
+            .Replace("$COLUMN", mapper.GetColumnName())
+            .Replace("$PARAM", param);
+        // Creamos el comando
+        var deleteCommand = SqliteQueries.Delete
+            .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
+            .Replace("$CONDITION", columnDelete);
+        // Creamos el diccionario con los valores
+        var columnsValue = new Dictionary<string, object>();
+        // Agregamos el objeto
+        columnsValue.Add(param, mapper.GetPropertyValue(aggregate));
+
+        using var connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+        var result = connection.Execute(deleteCommand, columnsValue);
+        connection.Close();
+        return aggregate;
     }
 
     /// <summary>
@@ -254,21 +284,15 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
     };
 
     /// <summary>
-    /// Comando de creacion
-    /// </summary>
-    private string _createCommand = @"CREATE TABLE IF NOT EXISTS $TABLE_NAME($COLUMNS_DEFINITION);";
-
-    /// <summary>
     /// Verifica que la tabla para la entidad actual exista en la base de 
     /// datos para las operaciones de lectura y escritura
     /// </summary>
     private void CheckTableExistence()
     {
-        var tableCreation = _createCommand
-            .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper());
-        var columnDefinitions = PropertyMappers.Select(x => x.GetColumnDefinition());
-        var columnDefinitionBody = string.Join(',', columnDefinitions);
-        tableCreation = tableCreation.Replace("$COLUMNS_DEFINITION", columnDefinitionBody);
+        var tableCreation = SqliteQueries.CreateTableCommand<TAggregate>(
+                PropertyMappers
+                .Select(x => x.GetColumnDefinition())
+                .ToList());
         // Coneccion a la base de datos
         var connectionString = GetConnectionString();
         using var connection = new SqliteConnection(connectionString);
@@ -278,50 +302,11 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
     }
 
     /// <summary>
-    /// Commando para obtener informacion de las columnas de la tabla
-    /// </summary>
-    private string _columnInfoCommand = @"
-WITH CTE_CurrentCols as(
-	SELECT  [name]
-	FROM pragma_table_info('$TABLE_NAME')
-),
-CTE_EntityCols as (
-	$COLUMNS_BODY
-),
-CTE_MissingCols as (
-	SELECT EC.name [name], true [status]
-	FROM CTE_EntityCols as EC
-	LEFT JOIN CTE_CurrentCols as CC ON CC.name = EC.name
-	WHERE CC.name IS NULL
-),
-CTE_DeletedCols as (
-	SELECT CC.name [name], false [status]
-	FROM CTE_CurrentCols as CC
-	LEFT JOIN CTE_EntityCols as EC ON EC.name = CC.name
-	WHERE EC.name IS null
-)
-SELECT name, status
-FROM CTE_MissingCols EC
-UNION ALL
-SELECT name, status
-FROM CTE_DeletedCols DC";
-
-    /// <summary>
-    /// Template para agregar una columna
-    /// </summary>
-    private string _columnAddCommand = "ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_DEFINITION;";
-
-    /// <summary>
-    /// Template para eliminar una columna
-    /// </summary>
-    private string _columnDeleteCommand = "ALTER TABLE $TABLE_NAME DROP COLUMN $COLUMN_NAME;";
-
-    /// <summary>
     /// Verifica que el schema de columnas sea correcto
     /// </summary>
     private void CheckColumnsExistence()
     {
-        var columnInfo = _columnInfoCommand.Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper());
+        var columnInfo = SqliteQueries.ColumnCheck.Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper());
         var columnList = PropertyMappers
             .Select(x => "SELECT '%COLUMN' as [name]".Replace("%COLUMN", x.GetColumnName()));
         var columnBody = string.Join("\nUNION ALL\n", columnList);
@@ -338,7 +323,7 @@ FROM CTE_DeletedCols DC";
         // Columnas eliminadas
         var deletedColumnCommands = missingColumns
             .Where(x => !x.status)
-            .Select(x => _columnDeleteCommand
+            .Select(x => SqliteQueries.DeleteColumn
                 .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
                 .Replace("$COLUMN_NAME", x.name.ToUpper()))
             .ToList();
@@ -350,7 +335,7 @@ FROM CTE_DeletedCols DC";
             missing => missing.name,
             mapper => mapper.GetColumnName(),
             (missing, mapper) => mapper)
-            .Select(x => _columnAddCommand
+            .Select(x => SqliteQueries.AddColumn
                 .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
                 .Replace("$COLUMN_DEFINITION", x.GetColumnDefinition()))
             .Concat(deletedColumnCommands)

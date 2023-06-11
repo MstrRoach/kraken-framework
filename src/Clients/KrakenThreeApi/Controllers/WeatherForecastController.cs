@@ -55,4 +55,12 @@ public class WeatherForecastController : ControllerBase
         var response = await _appHost.ExecuteAsync(command);
         return StatusCode(StatusCodes.Status200OK, response);
     }
+
+    [HttpDelete("Account")]
+    public async Task<IActionResult> DeleteAccount([FromQuery]Guid id)
+    {
+        var command = new DeleteAccountCommand { Id = id };
+        var response = await _appHost.ExecuteAsync(command);
+        return StatusCode(StatusCodes.Status200OK, response);
+    }
 }
