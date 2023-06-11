@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,9 @@ internal class SqliteQueries
     public const string TableName = "$TABLE_NAME";
 
     public const string ColumnDefinition = "$COLUMNS_DEFINITION";
+    public const string Column = "$COLUMN_NAME";
+
+    public const string Condition = "$CONDITION";
 
     /// <summary>
     /// Cadena para crear una tabla
@@ -21,12 +25,12 @@ internal class SqliteQueries
     /// Cadena para revissar las columnas
     /// </summary>
     public const string ColumnCheck = 
-@"WITH CTE_CurrentCols as(
+$@"WITH CTE_CurrentCols as(
 	SELECT  [name]
-	FROM pragma_table_info('$TABLE_NAME')
+	FROM pragma_table_info('{TableName}')
 ),
 CTE_EntityCols as (
-	$COLUMNS_BODY
+	{ColumnDefinition}
 ),
 CTE_MissingCols as (
 	SELECT EC.name [name], true [status]
@@ -49,17 +53,22 @@ FROM CTE_DeletedCols DC";
     /// <summary>
     /// Cadena para agregar columna a una tabla
     /// </summary>
-    public const string AddColumn = "ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_DEFINITION;";
+    public const string AddColumn = $"ALTER TABLE {TableName} ADD COLUMN {ColumnDefinition};";
 
     /// <summary>
     /// Cadena para eliminar una columna de la tabla
     /// </summary>
-    public const string DeleteColumn = "ALTER TABLE $TABLE_NAME DROP COLUMN $COLUMN_NAME;";
+    public const string DeleteColumn = $"ALTER TABLE {TableName} DROP COLUMN {Column};";
 
     /// <summary>
     /// Cadena para insertar valores en una tabla
     /// </summary>
     public const string Insert = "INSERT INTO $TABLE_NAME($COLUMNS) VALUES($COLUMN_VALUES);$LAST_INSERTED";
+
+    /// <summary>
+    /// Plantilla para hacer una seleccion de una columna especifica
+    /// </summary>
+    public const string ColumnParam = "SELECT '$COLUMN' as [name]";
 
     /// <summary>
     /// Cadena para seleccionar valores de una tabla
@@ -79,7 +88,7 @@ FROM CTE_DeletedCols DC";
     /// <summary>
     /// Cadena para eliminar un registro de la tabla
     /// </summary>
-    public const string Delete = "DELETE FROM $TABLE_NAME WHERE $CONDITION;";
+    public const string Delete = $"DELETE FROM {TableName} WHERE {Condition};";
 
     /// <summary>
     /// Crea el comando para crear una tabla
@@ -95,4 +104,50 @@ FROM CTE_DeletedCols DC";
         return tableCreation;
     }
 
+    /// <summary>
+    /// Construye el comando para revisar que una tabla contenga todas
+    /// las columnas necesarias
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="columnList"></param>
+    /// <returns></returns>
+    public static string CheckColumnsCommand<T>(List<string> columnList)
+    {
+        // Creamos la lista de columnas a verificar
+        var columnParamList = columnList
+            .Select(x => ColumnParam.Replace("$COLUMN", x))
+            .ToList();
+        // Creamos el comando para revisar el schema de columnas
+        var columnCheckCommand = ColumnCheck
+            .Replace(TableName, typeof(T).Name.ToUpper())
+            .Replace(ColumnDefinition, string.Join("\nUNION ALL\n", columnParamList));
+        // retornamos el comando
+        return columnCheckCommand;
+    }
+
+    /// <summary>
+    /// Crea el comando para eliminar una columna
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="columnName"></param>
+    /// <returns></returns>
+    public static string DropColumnCommand<T>(string columnName)
+    {
+        return DeleteColumn
+            .Replace(TableName, typeof(T).Name.ToUpper())
+            .Replace(Column, columnName);
+    }
+
+    /// <summary>
+    /// Crea el comando para agregar una columna a una tabla determinada
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="columnDefinition"></param>
+    /// <returns></returns>
+    public static string AddColumnCommand<T>(string columnDefinition)
+    {
+        return AddColumn
+            .Replace(TableName, typeof(T).Name.ToUpper())
+            .Replace(ColumnDefinition, columnDefinition);
+    }
 }

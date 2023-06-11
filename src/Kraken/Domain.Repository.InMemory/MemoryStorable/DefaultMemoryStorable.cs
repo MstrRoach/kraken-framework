@@ -306,26 +306,20 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
     /// </summary>
     private void CheckColumnsExistence()
     {
-        var columnInfo = SqliteQueries.ColumnCheck.Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper());
-        var columnList = PropertyMappers
-            .Select(x => "SELECT '%COLUMN' as [name]".Replace("%COLUMN", x.GetColumnName()));
-        var columnBody = string.Join("\nUNION ALL\n", columnList);
-        columnInfo = columnInfo.Replace("$COLUMNS_BODY", columnBody);
+        var columnCheckCommand = SqliteQueries.CheckColumnsCommand<TAggregate>(PropertyMappers.Select(x => x.GetColumnName()).ToList());
         // Coneccion a la base de datos
         var connectionString = GetConnectionString();
         using var connection = new SqliteConnection(connectionString);
         connection.Open();
         // Obtener las columnas faltantes
-        var missingColumns = connection.Query<ColumnInfo>(columnInfo);
+        var missingColumns = connection.Query<ColumnInfo>(columnCheckCommand);
         connection.Close();
         if (missingColumns.Count() == 0)
             return;
         // Columnas eliminadas
         var deletedColumnCommands = missingColumns
             .Where(x => !x.status)
-            .Select(x => SqliteQueries.DeleteColumn
-                .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
-                .Replace("$COLUMN_NAME", x.name.ToUpper()))
+            .Select(x => SqliteQueries.DropColumnCommand<TAggregate>(x.name))
             .ToList();
         // Columnas para agregar
         var columnCreationCommands = missingColumns
@@ -335,9 +329,8 @@ public class DefaultMemoryStorable<TModule, TAggregate> : IMemoryStorable<TModul
             missing => missing.name,
             mapper => mapper.GetColumnName(),
             (missing, mapper) => mapper)
-            .Select(x => SqliteQueries.AddColumn
-                .Replace("$TABLE_NAME", typeof(TAggregate).Name.ToUpper())
-                .Replace("$COLUMN_DEFINITION", x.GetColumnDefinition()))
+            .Select(x => SqliteQueries
+            .AddColumnCommand<TAggregate>(x.GetColumnDefinition()))
             .Concat(deletedColumnCommands)
             .ToList();
         connection.Open();

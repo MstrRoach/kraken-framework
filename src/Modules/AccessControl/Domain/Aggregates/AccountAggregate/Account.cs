@@ -23,7 +23,7 @@ public class Account : Aggregate<Guid>
     /// <summary>
     /// Fecha de creacion del registro 
     /// </summary>
-    //public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     public static Account Create(string name, string email)
     {
@@ -32,7 +32,7 @@ public class Account : Aggregate<Guid>
             Id = Guid.NewGuid(),
             Name = name,
             Email = Email.Create(email),
-            //CreatedAt = DateTime.UtcNow,
+            CreatedAt = DateTime.UtcNow,
         };
         account.AddDomainEvent(new AccountCreated
         {

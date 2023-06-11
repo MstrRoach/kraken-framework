@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace Kraken.Server;
 
@@ -48,7 +49,7 @@ public static class KrakenServerExtensions
        // builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
         // =============== Configuracion de los servicios de modulo =====================
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
-
+        serverDescriptor.modules.ForEach(module => builder.Services.AddSingleton(Options.Create(module)));
         serverDescriptor.modules.ForEach(module => module.Register(builder.Services));
 
         builder.Services.AddSingleton<ServerBootstrapper>()
