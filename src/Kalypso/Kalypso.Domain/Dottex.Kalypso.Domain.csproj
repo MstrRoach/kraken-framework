@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Kalypso.Module\Dottex.Kalypso.Module.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath=""></None>
+	</ItemGroup>
+
 </Project>
