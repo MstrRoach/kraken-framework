@@ -10,7 +10,7 @@
 	  <PackageTags>Modular Monolith;Reactive Framework;Transactional Outbox;Unit Work;Mediator;CQRS;Domain Driven Design</PackageTags>
 	  <PackageIcon>flat_128x128.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <RepositoryUrl></RepositoryUrl>
+	  <RepositoryUrl>https://github.com/MstrRoach/kraken-framework/tree/main/src/Kalypso/Kalypso.Domain</RepositoryUrl>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -20,11 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dottex.Kalypso.Module" Version="1.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Module\Dottex.Kalypso.Module.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

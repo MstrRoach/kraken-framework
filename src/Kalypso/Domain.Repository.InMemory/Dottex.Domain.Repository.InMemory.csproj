@@ -10,7 +10,7 @@
 	  <PackageTags>InMemory Repository; Domain Module; Modular Monolith;Unit Work;Event Sourcing</PackageTags>
 	  <PackageIcon>flat_128x128.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <RepositoryUrl></RepositoryUrl>
+	  <RepositoryUrl>https://github.com/MstrRoach/kraken-framework/tree/main/src/Kalypso/Domain.Repository.InMemory</RepositoryUrl>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -21,11 +21,8 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="1.0.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
