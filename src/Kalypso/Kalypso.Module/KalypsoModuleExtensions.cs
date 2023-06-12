@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Dottex.Kalypso.Module;
 
-public static class KrakenModuleExtensions
+public static class KalypsoModuleExtensions
 {
     /// <summary>
     /// Obtiene el nombre del modulo al que pertenece el comando

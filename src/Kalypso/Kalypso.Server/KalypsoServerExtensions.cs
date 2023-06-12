@@ -26,12 +26,12 @@ public static class KalypsoServerExtensions
         // Creamos la descripcion de los servicios configurados
         ServerDescriptor serverDescriptor = new();
         kalypsoSetup(serverDescriptor);
-        // Registro de configuraciones del servidor kraken para ponerlas disponibles
+        // Registro de configuraciones del servidor Kalypso para ponerlas disponibles
         builder.Services.AddSingleton(builder.Configuration.GetNamedSection<ServerOptions>());
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
         builder.Services.AddSingleton(serverDescriptor.moduleRegistry);
-        // =============== Configurando las partes centrales de kraken ==================
+        // =============== Configurando las partes centrales de Kalypso ==================
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
         builder.Services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
