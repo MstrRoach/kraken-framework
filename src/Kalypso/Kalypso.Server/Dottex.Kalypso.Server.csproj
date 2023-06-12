@@ -10,7 +10,7 @@
 	  <PackageTags>Modular Monolith;Reactive Framework;Transactional Outbox;Unit Work;Mediator;CQRS;Rest Api</PackageTags>
 	  <PackageIcon>flat_128x128.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <RepositoryUrl></RepositoryUrl>
+	  <RepositoryUrl>https://github.com/MstrRoach/kraken-framework/tree/main/src/Kalypso/Kalypso.Server</RepositoryUrl>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -20,24 +20,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Transaction\UnitWorkRegistry.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dottex.Kalypso.Module" Version="1.0.0" />
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Module\Dottex.Kalypso.Module.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
