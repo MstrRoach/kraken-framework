@@ -17,7 +17,7 @@ public class IdentityContext : IIdentityContext
 
     public Dictionary<string, IEnumerable<string>> Claims { get; }
 
-    private IdentityContext()
+    public IdentityContext()
     {
     }
 
@@ -52,5 +52,5 @@ public class IdentityContext : IIdentityContext
 
     public bool IsAdmin() => Role is "admin";
 
-    public static IIdentityContext Empty => new IdentityContext();
+   
 }

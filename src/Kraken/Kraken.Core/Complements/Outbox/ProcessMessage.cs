@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Outbox
+namespace Kraken.Core.Complements.Outbox
 {
     /// <summary>
     /// Define un mensaje utilizado para el procesamiento
@@ -33,7 +33,7 @@ namespace Kraken.Core.Outbox
         /// Id de trazabilidad
         /// </summary>
         public string TraceId { get; set; }
-        
+
         /// <summary>
         /// Tipo del evento
         /// </summary>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Outbox
+namespace Kraken.Core.Complements.Outbox
 {
     /// <summary>
     /// Commponente dedicado a la distribucion de los eventos en un hilo 

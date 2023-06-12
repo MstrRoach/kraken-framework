@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <Authors>Jesus A. Martinez aka MstrRoach</Authors>
+	  <Description>Central server in charge of managing http requests exposing and containing the controllers, as well as coordinating the cqrs server and executing actions and readings in each registered module</Description>
+	  <Copyright>Copyright Jesus A. Martinez</Copyright>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <PackageTags>Modular Monolith;Reactive Framework;Transactional Outbox;Unit Work;Mediator;CQRS;Rest Api</PackageTags>
+	  <PackageIcon>flat_128x128.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <RepositoryUrl></RepositoryUrl>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <RepositoryType>dll</RepositoryType>
+	  <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Transaction\UnitWorkRegistry.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.14.1" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kalypso.Module\Dottex.Kalypso.Module.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath=""></None>
+	</ItemGroup>
+
+</Project>

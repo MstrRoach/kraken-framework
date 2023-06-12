@@ -1,6 +1,6 @@
 ﻿using Kraken.Core.EventBus;
 
-namespace Kraken.Core.UnitWork;
+namespace Kraken.Core.Complements.UnitWork;
 
 /// <summary>
 /// Evento base para los eventos de la unidad de trabajo

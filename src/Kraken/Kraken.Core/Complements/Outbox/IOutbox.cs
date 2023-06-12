@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Outbox
+namespace Kraken.Core.Complements.Outbox
 {
     public interface IOutbox
     {

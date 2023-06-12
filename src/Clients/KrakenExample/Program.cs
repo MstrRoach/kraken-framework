@@ -3,7 +3,6 @@ using Kraken.Core.UnitWork;
 using Kraken.Host;
 using Kraken.Host.Features.Cors;
 using Kraken.Host.Features.Documentation;
-using Kraken.Host.Logging.Providers;
 using Kraken.Host.Modules;
 using KrakenExample;
 using KrakenExample.Features;

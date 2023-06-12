@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Core.Reaction
+namespace Kraken.Core.Complements.Reaction
 {
     public interface IReactionStream
     {

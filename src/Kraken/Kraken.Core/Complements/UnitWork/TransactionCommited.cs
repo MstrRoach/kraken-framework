@@ -1,4 +1,4 @@
-﻿namespace Kraken.Core.UnitWork;
+﻿namespace Kraken.Core.Complements.UnitWork;
 
 /// <summary>
 /// Indica que una transaccion fue finalizada
