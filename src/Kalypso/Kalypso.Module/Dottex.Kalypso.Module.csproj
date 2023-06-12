@@ -8,9 +8,9 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <PackageTags>Modular Monolith;Reactive Framework;Transactional Outbox;Unit Work;Mediator;CQRS</PackageTags>
-	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <PackageIcon>flat_128x128.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <RepositoryUrl></RepositoryUrl>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

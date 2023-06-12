@@ -1,9 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	  <Authors>Jesus A. Martinez aka MstrRoach</Authors>
+	  <Description>Base library for building a module using domain driven design and integrating it with the kalypso module system</Description>
+	  <Copyright>Copyright Jesus A. Martinez</Copyright>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <PackageTags>Modular Monolith;Reactive Framework;Transactional Outbox;Unit Work;Mediator;CQRS;Domain Driven Design</PackageTags>
+	  <PackageIcon>flat_128x128.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <RepositoryUrl></RepositoryUrl>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <RepositoryType>dll</RepositoryType>
+	  <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
