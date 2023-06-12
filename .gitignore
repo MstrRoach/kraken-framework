@@ -40,3 +40,4 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 /src/Kalypso/Kalypso.Module/Properties/PublishProfiles
+*.pubxml
