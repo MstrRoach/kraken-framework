@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kraken\Domain.Repository.InMemory\Domain.Repository.InMemory.csproj" />
-    <ProjectReference Include="..\..\Kraken\Kraken.Domain\Kraken.Domain.csproj" />
+    <Folder Include="Persistence\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\" />
+    <ProjectReference Include="..\..\Kalypso\Domain.Repository.InMemory\Dottex.Domain.Repository.InMemory.csproj" />
+    <ProjectReference Include="..\..\Kalypso\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
   </ItemGroup>
 
 </Project>

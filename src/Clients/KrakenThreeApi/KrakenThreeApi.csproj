@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kraken\Kraken.Server\Kraken.Server.csproj" />
+    <ProjectReference Include="..\..\Kraken\Kraken.Server\Dottex.Kalypso.Server.csproj" />
     <ProjectReference Include="..\..\Modules\AccessControl\AccessControl.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
-﻿using Kraken.Module.Common;
-using Kraken.Module.Transaction;
+﻿using Dottex.Kalypso.Module.Common;
+using Dottex.Kalypso.Module.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;

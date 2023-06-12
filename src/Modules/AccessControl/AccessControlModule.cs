@@ -1,7 +1,7 @@
-﻿using Domain.Repository.InMemory;
-using Kraken.Domain;
-using Kraken.Module.Common;
-using Kraken.Module.Transaction;
+﻿using Dottex.Domain.Repository.InMemory;
+using Dottex.Kalypso.Domain;
+using Dottex.Kalypso.Module.Common;
+using Dottex.Kalypso.Module.Transaction;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AccessControl;

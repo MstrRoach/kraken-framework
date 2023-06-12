@@ -1,4 +1,4 @@
-﻿using Kraken.Domain.Core;
+﻿using Dottex.Kalypso.Domain.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

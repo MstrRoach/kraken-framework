@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Kraken.Host;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Events;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kraken.Host.Logging.Providers;
+namespace KrakenExample.Features;
 
 public static class SerilogProviderExtensions
 {

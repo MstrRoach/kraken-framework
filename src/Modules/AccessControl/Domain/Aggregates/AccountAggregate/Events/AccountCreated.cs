@@ -1,4 +1,4 @@
-﻿using Kraken.Module.Request.Mediator;
+﻿using Dottex.Kalypso.Module.Request.Mediator;
 
 namespace AccessControl.Domain.Aggregates.AccountAggregate.Events;
 

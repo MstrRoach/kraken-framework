@@ -1,5 +1,5 @@
 ﻿using AccessControl.Domain.Aggregates.AccountAggregate.Events;
-using Kraken.Module.Request.Mediator;
+using Dottex.Kalypso.Module.Request.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using AccessControl.Domain.Aggregates.AccountAggregate;
 using AccessControl.Domain.Aggregates.ProfileAggregate;
-using Kraken.Domain.Storage;
-using Kraken.Module.Request.Mediator;
+using Dottex.Kalypso.Domain.Storage;
+using Dottex.Kalypso.Module.Request.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Linq;

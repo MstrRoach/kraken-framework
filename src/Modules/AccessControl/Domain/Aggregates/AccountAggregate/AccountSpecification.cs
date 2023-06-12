@@ -1,4 +1,4 @@
-﻿using Kraken.Domain.Storage;
+﻿using Dottex.Kalypso.Domain.Storage;
 
 namespace AccessControl.Domain.Aggregates.AccountAggregate;
 
