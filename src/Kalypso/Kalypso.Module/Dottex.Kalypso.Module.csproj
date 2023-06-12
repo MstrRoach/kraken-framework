@@ -12,7 +12,6 @@
 	  <PackageIcon>flat_128x128.png</PackageIcon>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
-	  <IncludeSymbols>true</IncludeSymbols>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <NeutralLanguage>en</NeutralLanguage>
