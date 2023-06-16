@@ -1,4 +1,5 @@
-﻿using Dottex.Kalypso.Domain.Core;
+﻿using Dottex.Kalypso.Domain.Audit;
+using Dottex.Kalypso.Domain.Core;
 using Dottex.Kalypso.Domain.Storage;
 using Dottex.Kalypso.Module;
 using Dottex.Kalypso.Module.Common;
@@ -43,7 +44,10 @@ public static class DomainExtensions
         // Registramos los repositorios
         options.RepositoryExtension.AddServices(services, callerAggregates);
         // Registramos el decorador
-        services.TryDecorate(typeof(IRepository<>), typeof(EventExtractorRepositoryDecorator<>));
+        services.TryDecorate(typeof(IRepository<>), 
+            typeof(EventExtractorRepositoryDecorator<>));
+        services.TryDecorate(typeof(IRepository<>), 
+            typeof(AuditorRepositoryExtractor<>));
         // Salimos
         return services;
     }
