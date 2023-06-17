@@ -41,7 +41,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// <summary>
     /// Almacen para auditoria
     /// </summary>
-    readonly IAuditStorage _auditStorage;
+    readonly AuditStorage _auditStorage;
 
     /// <summary>
     /// Contexto de la aplicacion
@@ -58,8 +58,8 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// <param name="context"></param>
     public AuditorRepositoryExtractor(IRepository<T> inner,
         Flattener<T> flattener, 
-        ChangeExtractor changeExtractor, 
-        IAuditStorage auditStorage, 
+        ChangeExtractor changeExtractor,
+        AuditStorage auditStorage, 
         IContext context)
     {
         _inner = inner;
@@ -87,7 +87,6 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         var delta = _changeExtractor.GetChanges(oldEntityFlat, newEntityFlat);
         // Setteamos el nuevo valor del estado
         SetState(aggregate, newEntityFlat);
-        //(T).GetField("_state").SetValue(aggregate, newEntityFlat);
         // Creando el registro de auditoria
         var auditRecord = new Change
         {
@@ -99,7 +98,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando el registro de auditoria
-        _auditStorage.Save(auditRecord);
+        _auditStorage.Save<T>(auditRecord);
     }
 
     private void SetState(T aggregate, JsonObject state)
@@ -140,7 +139,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando el registro de auditoria
-        _auditStorage.Save(auditRecord);
+        _auditStorage.Save<T>(auditRecord);
     }
 
     /// <summary>
@@ -214,7 +213,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando
-        _auditStorage.Save(auditRecord);
+        _auditStorage.Save<T>(auditRecord);
         return Task.CompletedTask;
     }
 }

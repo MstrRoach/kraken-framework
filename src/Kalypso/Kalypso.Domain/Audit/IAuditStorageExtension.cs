@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Dottex.Kalypso.Module.Common;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Dottex.Kalypso.Domain.Audit;
 /// Interface para la definicion de la configuracion para el almacen
 /// de auditoria
 /// </summary>
-public interface IAuditStorageExtension
+public interface IAuditStorageExtension<TModule>
+    where TModule : IModule
 {
     /// <summary>
     /// Agrega los servicios para la configuracion del repositorio en turno
