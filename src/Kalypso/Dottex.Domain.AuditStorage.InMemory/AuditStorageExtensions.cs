@@ -8,6 +8,13 @@ namespace Dottex.Domain.AuditStorage.InMemory;
 /// </summary>
 public static class AuditStorageExtensions
 {
+    /// <summary>
+    /// Agrega el almacen de auditoria en memoria
+    /// </summary>
+    /// <typeparam name="TModule"></typeparam>
+    /// <param name="extensions"></param>
+    /// <param name="inMemoryOptions"></param>
+    /// <returns></returns>
     public static DomainDrivenDesignOptions<TModule> UseInMemoryAuditStorage<TModule>(
         this DomainDrivenDesignOptions<TModule> extensions, 
         Action<InMemoryAuditStorageOptions<TModule>> inMemoryOptions = null)

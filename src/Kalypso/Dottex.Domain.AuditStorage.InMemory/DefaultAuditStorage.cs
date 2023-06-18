@@ -40,12 +40,12 @@ public class DefaultAuditStorage<TModule> : IAuditStorage<TModule>
         connection.Open();
         var result = connection.ExecuteScalar<int>(AddRecord, new
         {
-            EntityId = record.EntityId,
-            Entity = record.Entity,
+            record.EntityId,
+            record.Entity,
             Operation = record.Operation.ToString(),
             Delta = JsonSerializer.Serialize(record.Delta),
-            User = record.User,
-            UpdatedAt = record.UpdatedAt,
+            record.User,
+            record.UpdatedAt,
         });
         connection.Close();
     }
