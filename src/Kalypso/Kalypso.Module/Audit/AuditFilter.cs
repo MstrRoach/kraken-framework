@@ -20,27 +20,27 @@ public sealed class AuditFilter
     /// <summary>
     /// Modulo especifico
     /// </summary>
-    public string Module { get; set; }
+    public string? Module { get; set; }
 
     /// <summary>
     /// Id de entidad especifico
     /// </summary>
-    public string EntityId { get; set; }
+    public string? EntityId { get; set; }
 
     /// <summary>
     /// Entidad especifica
     /// </summary>
-    public string Entity { get; set; }
+    public string? Entity { get; set; }
 
     /// <summary>
     /// Operacion especifica
     /// </summary>
-    public string Operation { get; set; }
+    public string? Operation { get; set; }
 
     /// <summary>
     /// Usuario especifico
     /// </summary>
-    public string User { get; set; }
+    public string? User { get; set; }
 
     /// <summary>
     /// Desde una fecha especifica, por default es la mas minima
@@ -63,10 +63,9 @@ public sealed class AuditFilter
     public int PageSize { get; set; } = 10;
 
     private const string ColumnFilter = "$Column = $Value";
-    private const string DateFilter = "BETWEEN $From AND $To";
+    private const string DateFilter = "$Column BETWEEN $From AND $To";
     private const string Pagination = "LIMIT $Size OFFSET $Offset";
-    private const string Where = $@"
-    WHERE $Filter $Pagination";
+    private const string Where = $@"WHERE $Filter $Pagination";
 
     public string GetFilter()
     {
@@ -75,42 +74,43 @@ public sealed class AuditFilter
         var id = Id.HasValue
             ? ColumnFilter
             .Replace("$Column", "Id")
-            .Replace("$Value", Id.ToString())
+            .Replace("$Value", "@Id")
             : string.Empty;
         
         var module = Module is not null
             ? ColumnFilter
             .Replace("$Column", "Module")
-            .Replace("$Value", Module)
+            .Replace("$Value", "@Module")
             : string.Empty;
         
         var entityId = EntityId is not null
             ? ColumnFilter
             .Replace("$Column", "EntityId")
-            .Replace("$Value", EntityId)
+            .Replace("$Value", "@EntityId")
             : string.Empty;
 
         var entity = Entity is not null
             ? ColumnFilter
             .Replace("$Column", "Entity")
-            .Replace("$Value", Entity)
+            .Replace("$Value", "qEntity")
             : string.Empty;
 
         var operation = Operation is not null
             ? ColumnFilter
             .Replace("$Column", "Operation")
-            .Replace("$Value", Operation)
+            .Replace("$Value", "@Operation")
             : string.Empty;
 
         var user = User is not null
             ? ColumnFilter
             .Replace("$Column", "User")
-            .Replace("$Value", User)
+            .Replace("$Value", "@User")
             : string.Empty;
 
         var date = DateFilter
-            .Replace("$From", From.ToString())
-            .Replace("$To", To.ToString());
+            .Replace("$Column", "UpdatedAt")
+            .Replace("$From", "@From")
+            .Replace("$To", "@To");
 
         filters.Add(id);
         filters.Add(module);
@@ -123,8 +123,8 @@ public sealed class AuditFilter
         var filter = string.Join("\nAND ", filters.Where(x => !string.IsNullOrEmpty(x)));
 
         var pagination = Pagination
-            .Replace("$Size", PageSize.ToString())
-            .Replace("$Offset", (Page * PageSize).ToString());
+            .Replace("$Size", "@PageSize")
+            .Replace("$Offset", "@Offset");
 
         return Where
             .Replace("$Filter", filter)

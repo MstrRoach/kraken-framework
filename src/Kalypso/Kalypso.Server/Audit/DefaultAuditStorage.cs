@@ -36,7 +36,7 @@ internal class DefaultAuditStorage : IAuditStorage
     private const string SearchQuery = $@"
     SELECT Id,Module,EntityId,Entity,Operation,Delta,User,UpdatedAt
     FROM Audit
-    WHERE $Where";
+    $Where";
 
     /// <summary>
     /// Devuelve la lista de registros de auditoria
@@ -48,7 +48,19 @@ internal class DefaultAuditStorage : IAuditStorage
         var query = SearchQuery.Replace("$Where", filter.GetFilter());
         using var connection = new SqliteConnection(GetConnectionString());
         connection.Open();
-        var result = connection.Query<AuditLog>(query);
+        var result = connection.Query<AuditLog>(query, new
+        {
+            filter.Id,
+            filter.Module,
+            filter.EntityId,
+            filter.Entity,
+            filter.Operation,
+            filter.User,
+            filter.From,
+            filter.To,
+            filter.PageSize,
+            Offset = (filter.Page - 1) * filter.PageSize
+        });
         connection.Close();
         return result.ToList();
     }
