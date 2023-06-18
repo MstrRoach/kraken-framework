@@ -1,4 +1,4 @@
-﻿using Kraken.Module.TransactionalOutbox;
+﻿using Dottex.Kalypso.Module.TransactionalOutbox;
 using System.Collections.Concurrent;
 
 namespace KrakenThreeApi.CommonServices;

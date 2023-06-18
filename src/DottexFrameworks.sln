@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dottex.Domain.Repository.En
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kalypso", "Kalypso", "{F699EA9E-A548-4702-8C60-090B0B770D46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dottex.Domain.AuditStorage.InMemory", "Kalypso\Dottex.Domain.AuditStorage.InMemory\Dottex.Domain.AuditStorage.InMemory.csproj", "{611BFA0D-A479-4F91-AD9C-7757B4078F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{70628596-28AB-4865-80EC-85994E0A8F50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70628596-28AB-4865-80EC-85994E0A8F50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70628596-28AB-4865-80EC-85994E0A8F50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{611BFA0D-A479-4F91-AD9C-7757B4078F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{611BFA0D-A479-4F91-AD9C-7757B4078F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{611BFA0D-A479-4F91-AD9C-7757B4078F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{611BFA0D-A479-4F91-AD9C-7757B4078F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{E9EDB57C-3066-4C35-AD07-55800AA11ED8} = {F699EA9E-A548-4702-8C60-090B0B770D46}
 		{14043130-526F-476F-B43F-BCCBFF1E28D0} = {F699EA9E-A548-4702-8C60-090B0B770D46}
 		{70628596-28AB-4865-80EC-85994E0A8F50} = {F699EA9E-A548-4702-8C60-090B0B770D46}
+		{611BFA0D-A479-4F91-AD9C-7757B4078F6D} = {F699EA9E-A548-4702-8C60-090B0B770D46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}

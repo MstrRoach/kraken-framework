@@ -11,12 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kalypso\Kalypso.Server\Dottex.Kalypso.Server.csproj" />
-    <ProjectReference Include="..\..\Modules\AccessControl\AccessControl.csproj" />
+    <Folder Include="Components\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
+    <ProjectReference Include="..\..\Kalypso\Kalypso.Server\Dottex.Kalypso.Server.csproj" />
+    <ProjectReference Include="..\..\Modules\AccessControl\AccessControl.csproj" />
   </ItemGroup>
 
 </Project>

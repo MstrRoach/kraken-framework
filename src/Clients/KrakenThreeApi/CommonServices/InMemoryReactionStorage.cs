@@ -1,4 +1,4 @@
-﻿using Kraken.Module.TransactionalReaction;
+﻿using Dottex.Kalypso.Module.TransactionalReaction;
 using System.Collections.Concurrent;
 
 namespace KrakenThreeApi.CommonServices;
