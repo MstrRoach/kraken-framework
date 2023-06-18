@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Kalypso\Domain.Repository.InMemory\Dottex.Domain.Repository.InMemory.csproj" />
-    <ProjectReference Include="..\..\Kalypso\Dottex.Domain.AuditStorage.InMemory\Dottex.Domain.AuditStorage.InMemory.csproj" />
     <ProjectReference Include="..\..\Kalypso\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
   </ItemGroup>
 

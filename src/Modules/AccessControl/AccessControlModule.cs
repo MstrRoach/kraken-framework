@@ -1,5 +1,4 @@
-﻿using Dottex.Domain.AuditStorage.InMemory;
-using Dottex.Domain.Repository.InMemory;
+﻿using Dottex.Domain.Repository.InMemory;
 using Dottex.Kalypso.Domain;
 using Dottex.Kalypso.Module.Common;
 using Dottex.Kalypso.Module.Transaction;
@@ -17,7 +16,6 @@ public class AccessControlModule : IModule
         services.AddDomainDrivenDesign<AccessControlModule>(builder =>
         {
             builder.UseInMemoryRepository();
-            builder.UseInMemoryAuditStorage();
         });
     }
 }
