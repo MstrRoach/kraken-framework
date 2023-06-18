@@ -43,6 +43,11 @@ public static class DomainExtensions
             .ToList();
         // Registramos los repositorios
         options.RepositoryExtension.AddServices(services, callerAggregates);
+        // Registramos el almacen de auditoria
+        services.AddScoped<AuditStorage>();
+        services.AddSingleton(typeof(Flattener<>));
+        services.AddSingleton<ChangeExtractor>();
+        options.AuditStorageExtension.AddServices(services);
         // Registramos el decorador
         services.TryDecorate(typeof(IRepository<>), 
             typeof(EventExtractorRepositoryDecorator<>));
