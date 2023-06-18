@@ -64,6 +64,11 @@ internal class ServerBootstrapper : BackgroundService
             _logger.LogInformation("=========> Loading processors to execute . . .");
             // Cargamos los procesadores
             _services = _serviceProvider.GetServices<IProcessingService>();
+            // Inicializando los procesos disponibles
+            _serviceProvider
+                .GetServices<IInitializer>()
+                .ToList()
+                .ForEach(x => x.Run().ConfigureAwait(false).GetAwaiter());
         }
         catch (Exception ex)
         {

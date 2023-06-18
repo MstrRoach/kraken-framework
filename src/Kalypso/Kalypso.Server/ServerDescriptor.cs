@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Dottex.Kalypso.Module.Audit;
 
 namespace Dottex.Kalypso.Server;
 
@@ -97,6 +98,11 @@ public class ServerDescriptor
     public IdentityContextProperties IdentityContextProperties { get; set; } = new();
 
     /// <summary>
+    /// Contiene las configuraciones para la base de datos en memoria
+    /// </summary>
+    public ServerDatabaseProperties ServerDatabaseProperties { get; set; } = new();
+
+    /// <summary>
     /// Contiene la aplicacion web con los servicios agregados
     /// </summary>
     public WebApplication App { get; internal set; }
@@ -142,6 +148,24 @@ public class ServerDescriptor
     }
 
     /// <summary>
+    /// Descriptor para el almacenamiento para las auditorias
+    /// </summary>
+    internal ServiceDescriptor? AuditStorageDescriptor;
+
+    /// <summary>
+    /// Permite registrar un servicio para almacenamiento dedica a auditoria
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public void AddAuditStorage<T>()
+        where T : IAuditStorage
+    {
+        AuditStorageDescriptor = ServiceDescriptor.Describe(
+            typeof(IAuditStorage),
+            typeof(T),
+            ServiceLifetime.Singleton);
+    }
+
+    /// <summary>
     /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 
     /// de memoria controlada
     /// </summary>
@@ -150,4 +174,5 @@ public class ServerDescriptor
         modules.Clear();
         assemblies.Clear();
     }
+
 }

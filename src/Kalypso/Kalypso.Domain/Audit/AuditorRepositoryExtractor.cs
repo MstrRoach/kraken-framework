@@ -1,5 +1,7 @@
 ﻿using Dottex.Kalypso.Domain.Core;
 using Dottex.Kalypso.Domain.Storage;
+using Dottex.Kalypso.Module;
+using Dottex.Kalypso.Module.Audit;
 using Dottex.Kalypso.Module.Context;
 using System;
 using System.Collections;
@@ -41,7 +43,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// <summary>
     /// Almacen para auditoria
     /// </summary>
-    readonly AuditStorage _auditStorage;
+    readonly IAuditStorage _auditStorage;
 
     /// <summary>
     /// Contexto de la aplicacion
@@ -59,7 +61,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     public AuditorRepositoryExtractor(IRepository<T> inner,
         Flattener<T> flattener, 
         ChangeExtractor changeExtractor,
-        AuditStorage auditStorage, 
+        IAuditStorage auditStorage, 
         IContext context)
     {
         _inner = inner;
@@ -88,17 +90,18 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         // Setteamos el nuevo valor del estado
         SetState(aggregate, newEntityFlat);
         // Creando el registro de auditoria
-        var auditRecord = new Change
+        var auditlog = new AuditLog
         {
+            Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Create,
-            Delta = delta,
+            Operation = AuditOperation.Create.ToString(),
+            Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando el registro de auditoria
-        _auditStorage.Save<T>(auditRecord);
+        _auditStorage.Save(auditlog);
     }
 
     private void SetState(T aggregate, JsonObject state)
@@ -129,17 +132,18 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             delta = _changeExtractor.GetSnapshot(newEntityFlat);
         }
         // Creando el registro de auditoria
-        var auditRecord = new Change
+        var auditlog = new AuditLog
         {
+            Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Create,
-            Delta = delta,
+            Operation = AuditOperation.Delete.ToString(),
+            Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando el registro de auditoria
-        _auditStorage.Save<T>(auditRecord);
+        _auditStorage.Save(auditlog);
     }
 
     /// <summary>
@@ -203,17 +207,18 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         // Setteamos el nuevo valor del estado
         SetState(aggregate, newEntityFlat);
         // Creando el cambio
-        var auditRecord = new Change
+        var auditlog = new AuditLog
         {
+            Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Update,
-            Delta = delta,
+            Operation = AuditOperation.Update.ToString(),
+            Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };
         // Guardando
-        _auditStorage.Save<T>(auditRecord);
+        _auditStorage.Save(auditlog);
         return Task.CompletedTask;
     }
 }

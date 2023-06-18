@@ -20,11 +20,6 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
     internal IRepositoryExtension<TModule> RepositoryExtension;
 
     /// <summary>
-    /// Configuracion para el almacen de auditoria
-    /// </summary>
-    internal IAuditStorageExtension<TModule> AuditStorageExtension;
-
-    /// <summary>
     /// Registra la extension para el repositorio
     /// </summary>
     /// <param name="repositoryExtension"></param>
@@ -33,18 +28,6 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
         if (repositoryExtension == null)
             throw new ArgumentNullException(nameof(repositoryExtension));
         RepositoryExtension = repositoryExtension;
-    }
-
-    /// <summary>
-    /// Registra la extension para el almacenamiento de auditoria
-    /// </summary>
-    /// <param name="auditStorageExtension"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public void RegisterAuditStorage(IAuditStorageExtension<TModule> auditStorageExtension)
-    {
-        if (auditStorageExtension is null)
-            throw new ArgumentNullException(nameof(auditStorageExtension));
-        AuditStorageExtension = auditStorageExtension;
     }
 
     /// <summary>

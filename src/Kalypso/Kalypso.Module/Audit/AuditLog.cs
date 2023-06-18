@@ -4,17 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dottex.Kalypso.Domain.Audit;
+namespace Dottex.Kalypso.Module.Audit;
 
 /// <summary>
 /// Registro enriquecido para almacenamiento
 /// </summary>
-public sealed class AuditingRecord
+public sealed class AuditLog
 {
     /// <summary>
     /// Id de la entrada
     /// </summary>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Indica al modulo al que pertenece
+    /// </summary>
+    public string Module { get; set; }
 
     /// <summary>
     /// Id de la entidad
@@ -47,4 +52,5 @@ public sealed class AuditingRecord
     public DateTime UpdatedAt { get; set; }
 }
 
+public enum AuditOperation { Create, Update, Delete }
 

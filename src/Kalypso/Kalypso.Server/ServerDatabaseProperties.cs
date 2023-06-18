@@ -1,14 +1,19 @@
-﻿using Dottex.Kalypso.Module.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Dottex.Domain.AuditStorage.InMemory;
+namespace Dottex.Kalypso.Server;
 
 /// <summary>
-/// Datos de configuracion para el almacen de auditoria
+/// Contiene las configuraciones para la base de datos
+/// del servidor en la memoria
 /// </summary>
-/// <typeparam name="T"></typeparam>
-public class InMemoryAuditStorageOptions<T> where T : IModule
+public class ServerDatabaseProperties
 {
+
     /// <summary>
     /// Path hacia los datos de las aplicaciones
     /// </summary>
@@ -24,6 +29,5 @@ public class InMemoryAuditStorageOptions<T> where T : IModule
     /// <summary>
     /// Nombre de la base de datos
     /// </summary>
-    public string DatabaseName { get; set; } =
-        typeof(T).Name.Replace("Module", string.Empty);
+    public string DatabaseName { get; set; } = "Kalypso";
 }

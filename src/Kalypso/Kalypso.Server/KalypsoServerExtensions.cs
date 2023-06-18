@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Dottex.Kalypso.Server.Audit;
 
 namespace Dottex.Kalypso.Server;
 
@@ -31,6 +32,7 @@ public static class KalypsoServerExtensions
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
         builder.Services.AddSingleton(serverDescriptor.moduleRegistry);
+        builder.Services.AddSingleton(serverDescriptor.ServerDatabaseProperties);
         // =============== Configurando las partes centrales de Kalypso ==================
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
@@ -46,6 +48,7 @@ public static class KalypsoServerExtensions
         builder.Services.AddTransaction();
         builder.Services.AddTransactionalOutbox(serverDescriptor.OutboxStorageDescriptor);
         builder.Services.AddTransactionalReaction(serverDescriptor.assemblies, serverDescriptor.ReactionStorageDescriptor);
+        builder.Services.AddAudit(serverDescriptor.AuditStorageDescriptor);
         // builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
         // =============== Configuracion de los servicios de modulo =====================
         serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
