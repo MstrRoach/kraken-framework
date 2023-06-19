@@ -1,4 +1,4 @@
-﻿using Kraken.Module.TransactionalOutbox;
+﻿using Dottex.Kalypso.Module.TransactionalOutbox;
 using System.Collections.Concurrent;
 
 namespace KrakenThreeApi.CommonServices;
@@ -41,7 +41,7 @@ public class InMemoryOutboxStorage : IOutboxStorage
         {
             SentAt = sentAt,
             LastUpdatedAt = DateTime.UtcNow,
-            Status = status,
+            Status = Enum.GetName<OutboxRecordStatus>(status),
             Notes = notes
         };
         return Task.CompletedTask;
@@ -61,5 +61,10 @@ public class InMemoryOutboxStorage : IOutboxStorage
         {
             outboxRecords.TryRemove(item.Id, out _);
         }
+    }
+
+    public IEnumerable<OutboxRecord> GetBy(OutboxFilter filter)
+    {
+        throw new NotImplementedException();
     }
 }

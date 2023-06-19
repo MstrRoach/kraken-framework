@@ -1,7 +1,7 @@
+using Dottex.Kalypso.Server;
+using Dottex.Kalypso.Server.Middlewares.Documentation;
+using Dottex.Kalypso.Server.Middlewares.Cors;
 using AccessControl;
-using Kraken.Server;
-using Kraken.Server.Middlewares.Cors;
-using Kraken.Server.Middlewares.Documentation;
 using KrakenThreeApi.CommonServices;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -9,11 +9,9 @@ using System.Security.Claims;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var krakenApp = builder.ConfigureKrakenServer(server =>
+var krakenApp = builder.ConfigureKalypsoServer(server =>
 {
     server.AddModule<AccessControlModule>();
-    server.AddOutboxStorage<InMemoryOutboxStorage>();
-    server.AddReactionStorage<InMemoryReactionStorage>();
     server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>

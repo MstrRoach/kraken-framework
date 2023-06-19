@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Kalypso\Domain.Repository.InMemory\Dottex.Domain.Repository.InMemory.csproj" />
-    <ProjectReference Include="..\..\Kalypso\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
+    <PackageReference Include="Dottex.Domain.Repository.InMemory" Version="1.1.0" />
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="1.1.0" />
   </ItemGroup>
 
 </Project>

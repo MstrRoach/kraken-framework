@@ -103,7 +103,7 @@ public record OutboxRecord
     /// <summary>
     /// Estado del registro
     /// </summary>
-    public OutboxRecordStatus Status { get; set; }
+    public string Status { get; set; }
 
     /// <summary>
     /// Informacion relevante acerca del registro

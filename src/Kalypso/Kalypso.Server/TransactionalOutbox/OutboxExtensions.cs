@@ -27,6 +27,8 @@ internal static class OutboxExtensions
             typeof(DefaultOutboxStorage),
             ServiceLifetime.Singleton
             ));
+        // Agregamos el inicializador
+        services.AddSingleton<IInitializer, OutboxInitializer>();
         // Registramos el broker
         services.AddSingleton<OutboxBroker>();
         // Registramos el elemento a la lista de servicios de procesamiento

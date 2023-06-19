@@ -11,6 +11,11 @@ namespace Dottex.Kalypso.Domain.Core;
 public interface IAggregate
 {
     /// <summary>
+    /// Devuelve el id del agregado
+    /// </summary>
+    string AggregateId { get; }
+
+    /// <summary>
     /// Nombre del tipo de agregado immplementa actualmente la interface
     /// </summary>
     string AggregateRootType { get; }

@@ -1,4 +1,5 @@
-﻿using Dottex.Kalypso.Domain.Storage;
+﻿using Dottex.Kalypso.Domain.Audit;
+using Dottex.Kalypso.Domain.Storage;
 using Dottex.Kalypso.Module.Common;
 
 namespace Dottex.Kalypso.Domain;

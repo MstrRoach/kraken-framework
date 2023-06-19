@@ -65,8 +65,8 @@ internal class Reactor
             CreatedAt = DateTime.UtcNow,
             LastUpdatedAt = DateTime.UtcNow,
             LastAttemptAt = DateTime.UtcNow,
-            Status = ReactionRecordStatus.OnProcess,
-            ReactionType = x.Reaction.GetType().AssemblyQualifiedName
+            Status = Enum.GetName<ReactionRecordStatus>(ReactionRecordStatus.OnProcess),
+            ReactionType = x.Reaction.AssemblyQualifiedName
         }).ToList();
         // Guardamos las reacciones
         await _reactionStorage.SaveAll(reactionRecords);
