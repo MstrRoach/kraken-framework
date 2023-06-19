@@ -4,43 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dottex.Kalypso.Module.Audit;
+namespace Dottex.Kalypso.Module.TransactionalOutbox;
 
 /// <summary>
-/// Contiene los filtros por los que se pueden buscar
-/// dentro del almacen de auditoria
+/// Filtros para obtener los registros de bandeja de salida
 /// </summary>
-public sealed class AuditFilter
+public class OutboxFilter
 {
     /// <summary>
-    /// Id especifico
+    /// Busqueda por id especifico
     /// </summary>
-    public int? Id { get; set; }
+    public Guid? Id { get; set; }
 
     /// <summary>
-    /// Modulo especifico
+    /// Busqueda por transaccion
     /// </summary>
-    public string? Module { get; set; }
+    public Guid? TransactionId { get; set; }
 
     /// <summary>
-    /// Id de entidad especifico
+    /// Busqueda por modulo de origen
     /// </summary>
-    public string? EntityId { get; set; }
+    public string? Origin { get; set; }
 
     /// <summary>
-    /// Entidad especifica
-    /// </summary>
-    public string? Entity { get; set; }
-
-    /// <summary>
-    /// Operacion especifica
-    /// </summary>
-    public string? Operation { get; set; }
-
-    /// <summary>
-    /// Usuario especifico
+    /// Busqueda por usuario
     /// </summary>
     public string? User { get; set; }
+
+    /// <summary>
+    /// Busqueda por estatus
+    /// </summary>
+    public string? Status { get; set; }
 
     /// <summary>
     /// Desde una fecha especifica, por default es la mas minima
@@ -70,35 +64,23 @@ public sealed class AuditFilter
     public string GetFilter()
     {
         var filters = new List<string>();
-        
+
         var id = Id.HasValue
             ? ColumnFilter
             .Replace("$Column", "Id")
             .Replace("$Value", "@Id")
             : string.Empty;
-        
-        var module = Module is not null
+
+        var transactionId = TransactionId is not null
             ? ColumnFilter
-            .Replace("$Column", "Module")
-            .Replace("$Value", "@Module")
-            : string.Empty;
-        
-        var entityId = EntityId is not null
-            ? ColumnFilter
-            .Replace("$Column", "EntityId")
-            .Replace("$Value", "@EntityId")
+            .Replace("$Column", "TransactionId")
+            .Replace("$Value", "@TransactionId")
             : string.Empty;
 
-        var entity = Entity is not null
+        var origin = Origin is not null
             ? ColumnFilter
-            .Replace("$Column", "Entity")
-            .Replace("$Value", "@Entity")
-            : string.Empty;
-
-        var operation = Operation is not null
-            ? ColumnFilter
-            .Replace("$Column", "Operation")
-            .Replace("$Value", "@Operation")
+            .Replace("$Column", "Origin")
+            .Replace("$Value", "@Origin")
             : string.Empty;
 
         var user = User is not null
@@ -107,18 +89,23 @@ public sealed class AuditFilter
             .Replace("$Value", "@User")
             : string.Empty;
 
+        var status = Status is not null
+            ? ColumnFilter
+            .Replace("$Column", "Status")
+            .Replace("$Value", "@Status")
+            : string.Empty;
+
         var date = DateFilter
-            .Replace("$Column", "UpdatedAt")
+            .Replace("$Column", "CreatedAt")
             .Replace("$From", "@From")
             .Replace("$To", "@To");
 
         filters.Add(id);
-        filters.Add(module);
-        filters.Add(entityId);
-        filters.Add(entity);
-        filters.Add(operation);
-        filters.Add(date);
+        filters.Add(transactionId);
+        filters.Add(origin);
         filters.Add(user);
+        filters.Add(status);
+        filters.Add(date);
 
         var filter = string.Join("\nAND ", filters.Where(x => !string.IsNullOrEmpty(x)));
 

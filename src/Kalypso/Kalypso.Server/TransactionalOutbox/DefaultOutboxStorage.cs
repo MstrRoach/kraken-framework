@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Dottex.Kalypso.Module.Audit;
 using Dottex.Kalypso.Module.TransactionalOutbox;
 using Microsoft.Data.Sqlite;
 using System;
@@ -27,6 +28,32 @@ internal class DefaultOutboxStorage : IOutboxStorage
     public DefaultOutboxStorage(ServerDatabaseProperties properties)
     {
         _properties = properties;
+    }
+
+    /// <summary>
+    /// Busqueda de informacion en los registros
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public IEnumerable<OutboxRecord> GetBy(OutboxFilter filter)
+    {
+        var query = OutboxQueries.Search.Replace("$Where", filter.GetFilter());
+        using var connection = new SqliteConnection(GetConnectionString());
+        connection.Open();
+        var result = connection.Query<OutboxRecord>(query, new
+        {
+            filter.Id,
+            filter.TransactionId,
+            filter.Origin,
+            filter.User,
+            filter.Status,
+            filter.From,
+            filter.To,
+            filter.PageSize,
+            Offset = (filter.Page - 1) * filter.PageSize
+        });
+        connection.Close();
+        return result;
     }
 
     /// <summary>

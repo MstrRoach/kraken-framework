@@ -20,6 +20,13 @@ public interface IOutboxStorage
     Task Save(OutboxRecord record);
 
     /// <summary>
+    /// Obtiene registros utilizando el filtro especificado
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    IEnumerable<OutboxRecord> GetBy(OutboxFilter filter);
+
+    /// <summary>
     /// Obtiene todos los registros que pertenecen a la transaccion
     /// </summary>
     /// <param name="transaction"></param>

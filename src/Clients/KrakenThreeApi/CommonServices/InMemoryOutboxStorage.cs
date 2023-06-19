@@ -62,4 +62,9 @@ public class InMemoryOutboxStorage : IOutboxStorage
             outboxRecords.TryRemove(item.Id, out _);
         }
     }
+
+    public IEnumerable<OutboxRecord> GetBy(OutboxFilter filter)
+    {
+        throw new NotImplementedException();
+    }
 }

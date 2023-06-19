@@ -103,6 +103,33 @@ public class OutboxQueries
     Notes = @Notes
     WHERE Id = @Id;";
 
+    /// <summary>
+    /// Elimina registros a partir de transacciones
+    /// </summary>
     public static string DeleteByTransaction = $@"
     DELETE FROM Outbox WHERE TransactionId = @TransactionId;";
+
+    /// <summary>
+    /// Query para busqueda
+    /// </summary>
+    public static string Search = $@"
+    SELECT Id,
+        CorrelationId,
+        TransactionId,
+        TraceId,
+        Origin,
+        User,
+        Username,
+        EventName,
+        EventType,
+        Event,
+        CreatedAt,
+        ConfirmedAt,
+        SentAt,
+        LastUpdatedAt,
+        LastAttemptAt,
+        Status,
+        Notes
+    FROM Outbox
+    $Where;";
 }
