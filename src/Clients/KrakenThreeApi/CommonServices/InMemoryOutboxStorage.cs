@@ -41,7 +41,7 @@ public class InMemoryOutboxStorage : IOutboxStorage
         {
             SentAt = sentAt,
             LastUpdatedAt = DateTime.UtcNow,
-            Status = status,
+            Status = Enum.GetName<OutboxRecordStatus>(status),
             Notes = notes
         };
         return Task.CompletedTask;

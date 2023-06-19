@@ -95,7 +95,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Create.ToString(),
+            Operation = Enum.GetName<AuditOperation>(AuditOperation.Create),
             Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
@@ -137,7 +137,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Delete.ToString(),
+            Operation = Enum.GetName<AuditOperation>(AuditOperation.Delete),
             Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
@@ -212,7 +212,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             Module = typeof(T).GetModuleName(),
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
-            Operation = AuditOperation.Update.ToString(),
+            Operation = Enum.GetName<AuditOperation>(AuditOperation.Update),
             Delta = JsonSerializer.Serialize(delta),
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow

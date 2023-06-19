@@ -139,9 +139,9 @@ internal class DefaultOutboxStorage : IOutboxStorage
                 Id = id,
                 SentAt = sentAt,
                 LastUpdatedAt = DateTime.UtcNow,
-                Status = status.ToString(),
+                Status = Enum.GetName<OutboxRecordStatus>(status),
                 Notes = notes
-            });
+            }) ;
         }
         connection.Close();
         return Task.CompletedTask;

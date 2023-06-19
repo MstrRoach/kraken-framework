@@ -58,7 +58,7 @@ internal sealed class Outbox
             Event = _serializer.Serialize(eventMessage.Event),
             CreatedAt = DateTime.UtcNow,
             LastUpdatedAt = DateTime.UtcNow,
-            Status = OutboxRecordStatus.Pending
+            Status = Enum.GetName<OutboxRecordStatus>(OutboxRecordStatus.Pending) 
         };
         // Lo guardamos en el storage
         await _storage.Save(outboxRecord);
@@ -78,7 +78,7 @@ internal sealed class Outbox
         {
             ConfirmedAt = DateTime.UtcNow,
             LastUpdatedAt = DateTime.UtcNow,
-            Status = OutboxRecordStatus.OnProcess
+            Status = Enum.GetName<OutboxRecordStatus>(OutboxRecordStatus.OnProcess)
         });
         // Registramos en el storage
         await _storage.UpdateAll(updatedEvents);
