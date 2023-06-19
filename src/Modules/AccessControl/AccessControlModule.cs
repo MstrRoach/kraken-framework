@@ -15,7 +15,7 @@ public class AccessControlModule : IModule
         //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
         services.AddDomainDrivenDesign<AccessControlModule>(builder =>
         {
-            builder.UseInMemoryRepository();
+            //builder.UseInMemoryRepository();
         });
     }
 }
