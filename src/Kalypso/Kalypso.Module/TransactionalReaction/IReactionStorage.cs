@@ -9,6 +9,13 @@ namespace Dottex.Kalypso.Module.TransactionalReaction;
 public interface IReactionStorage
 {
     /// <summary>
+    /// Obtiene registros utilizando filtros especiales
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    IEnumerable<ReactionRecord> GetBy(ReactionFilter filter);
+
+    /// <summary>
     /// Guarda todas las reacciones de una sola vez
     /// </summary>
     /// <param name="records"></param>

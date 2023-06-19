@@ -30,6 +30,8 @@ internal static class ReactionExtensions
             .GetAllHandlers()
             .ToList()
             .ForEach(x => services.AddTransient(x));
+        // Agregammos el inicializador
+        services.AddSingleton<IInitializer, ReactionInitializer>();
         // Lo registramos como singleton
         services.AddSingleton(inboxHandlerRegistry);
         // Registramos el procesador de eventos

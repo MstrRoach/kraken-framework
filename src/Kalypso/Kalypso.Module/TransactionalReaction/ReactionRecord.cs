@@ -86,7 +86,7 @@ public record ReactionRecord
     /// <summary>
     /// Estado del registro para administrar su operacion
     /// </summary>
-    public ReactionRecordStatus Status { get; set; }
+    public string Status { get; set; }
 
     /// <summary>
     /// Informacion relevante acerca del registro

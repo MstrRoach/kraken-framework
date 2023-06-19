@@ -12,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 var krakenApp = builder.ConfigureKalypsoServer(server =>
 {
     server.AddModule<AccessControlModule>();
-    //server.AddOutboxStorage<InMemoryOutboxStorage>();
-    server.AddReactionStorage<InMemoryReactionStorage>();
     server.ShowDocumentation = true;
     server.UseHttpsRedirection = true;
     server.AddDocumentation(doc =>

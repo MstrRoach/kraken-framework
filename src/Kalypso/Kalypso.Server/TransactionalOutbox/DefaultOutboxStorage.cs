@@ -18,8 +18,6 @@ namespace Dottex.Kalypso.Server.TransactionalOutbox;
 /// </summary>
 internal class DefaultOutboxStorage : IOutboxStorage
 {
-    private static ConcurrentDictionary<Guid, OutboxRecord> outboxRecords = new ConcurrentDictionary<Guid, OutboxRecord>();
-
     /// <summary>
     /// Propiedades para el acceso a la base de datos
     /// </summary>
@@ -128,21 +126,14 @@ internal class DefaultOutboxStorage : IOutboxStorage
     {
         using var connection = new SqliteConnection(GetConnectionString());
         connection.Open();
-        var exist = connection.QuerySingle<bool>(OutboxQueries.Exist, new
+        var afected = connection.Execute(OutboxQueries.PartialUpdate, new
         {
-            Id = id
+            Id = id,
+            SentAt = sentAt,
+            LastUpdatedAt = DateTime.UtcNow,
+            Status = Enum.GetName<OutboxRecordStatus>(status),
+            Notes = notes
         });
-        if (exist)
-        {
-            var afected = connection.Execute(OutboxQueries.PartialUpdate, new
-            {
-                Id = id,
-                SentAt = sentAt,
-                LastUpdatedAt = DateTime.UtcNow,
-                Status = Enum.GetName<OutboxRecordStatus>(status),
-                Notes = notes
-            }) ;
-        }
         connection.Close();
         return Task.CompletedTask;
     }

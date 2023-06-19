@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace KrakenThreeApi.CommonServices;
 
-public class InMemoryReactionStorage : IReactionStorage
+public class InMemoryReactionStorage //: IReactionStorage
 {
     private static ConcurrentDictionary<Guid, ReactionRecord> reactionRecords = new ConcurrentDictionary<Guid, ReactionRecord>();
 
@@ -30,7 +30,7 @@ public class InMemoryReactionStorage : IReactionStorage
         {
             SentAt = sentAt,
             LastUpdatedAt = DateTime.UtcNow,
-            Status = status,
+            Status = Enum.GetName<ReactionRecordStatus>(status),
             Notes = notes
         };
         return Task.CompletedTask;
