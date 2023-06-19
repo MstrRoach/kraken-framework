@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Dottex.Kalypso.Server.Audit;
+using Dapper;
 
 namespace Dottex.Kalypso.Server;
 
@@ -37,6 +38,7 @@ public static class KalypsoServerExtensions
         builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
         builder.Services.AddErrorHandling();
         builder.Services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
+        SqlMapper.AddTypeHandler<Guid>(new GuidTypeHandler());
         // =============== Configuracion de las caracteristicas del server ==============
         serverDescriptor.Documentation?.AddServices(builder.Services);
         serverDescriptor.Cors?.AddServices(builder.Services);

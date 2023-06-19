@@ -45,7 +45,7 @@ internal class OutboxProcessor
         {
             await _storage.Update(
                 id: message.Id,
-                status: OutboxRecordStatus.Processed,
+                status: OutboxRecordStatus.OnError,
                 notes: ex.Message);
         }
     }
