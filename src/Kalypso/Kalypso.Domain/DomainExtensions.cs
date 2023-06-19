@@ -23,13 +23,13 @@ public static class DomainExtensions
     /// <returns></returns>
     public static IServiceCollection AddDomainDrivenDesign<TModule>(
         this IServiceCollection services,
-        Action<DomainDrivenDesignOptions<TModule>> builder)
+        Action<DomainDrivenDesignOptions<TModule>>? builder)
         where TModule : IModule
     {
         // Validamos que las opciones tengan lo obligatorio
         var options = new DomainDrivenDesignOptions<TModule>();
         // Las precargamos
-        builder(options);
+        builder.Invoke(options);
         // Registramos las configuraciones
         services.Configure(builder);
         var moduleAssembly = typeof(TModule).Assembly;
