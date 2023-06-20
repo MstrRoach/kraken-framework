@@ -17,7 +17,7 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
     /// <summary>
     /// Configuracion para los repositorios del modulo que usa DDD
     /// </summary>
-    internal IRepositoryExtension<TModule> RepositoryExtension;
+    internal IRepositoryExtension<TModule>? RepositoryExtension;
 
     /// <summary>
     /// Registra la extension para el repositorio
@@ -28,14 +28,5 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
         if (repositoryExtension == null)
             throw new ArgumentNullException(nameof(repositoryExtension));
         RepositoryExtension = repositoryExtension;
-    }
-
-    /// <summary>
-    /// Valida que la informacion necesaria este registrada
-    /// </summary>
-    internal void Validate()
-    {
-        if (RepositoryExtension is null)
-            throw new ArgumentNullException(nameof(RepositoryExtension));
     }
 }

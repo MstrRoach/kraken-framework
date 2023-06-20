@@ -23,15 +23,13 @@ public static class DomainExtensions
     /// <returns></returns>
     public static IServiceCollection AddDomainDrivenDesign<TModule>(
         this IServiceCollection services,
-        Action<DomainDrivenDesignOptions<TModule>> builder)
+        Action<DomainDrivenDesignOptions<TModule>>? builder)
         where TModule : IModule
     {
         // Validamos que las opciones tengan lo obligatorio
         var options = new DomainDrivenDesignOptions<TModule>();
         // Las precargamos
-        builder(options);
-        // Validamos que este todo lo necesario
-        options.Validate();
+        builder.Invoke(options);
         // Registramos las configuraciones
         services.Configure(builder);
         var moduleAssembly = typeof(TModule).Assembly;
@@ -42,7 +40,7 @@ public static class DomainExtensions
             .Where(x => x.GetInterface(nameof(IAggregate)) is not null)
             .ToList();
         // Registramos los repositorios
-        options.RepositoryExtension.AddServices(services, callerAggregates);
+        options.RepositoryExtension?.AddServices(services, callerAggregates);
         // Registramos el almacen de auditoria
         services.AddSingleton(typeof(Flattener<>));
         services.AddSingleton<ChangeExtractor>();
