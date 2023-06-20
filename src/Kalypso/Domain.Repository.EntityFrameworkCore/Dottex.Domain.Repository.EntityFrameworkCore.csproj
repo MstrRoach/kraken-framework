@@ -1,9 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	  <Authors>Jesus A. Martinez aka MstrRoach</Authors>
+	  <Description>Library that storage using efcore for aggregate repositories and unit work. It depends directly on the domain module</Description>
+	  <Copyright>Copyright Jesus A. Martinez</Copyright>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <PackageTags>Entity Framework Core Repository; Domain Module; Modular Monolith;Unit Work;Event Sourcing</PackageTags>
+	  <PackageIcon>flat_128x128.png</PackageIcon>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <RepositoryUrl>https://github.com/MstrRoach/kraken-framework/tree/main/src/Kalypso/Domain.Repository.EntityFrameworkCore</RepositoryUrl>
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <NeutralLanguage>en</NeutralLanguage>
+	  <RepositoryType>dll</RepositoryType>
+	  <Version>1.0.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="1.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.18" />
+  </ItemGroup>
+	
+	<ItemGroup>
+		<None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath=""></None>
+	</ItemGroup>
 
 </Project>
