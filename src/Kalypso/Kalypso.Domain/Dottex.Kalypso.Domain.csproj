@@ -16,7 +16,7 @@
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
-	  <Version>1.1.1</Version>
+	  <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dottex.Kalypso.Module" Version="1.1.0" />
+    <PackageReference Include="Dottex.Kalypso.Module" Version="1.2.0" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
 

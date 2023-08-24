@@ -197,8 +197,9 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// </summary>
     /// <param name="aggregate"></param>
     /// <returns></returns>
-    public Task Update(T aggregate)
+    public async Task Update(T aggregate)
     {
+        await _inner.Update(aggregate);
         //var oldEntityFlat = flattenEntities[aggregate.AggregateId] as JsonObject;
         // Obteniendo el estado actual del agregado
         var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
@@ -219,6 +220,5 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         };
         // Guardando
         _auditStorage.Save(auditlog);
-        return Task.CompletedTask;
     }
 }
