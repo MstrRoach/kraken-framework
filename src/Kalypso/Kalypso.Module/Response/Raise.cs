@@ -96,4 +96,12 @@ public struct Raise<Success>
         }
         error(_fail);
     }
+
+    /// <summary>
+    /// Devuelve un registro que contiene los valores de exito y error
+    /// </summary>
+    /// <returns></returns>
+    public RaiseValue<Success> Extract() => new RaiseValue<Success>(_success,_fail);
 }
+
+public record RaiseValue<T>(T? Value, Error? Error);
