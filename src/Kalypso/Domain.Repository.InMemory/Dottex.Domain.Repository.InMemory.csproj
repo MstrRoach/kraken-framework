@@ -16,12 +16,12 @@
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	  <NeutralLanguage>en</NeutralLanguage>
 	  <RepositoryType>dll</RepositoryType>
-	  <Version>1.1.0</Version>
+	  <Version>1.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.138" />
-    <PackageReference Include="Dottex.Kalypso.Domain" Version="1.1.0" />
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="1.1.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.18" />
   </ItemGroup>
 
