@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,12 @@ public abstract class PagedQuery : IPagedQuery
     /// Indica la cantidad de resultados por pagina
     /// </summary>
     public int Results { get; set; } = 10;
+
+    /// <summary>
+    /// Devuelve la cantidad de registros que deben saltarse}
+    /// para hacer la paginacion correcta
+    /// </summary>
+    public int Skipped => (Page - 1) * Results;
 }
 
 /// <summary>
