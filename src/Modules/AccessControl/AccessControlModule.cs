@@ -9,6 +9,7 @@ namespace AccessControl;
 public class AccessControlModule : IModule
 {
     public string Name => "AccessControl";
+    public string Database {  get; set; }
 
     public void Register(IServiceCollection services)
     {

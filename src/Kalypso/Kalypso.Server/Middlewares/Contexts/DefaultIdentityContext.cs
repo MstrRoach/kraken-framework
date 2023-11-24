@@ -42,7 +42,7 @@ internal class DefaultIdentityContext : IIdentityContext
     /// </summary>
     /// <param name="principal"></param>
     /// <param name="properties"></param>
-    public DefaultIdentityContext(ClaimsPrincipal principal, IdentityContextProperties properties)
+    public DefaultIdentityContext(ClaimsPrincipal principal, IdentityContextOptions properties)
     {
         if (principal == null)
             return;

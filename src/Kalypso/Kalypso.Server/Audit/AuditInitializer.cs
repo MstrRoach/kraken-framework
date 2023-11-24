@@ -20,9 +20,9 @@ internal class AuditInitializer : IInitializer
     /// <summary>
     /// Configuraciones para la base de datos
     /// </summary>
-    readonly ServerDatabaseProperties _databaseProperties;
+    readonly ServerDatabaseOptions _databaseProperties;
 
-    public AuditInitializer(ServerDatabaseProperties databaseProperties)
+    public AuditInitializer(ServerDatabaseOptions databaseProperties)
     {
         _databaseProperties = databaseProperties;
     }

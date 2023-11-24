@@ -12,7 +12,7 @@ namespace Dottex.Kalypso.Server.Middlewares.Contexts;
 /// para el contexto de identidad, para poder ser configurado desde fuera 
 /// del marco sin necesidad de tener un builder personalizado
 /// </summary>
-public class IdentityContextProperties
+public class IdentityContextOptions
 {
     /// <summary>
     /// Clave que identifica al id del usuario

@@ -1,0 +1,6 @@
+@KalypsoApi_HostAddress = http://localhost:5216
+
+GET {{KalypsoApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

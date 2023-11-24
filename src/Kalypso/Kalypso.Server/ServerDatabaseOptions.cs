@@ -11,7 +11,7 @@ namespace Dottex.Kalypso.Server;
 /// Contiene las configuraciones para la base de datos
 /// del servidor en la memoria
 /// </summary>
-public class ServerDatabaseProperties
+public class ServerDatabaseOptions
 {
 
     /// <summary>

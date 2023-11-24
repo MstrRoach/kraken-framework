@@ -12,6 +12,7 @@ namespace Dottex.Kalypso.Module.Common
     /// Interface para definir los servicios que se
     /// configuran dentro del host
     /// </summary>
+    [Obsolete]
     public interface IFeature
     {
         /// <summary>

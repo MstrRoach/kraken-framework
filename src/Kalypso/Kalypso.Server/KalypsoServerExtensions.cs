@@ -21,81 +21,44 @@ namespace Dottex.Kalypso.Server;
 
 public static class KalypsoServerExtensions
 {
-
-    public static WebApplication ConfigureKalypsoServer(this WebApplicationBuilder builder,
-        Action<ServerDescriptor> kalypsoSetup)
+    /// <summary>
+    /// Agrega kalypso como proveedor de ciertas configuraciones previas
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="kalypsoSetup"></param>
+    /// <returns></returns>
+    public static WebApplicationBuilder AddKalypso(this WebApplicationBuilder builder, Action<KalypsoOptions> kalypsoSetup)
     {
         // Creamos la descripcion de los servicios configurados
-        ServerDescriptor serverDescriptor = new();
+        KalypsoOptions serverDescriptor = new();
         kalypsoSetup(serverDescriptor);
         // Registro de configuraciones del servidor Kalypso para ponerlas disponibles
         builder.Services.AddSingleton(builder.Configuration.GetNamedSection<ServerOptions>());
         // Registramos el descriptor como singleton
         builder.Services.AddSingleton(serverDescriptor);
         builder.Services.AddSingleton(serverDescriptor.moduleRegistry);
-        builder.Services.AddSingleton(serverDescriptor.ServerDatabaseProperties);
+        builder.Services.AddSingleton(serverDescriptor.DatabaseOptions);
+        
         // =============== Configurando las partes centrales de Kalypso ==================
-        builder.Services.AddContext(serverDescriptor.IdentityContextProperties);
+        builder.Services.AddContext(serverDescriptor.IdentityContextOptions);
         builder.Services.AddErrorHandling();
         builder.Services.AddSingleton<IJsonSerializer, SystemTextJsonSerializer>();
         SqlMapper.AddTypeHandler<Guid>(new GuidTypeHandler());
-        // =============== Configuracion de las caracteristicas del server ==============
-        serverDescriptor.Documentation?.AddServices(builder.Services);
-        serverDescriptor.Cors?.AddServices(builder.Services);
-        serverDescriptor.Authorization?.AddServices(builder.Services);
-        serverDescriptor.Authentication?.AddServices(builder.Services);
-
+          
         // =============== Configuracion de las caracteristicas centrales ===============
-        builder.Services.AddCommandAndQueryProcessing(serverDescriptor.assemblies);
+        builder.Services.AddCommandAndQueryProcessing(serverDescriptor.moduleRegistry.Assemblies);
         builder.Services.AddTransaction();
         builder.Services.AddTransactionalOutbox(serverDescriptor.OutboxStorageDescriptor);
-        builder.Services.AddTransactionalReaction(serverDescriptor.assemblies, serverDescriptor.ReactionStorageDescriptor);
+        builder.Services.AddTransactionalReaction(serverDescriptor.moduleRegistry.Assemblies, serverDescriptor.ReactionStorageDescriptor);
         builder.Services.AddAudit(serverDescriptor.AuditStorageDescriptor);
-        // builder.Services.AddTransactionalInbox(serverDescriptor.assemblies);
+
         // =============== Configuracion de los servicios de modulo =====================
-        serverDescriptor.modules.ForEach(module => builder.Configuration.GetSection(module.Name).Bind(module));
-        serverDescriptor.modules.ForEach(module => builder.Services.AddSingleton(Options.Create(module)));
-        serverDescriptor.modules.ForEach(module => module.Register(builder.Services));
+        serverDescriptor.moduleRegistry.Configure(builder.Configuration, builder.Services);
 
         builder.Services.AddSingleton<ServerBootstrapper>()
             .AddHostedService(x => x.GetRequiredService<ServerBootstrapper>());
-        // =============== Configuracion por defecto de web api =========================
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        // =============== Configuracion del pipeline del server ========================
-        // Construimos la app
-        serverDescriptor.App = builder.Build();
-        // Reenvio de headers
-        serverDescriptor.App.UseForwardedHeaders(new ForwardedHeadersOptions
-        {
-            ForwardedHeaders = ForwardedHeaders.All
-        });
-        // Cors activas
-        serverDescriptor.Cors?.UseServices(serverDescriptor.App);
-        // Correlacion de id
-        serverDescriptor.App.UseCorrelationId();
-        // Manejo global de excepciones
-        serverDescriptor.App.UseErrorHandling();
-        // Routing activado
-        serverDescriptor.App.UseRouting();
-        // Documentacion
-        if (serverDescriptor.ShowDocumentation)
-            serverDescriptor.Documentation?.UseServices(serverDescriptor.App);
-        // Autenticacion
-        serverDescriptor.Authentication?.UseServices(serverDescriptor.App);
-        // Authorizacion
-        serverDescriptor.Authorization?.UseServices(serverDescriptor.App);
-        // Agregamos la configuracion de contextos
-        serverDescriptor.App.UseContext();
-        // Agregamos el loggeo de la solicitud
-        serverDescriptor.App.UseLogging();
-        // Redireccion http
-        if (serverDescriptor.UseHttpsRedirection)
-            serverDescriptor.App.UseHttpsRedirection();
-        // Mapeo de controladores
-        serverDescriptor.App.MapControllers();
-        // Devolvemos la app configurada
-        return serverDescriptor.App;
+
+        return builder;
     }
 
     /// <summary>

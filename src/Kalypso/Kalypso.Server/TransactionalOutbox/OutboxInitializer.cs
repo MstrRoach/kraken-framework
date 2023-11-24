@@ -18,9 +18,9 @@ internal class OutboxInitializer : IInitializer
     /// <summary>
     /// Configuraciones para la base de datos
     /// </summary>
-    readonly ServerDatabaseProperties _databaseProperties;
+    readonly ServerDatabaseOptions _databaseProperties;
 
-    public OutboxInitializer(ServerDatabaseProperties databaseProperties)
+    public OutboxInitializer(ServerDatabaseOptions databaseProperties)
     {
         _databaseProperties = databaseProperties;
     }
