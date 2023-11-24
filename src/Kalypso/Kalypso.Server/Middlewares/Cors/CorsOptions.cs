@@ -16,7 +16,7 @@ namespace Dottex.Kalypso.Server.Middlewares.Cors
         /// Nombre de la configuracion para utilizar en los 
         /// app settings
         /// </summary>
-        public static string Name = "CorsOptions";
+        public string Name { get; set; } = "CorsOptions";
 
         /// <summary>
         /// Permite indicar si se aceptan las credenciales

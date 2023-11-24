@@ -19,13 +19,13 @@ internal class DefaultAuditStorage : IAuditStorage
     /// <summary>
     /// Propiedades para la configuracion de la base de datos
     /// </summary>
-    readonly ServerDatabaseProperties _properties;
+    readonly ServerDatabaseOptions _properties;
 
     /// <summary>
     /// Constructor del almacen por defecto
     /// </summary>
     /// <param name="properties"></param>
-    public DefaultAuditStorage(ServerDatabaseProperties properties)
+    public DefaultAuditStorage(ServerDatabaseOptions properties)
     {
         _properties = properties;
     }

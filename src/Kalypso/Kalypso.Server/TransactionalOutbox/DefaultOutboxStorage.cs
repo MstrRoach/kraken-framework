@@ -21,9 +21,9 @@ internal class DefaultOutboxStorage : IOutboxStorage
     /// <summary>
     /// Propiedades para el acceso a la base de datos
     /// </summary>
-    readonly ServerDatabaseProperties _properties;
+    readonly ServerDatabaseOptions _properties;
 
-    public DefaultOutboxStorage(ServerDatabaseProperties properties)
+    public DefaultOutboxStorage(ServerDatabaseOptions properties)
     {
         _properties = properties;
     }

@@ -14,9 +14,9 @@ public sealed class DefaultIdentityContextBuilder
     /// Propieades para crear la identidad del usuario desde
     /// las claims
     /// </summary>
-    private readonly IdentityContextProperties _properties;
+    private readonly IdentityContextOptions _properties;
 
-    public DefaultIdentityContextBuilder(IdentityContextProperties properties)
+    public DefaultIdentityContextBuilder(IdentityContextOptions properties)
     {
         _properties = properties;
     }

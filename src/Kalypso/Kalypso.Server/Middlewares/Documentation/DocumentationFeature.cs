@@ -27,6 +27,16 @@ namespace Dottex.Kalypso.Server.Middlewares.Documentation
         }
 
         /// <summary>
+        /// Construye el feature a partir de una accion de configuracion
+        /// </summary>
+        /// <param name="setup"></param>
+        public DocumentationFeature(Action<DocumentationOptions> setup)
+        {
+            _options = new DocumentationOptions();
+            setup(_options);
+        }
+
+        /// <summary>
         /// Registra los servicios necesarios para la documentacion
         /// en el contenedor de servicios
         /// </summary>
@@ -71,6 +81,7 @@ namespace Dottex.Kalypso.Server.Middlewares.Documentation
         /// <param name="app"></param>
         public void UseServices(IApplicationBuilder app)
         {
+            var options = app.ApplicationServices.GetService<DocumentationOptions>();
             app.UseSwagger(c =>
             {
                 c.RouteTemplate = _options.Url;

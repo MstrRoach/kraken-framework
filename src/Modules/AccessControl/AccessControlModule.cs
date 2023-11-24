@@ -1,4 +1,5 @@
-﻿using Dottex.Domain.Repository.InMemory;
+﻿using AccessControl.Infrastructure;
+using Dottex.Domain.Repository.InMemory;
 using Dottex.Kalypso.Domain;
 using Dottex.Kalypso.Module.Common;
 using Dottex.Kalypso.Module.Transaction;
@@ -9,10 +10,11 @@ namespace AccessControl;
 public class AccessControlModule : IModule
 {
     public string Name => "AccessControl";
+    public string Database {  get; set; }
 
     public void Register(IServiceCollection services)
     {
-        //services.AddScoped<IUnitWork<AccessControlModule>, CommonUnitWork<AccessControlModule>>();
-        services.AddDomainDrivenDesign<AccessControlModule>(builder => new AccessControlModule());
+        services.AddScoped<IUnitWork<AccessControlModule>, UnitWork<AccessControlModule>>();
+        services.AddDomainDrivenDesign<AccessControlModule>(builder => builder.UseInMemoryRepository<AccessControlModule>());
     }
 }

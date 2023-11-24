@@ -17,9 +17,9 @@ internal class ReactionInitializer : IInitializer
     /// <summary>
     /// Configuraciones para la base de datos
     /// </summary>
-    readonly ServerDatabaseProperties _databaseProperties;
+    readonly ServerDatabaseOptions _databaseProperties;
 
-    public ReactionInitializer(ServerDatabaseProperties databaseProperties)
+    public ReactionInitializer(ServerDatabaseOptions databaseProperties)
     {
         _databaseProperties = databaseProperties;
     }

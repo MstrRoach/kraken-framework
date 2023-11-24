@@ -12,24 +12,32 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dottex.Kalypso.Module.Audit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System.ComponentModel.Design;
 
 namespace Dottex.Kalypso.Server;
 
 /// <summary>
-/// Define la estructura, los servicios, los modulos, los
-/// features y el pipeline para ejecutar el servidor
+/// Opciones para configurar el servidor de kalypso
 /// </summary>
-public class ServerDescriptor
+public record KalypsoOptions
 {
     /// <summary>
-    /// Ensamblados que se cuentan como modulos
+    /// Configuracion del servidor para saber la instancia
     /// </summary>
-    internal List<Assembly> assemblies = new List<Assembly>();
+    public ServerOptions ServerOptions { get; set; } = new();
 
     /// <summary>
-    /// Lista de modulos conectados al host de Kalypso
+    /// Configuracion para la base de datos del servidor para almacenar
+    /// la informacion
     /// </summary>
-    internal List<IModule> modules = new List<IModule>();
+    public ServerDatabaseOptions DatabaseOptions { get; set; } = new();
+
+    /// <summary>
+    /// Configuracion para los nombres de las claims para los tipos especiales
+    /// </summary>
+    public IdentityContextOptions IdentityContextOptions { get; set; } = new();
 
     /// <summary>
     /// Diccionario que almacena los modulos con sus tipos de configuracion para
@@ -38,78 +46,12 @@ public class ServerDescriptor
     internal ModuleRegistry moduleRegistry = new ModuleRegistry();
 
     /// <summary>
-    /// Agrega los ensamblados de donde provienen los modulos especificados
+    /// Agrega un modulo a la lista de descriptores para su procesamiento
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public void AddModule<T>() where T : IModule
-    {
-        // Obtienen el tipo del modulo de entrada
-        var type = typeof(T);
-        // Si ya existe en la lista de modulos salimos
-        if (modules.Any(x => x.GetType() == type))
-            return;
-        // Creamos una instancia del modulo
-        var instance = Activator.CreateInstance(type) as IModule;
-        // Agregamos la instancia a la lista de modulos
-        modules.Add(instance);
-        // Obtenemos los ensamblados
-        var assembly = type.Assembly;
-        // Agregamos el ensamblado a la lista de ensamblados
-        assemblies.Add(assembly);
-        // Agregamos la relacion de modulos con sus clases diferenciadoras
-        moduleRegistry.Register<T>();
-    }
+    public void AddModule<T>() where T : class, IModule, new()
+        => moduleRegistry.Register<T>();
 
-    /// <summary>
-    /// Define las configuraciones a nivel servicios y pipeline para
-    /// agregar documentacion al servidor.
-    /// </summary>
-    public IFeature? Documentation { get; set; }
-
-    /// <summary>
-    /// Contiene las configuraciones para agregar las cors
-    /// </summary>
-    public IFeature? Cors { get; set; }
-
-    /// <summary>
-    /// Slot para agregar las configuraciones para laa authorizacion
-    /// </summary>
-    public IFeature? Authorization { get; set; }
-
-    /// <summary>
-    /// Lugar donde almacenar las configuraciones para la autenticacion
-    /// </summary>
-    public IFeature? Authentication { get; set; }
-
-    /// <summary>
-    /// Indica si la redireccion esta activa
-    /// </summary>
-    public bool UseHttpsRedirection { get; set; } = false;
-
-    /// <summary>
-    /// Bandera para habilitar el mostrar u ocultar la documentacion
-    /// </summary>
-    public bool ShowDocumentation { get; set; } = false;
-
-    /// <summary>
-    /// Objeto para definir las propiedades de claim para obtener los valores
-    /// en el contexto de identidad
-    /// </summary>
-    public IdentityContextProperties IdentityContextProperties { get; set; } = new();
-
-    /// <summary>
-    /// Contiene las configuraciones para la base de datos en memoria
-    /// </summary>
-    public ServerDatabaseProperties ServerDatabaseProperties { get; set; } = new();
-
-    /// <summary>
-    /// Contiene la aplicacion web con los servicios agregados
-    /// </summary>
-    public WebApplication App { get; internal set; }
-
-    /// <summary>
-    /// Descriptor del servicio de bandeja de salida
-    /// </summary>
     internal ServiceDescriptor? OutboxStorageDescriptor;
 
     /// <summary>
@@ -164,15 +106,4 @@ public class ServerDescriptor
             typeof(T),
             ServiceLifetime.Singleton);
     }
-
-    /// <summary>
-    /// Metodo que limpia las listas de ensamblado y de instancias para liberacion 
-    /// de memoria controlada
-    /// </summary>
-    internal void Clear()
-    {
-        modules.Clear();
-        assemblies.Clear();
-    }
-
 }

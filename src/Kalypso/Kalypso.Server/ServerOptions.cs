@@ -9,9 +9,9 @@ namespace Dottex.Kalypso.Server;
 /// <summary>
 /// Opciones para la instancia
 /// </summary>
-public class ServerOptions
+public record ServerOptions
 {
     public string Name { get; set; } = "Kalypso";
     public string Instance { get; set; } = "Default";
-    public string Version { get; set; } = "3.0.0";
+    public string Version { get; } = "v8.0.0";
 }

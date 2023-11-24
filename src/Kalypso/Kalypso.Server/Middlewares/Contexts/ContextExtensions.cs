@@ -23,7 +23,7 @@ public static class ContextExtensions
     /// <param name="services"></param>
     /// <param name="IdentityContextBuilderType"></param>
     public static void AddContext(this IServiceCollection services,
-        IdentityContextProperties identityContextProperties)
+        IdentityContextOptions identityContextProperties)
     {
         services.AddSingleton<ContextProvider>();
         services.AddSingleton<DefaultIdentityContextBuilder>();
