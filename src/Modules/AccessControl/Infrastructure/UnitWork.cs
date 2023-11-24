@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace AccessControl.Infrastructure;
 
-internal class CommonUnitWork<T> : IUnitWork<T>
+internal class UnitWork<T> : IUnitWork<T>
     where T : IModule
 {
-    public Guid TransactionId { get; internal set; }
+    public Guid TransactionId { get; internal set; } = Guid.NewGuid();
 
     public Task Commit()
     {
