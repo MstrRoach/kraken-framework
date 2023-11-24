@@ -19,13 +19,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.24" />
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="8.0.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath="">
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
   </ItemGroup>
 </Project>

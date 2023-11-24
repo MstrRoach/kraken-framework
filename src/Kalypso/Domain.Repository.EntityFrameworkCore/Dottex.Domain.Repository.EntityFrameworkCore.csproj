@@ -18,13 +18,11 @@
     <Version>8.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Dottex.Kalypso.Domain" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath="">
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Domain\Dottex.Kalypso.Domain.csproj" />
   </ItemGroup>
 </Project>

@@ -24,13 +24,11 @@
     <Compile Remove="Audit\IAuditStorageExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Dottex.Kalypso.Module" Version="8.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath="">
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Kalypso.Module\Dottex.Kalypso.Module.csproj" />
   </ItemGroup>
 </Project>
