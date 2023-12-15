@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 
 namespace Dottex.Kalypso.Domain.Audit;
 
+[Obsolete]
 public class Flattener<T> where T : IAggregate
 {
     private List<PropertyInfo> Properties = new();

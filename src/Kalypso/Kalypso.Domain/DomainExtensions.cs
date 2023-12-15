@@ -44,6 +44,7 @@ public static class DomainExtensions
         // Registramos el almacen de auditoria
         services.AddSingleton(typeof(Flattener<>));
         services.AddSingleton<ChangeExtractor>();
+        services.AddSingleton<DifferenceExtractor>();
         // Registramos el decorador
         services.TryDecorate(typeof(IRepository<>), 
             typeof(EventExtractorRepositoryDecorator<>));

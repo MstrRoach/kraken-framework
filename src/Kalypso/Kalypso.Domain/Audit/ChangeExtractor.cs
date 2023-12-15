@@ -5,6 +5,7 @@ using System.Text.Json.Nodes;
 
 namespace Dottex.Kalypso.Domain.Audit;
 
+[Obsolete]
 public class ChangeExtractor
 {
     private string ListChange = "$Array__$Action";
@@ -71,6 +72,8 @@ public class ChangeExtractor
                 "string" => IsStringEquals(oldValue, newValue),
                 "datetime" => IsDatetimeEquals(oldValue, newValue),
                 "object" => Equals(oldValue, newValue),
+                "int" => IsIntegerEquals(oldValue, newValue),
+                "bool" => IsBoolEquals(oldValue, newValue),
                 "null" => true,
                 _ => !(oldValue is null ^ newValue is null)
             };
@@ -81,7 +84,7 @@ public class ChangeExtractor
             if (oldValue == newValue)
                 continue;
             // Agregamos el cambio
-            changes.Add(key, newValue);
+            changes.Add(key, newValue.DeepClone());
 
 
         }
@@ -128,6 +131,10 @@ public class ChangeExtractor
             return "guid";
         if (value.TryGetValue<string>(out _))
             return "string";
+        if (value.TryGetValue<int>(out _))
+            return "int";
+        if (value.TryGetValue<bool>(out _))
+            return "bool";
         return "object";
     }
 
@@ -188,6 +195,36 @@ public class ChangeExtractor
     }
 
     /// <summary>
+    /// Compara dos nodos a partir de comparacion de enteros
+    /// </summary>
+    /// <param name="oldNode"></param>
+    /// <param name="newNode"></param>
+    /// <returns></returns>
+    private bool IsIntegerEquals(JsonNode oldNode, JsonNode newNode)
+    {
+        if (oldNode is null || newNode is null)
+            return false;
+        if (!oldNode.AsValue().TryGetValue<int>(out var oldValue) & !newNode.AsValue().TryGetValue<int>(out var newValue))
+            return false;
+        return int.Equals(oldValue, newValue);
+    }
+    
+    /// <summary>
+    /// Compara dos nodos a partir de su valor boleano
+    /// </summary>
+    /// <param name="oldNode"></param>
+    /// <param name="newNode"></param>
+    /// <returns></returns>
+    private bool IsBoolEquals(JsonNode oldNode, JsonNode newNode)
+    {
+        if (oldNode is null || newNode is null)
+            return false;
+        if (!oldNode.AsValue().TryGetValue<bool>(out var oldValue) & !newNode.AsValue().TryGetValue<bool>(out var newValue))
+            return false;
+        return bool.Equals(oldValue, newValue);
+    }
+
+    /// <summary>
     /// Obtiene el listado de elementos de la lista nueva que no se
     /// encuentran en la lista antigua
     /// </summary>
@@ -207,7 +244,7 @@ public class ChangeExtractor
             if (baseList.Any(baseItem => AreEquals(baseItem.AsObject(), item.AsObject())))
                 continue;
             // Agregamos el elemento que cambio
-            changes.Add(item);
+            changes.Add(item.DeepClone());
         }
         return changes;
     }

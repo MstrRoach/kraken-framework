@@ -33,12 +33,14 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// <summary>
     /// Servicio para aplanar las entidades
     /// </summary>
-    readonly Flattener<T> _flattener;
+    //readonly Flattener<T> _flattener;
 
     /// <summary>
     /// Extractor de cambios 
     /// </summary>
-    readonly ChangeExtractor _changeExtractor;
+    //readonly ChangeExtractor _changeExtractor;
+
+    readonly DifferenceExtractor _extractor;
 
     /// <summary>
     /// Almacen para auditoria
@@ -59,14 +61,16 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// <param name="auditStorage"></param>
     /// <param name="context"></param>
     public AuditorRepositoryExtractor(IRepository<T> inner,
-        Flattener<T> flattener, 
-        ChangeExtractor changeExtractor,
+        //Flattener<T> flattener, 
+        //ChangeExtractor changeExtractor,
+        DifferenceExtractor extractor,
         IAuditStorage auditStorage, 
         IContext context)
     {
         _inner = inner;
-        _flattener = flattener;
-        _changeExtractor = changeExtractor;
+        //_flattener = flattener;
+        //_changeExtractor = changeExtractor;
+        _extractor = extractor;
         _auditStorage = auditStorage;
         _context = context;
     }
@@ -83,12 +87,15 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         // Creacion de instancia por defecto
         var oldEntity = Activator.CreateInstance(typeof(T),true);
         // Aplanando las entidades
-        var oldEntityFlat = _flattener.Flatten(oldEntity, new JsonObject());
-        var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        //var oldEntityFlat = _flattener.Flatten(oldEntity, new JsonObject());
+        var oldEntityDocument = _extractor.GetJsonRepresentation(oldEntity);
+        //var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        var newEntityDocument = _extractor.GetJsonRepresentation(aggregate);
         // Extrayendo cambios entre entidades
-        var delta = _changeExtractor.GetChanges(oldEntityFlat, newEntityFlat);
+        //var delta = _changeExtractor.GetChanges(oldEntityFlat, newEntityFlat);
+        var delta = _extractor.GetDelta(oldEntityDocument.RootElement, newEntityDocument.RootElement);
         // Setteamos el nuevo valor del estado
-        SetState(aggregate, newEntityFlat);
+        SetState(aggregate, newEntityDocument);
         // Creando el registro de auditoria
         var auditlog = new AuditLog
         {
@@ -96,7 +103,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
             Operation = Enum.GetName<AuditOperation>(AuditOperation.Create),
-            Delta = JsonSerializer.Serialize(delta),
+            Delta = delta,
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };
@@ -104,7 +111,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         _auditStorage.Save(auditlog);
     }
 
-    private void SetState(T aggregate, JsonObject state)
+    private void SetState(T aggregate, JsonDocument state)
     {
         var aggregateType = aggregate.GetType();
         var field = aggregateType.BaseType.GetField("_state",
@@ -123,13 +130,16 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     {
         await _inner.Delete(aggregate);
         // Aplanamos la instancia entrande
-        var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        //var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        var newEntityDocument = _extractor.GetJsonRepresentation(aggregate);
         // Calculamos el incremento
-        var delta = _changeExtractor.GetChanges(aggregate.State, newEntityFlat);
+        //var delta = _changeExtractor.GetChanges(aggregate.State, newEntityFlat);
+        var delta = _extractor.GetDelta(aggregate.State.RootElement,newEntityDocument.RootElement);
         // Si el incremento es cero
-        if(delta.Count < 0)
+        if(delta is null)
         {
-            delta = _changeExtractor.GetSnapshot(newEntityFlat);
+            //delta = _changeExtractor.GetSnapshot(newEntityFlat);
+            delta = _extractor.GetDelta<T>(aggregate, default);
         }
         // Creando el registro de auditoria
         var auditlog = new AuditLog
@@ -138,7 +148,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
             Operation = Enum.GetName<AuditOperation>(AuditOperation.Delete),
-            Delta = JsonSerializer.Serialize(delta),
+            Delta = delta,
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };
@@ -160,7 +170,8 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         if (aggregate == null)
             return aggregate;
         // Creamos el estado
-        var state = _flattener.Flatten(aggregate, new JsonObject());
+        //var state = _flattener.Flatten(aggregate, new JsonObject());
+        var state = _extractor.GetJsonRepresentation(aggregate);
         // Establecemos el estado
         SetState(aggregate, state);
         // DEvolvemos el agregado
@@ -184,7 +195,8 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         foreach ( var aggregate in aggregates)
         {
             // Creamos el estado
-            var state = _flattener.Flatten(aggregate, new JsonObject());
+            //var state = _flattener.Flatten(aggregate, new JsonObject());
+            var state = _extractor.GetJsonRepresentation(aggregate);
             // Establecemos el estado
             SetState(aggregate, state);
         }
@@ -202,11 +214,17 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
         await _inner.Update(aggregate);
         //var oldEntityFlat = flattenEntities[aggregate.AggregateId] as JsonObject;
         // Obteniendo el estado actual del agregado
-        var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        //var newEntityFlat = _flattener.Flatten(aggregate, new JsonObject());
+        var newEntityDocument = _extractor.GetJsonRepresentation(aggregate);
+        //var test = _extractor.GetJsonRepresentation(aggregate);
         // Calculando el incremento
-        var delta = _changeExtractor.GetChanges(aggregate.State, newEntityFlat);
+        //var delta = _changeExtractor.GetChanges(aggregate.State, newEntityFlat);
+        var delta = _extractor.GetDelta(aggregate.State, newEntityDocument);
         // Setteamos el nuevo valor del estado
-        SetState(aggregate, newEntityFlat);
+        SetState(aggregate, newEntityDocument);
+        // Si no hay cambio, salimos
+        if (delta is null)
+            return;
         // Creando el cambio
         var auditlog = new AuditLog
         {
@@ -214,7 +232,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
             EntityId = aggregate.AggregateId,
             Entity = aggregate.AggregateRootType,
             Operation = Enum.GetName<AuditOperation>(AuditOperation.Update),
-            Delta = JsonSerializer.Serialize(delta),
+            Delta = delta,
             User = _context is not null ? _context.Identity.Name : "System",
             UpdatedAt = DateTime.UtcNow
         };

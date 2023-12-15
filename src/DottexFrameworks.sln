@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kalypso", "Kalypso", "{F699
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KalypsoApi", "Clients\KalypsoApi\KalypsoApi.csproj", "{73B4675E-5942-4DC8-8E86-18BBA5ED6DCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KalypsoLab", "Clients\KalypsoLab\KalypsoLab.csproj", "{A0C0063D-2591-4E4A-83BB-FF6BA3237845}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{73B4675E-5942-4DC8-8E86-18BBA5ED6DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73B4675E-5942-4DC8-8E86-18BBA5ED6DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73B4675E-5942-4DC8-8E86-18BBA5ED6DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C0063D-2591-4E4A-83BB-FF6BA3237845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C0063D-2591-4E4A-83BB-FF6BA3237845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C0063D-2591-4E4A-83BB-FF6BA3237845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C0063D-2591-4E4A-83BB-FF6BA3237845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{14043130-526F-476F-B43F-BCCBFF1E28D0} = {F699EA9E-A548-4702-8C60-090B0B770D46}
 		{70628596-28AB-4865-80EC-85994E0A8F50} = {F699EA9E-A548-4702-8C60-090B0B770D46}
 		{73B4675E-5942-4DC8-8E86-18BBA5ED6DCF} = {9717CE5F-6F9A-426F-99B1-E964496E90B7}
+		{A0C0063D-2591-4E4A-83BB-FF6BA3237845} = {9717CE5F-6F9A-426F-99B1-E964496E90B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {862A3499-F419-49BB-8BCD-61795BAF8923}

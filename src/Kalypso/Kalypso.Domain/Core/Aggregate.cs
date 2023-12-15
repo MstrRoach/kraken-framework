@@ -23,12 +23,12 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate, IAuditable
     /// <summary>
     /// Almacena el estado del aggregado
     /// </summary>
-    private JsonObject _state = new JsonObject();
+    private JsonDocument _state = default;
 
     /// <summary>
     /// Accesor para el estado del elemento
     /// </summary>
-    public JsonObject State => _state;
+    public JsonDocument State => _state;
 
     /// <summary>
     /// Obtiene el tipo del agregado
