@@ -20,6 +20,11 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
     internal IRepositoryExtension<TModule>? RepositoryExtension;
 
     /// <summary>
+    /// Lista de modulos internos donde existen agregados
+    /// </summary>
+    internal List<Type> Nested = new();
+
+    /// <summary>
     /// Registra la extension para el repositorio
     /// </summary>
     /// <param name="repositoryExtension"></param>
@@ -28,5 +33,15 @@ public class DomainDrivenDesignOptions<TModule> where TModule : IModule
         if (repositoryExtension == null)
             throw new ArgumentNullException(nameof(repositoryExtension));
         RepositoryExtension = repositoryExtension;
+    }
+
+    /// <summary>
+    /// Agrega el modulo a los tipos desde los cuales se pueden extraer
+    /// agregados
+    /// </summary>
+    /// <typeparam name="TModule"></typeparam>
+    public void IncludeAggregatesFrom<TModule>() where TModule : IModule
+    {
+        this.Nested.Add(typeof(TModule));
     }
 }

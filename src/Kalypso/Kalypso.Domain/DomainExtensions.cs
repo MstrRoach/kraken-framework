@@ -32,9 +32,13 @@ public static class DomainExtensions
         builder.Invoke(options);
         // Registramos las configuraciones
         services.Configure(builder);
+        // Lista de ensamblados
+        List<Assembly> assemblies = [
+            typeof(TModule).Assembly, 
+            ..options.Nested.Select(x => x.Assembly).ToList()];
         var moduleAssembly = typeof(TModule).Assembly;
         // Extraemos todos los agregados
-        var callerAggregates = moduleAssembly.GetTypes()
+        var callerAggregates = assemblies.SelectMany(x => x.GetTypes())
             .Where(x => !x.IsOpenGeneric())
             .Where(x => !x.IsAbstract)
             .Where(x => x.GetInterface(nameof(IAggregate)) is not null)
@@ -53,4 +57,5 @@ public static class DomainExtensions
         // Salimos
         return services;
     }
+
 }
