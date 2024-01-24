@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Dottex.Kalypso.Domain.Core;
@@ -39,14 +40,14 @@ public interface IRepository<Aggregate> where Aggregate : IAggregate
     /// y lo devuelve
     /// </summary>
     /// <returns></returns>
-    public Task<Aggregate> Get(ISpecification<Aggregate> specification);
+    public Task<Aggregate> Get(Expression<Func<Aggregate, bool>> criteria);
 
     /// <summary>
     /// Busca los elemmentos que coincidan con la especificacion
     /// y devuelve una lista de ellos
     /// </summary>
     /// <returns></returns>
-    public Task<List<Aggregate>> GetAll(ISpecification<Aggregate> specification);
+    public Task<List<Aggregate>> GetAll(Expression<Func<Aggregate, bool>> criteria);
 
     /// <summary>
     /// Indica si existe algun registro con la especificacion
@@ -54,7 +55,7 @@ public interface IRepository<Aggregate> where Aggregate : IAggregate
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<bool> Exist(ISpecification<Aggregate> specification)
+    public Task<bool> Exist(Expression<Func<Aggregate, bool>> criteria)
         => Task.FromResult(false);
 
     /// <summary>
@@ -63,6 +64,6 @@ public interface IRepository<Aggregate> where Aggregate : IAggregate
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<int> Count(ISpecification<Aggregate>? specification = null)
+    public Task<int> Count(Expression<Func<Aggregate, bool>>? criteria = null)
         => Task.FromResult(0);
 }

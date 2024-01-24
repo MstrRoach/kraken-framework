@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,9 +57,9 @@ internal class DefaultRepository<TModule, TContext, TAggregate> : IRepository<TA
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<TAggregate> Get(ISpecification<TAggregate> specification)
+    public Task<TAggregate> Get(Expression<Func<TAggregate,bool>> criteria)
     {
-        var aggregate = _context.Set<TAggregate>().Where(specification.IsSatisfied).FirstOrDefault();
+        var aggregate = _context.Set<TAggregate>().Where(criteria).FirstOrDefault();
         return Task.FromResult(aggregate);
     }
 
@@ -67,9 +68,9 @@ internal class DefaultRepository<TModule, TContext, TAggregate> : IRepository<TA
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<List<TAggregate>> GetAll(ISpecification<TAggregate> specification)
+    public Task<List<TAggregate>> GetAll(Expression<Func<TAggregate, bool>> criteria)
     {
-        var aggregate = _context.Set<TAggregate>().Where(specification.IsSatisfied).ToList();
+        var aggregate = _context.Set<TAggregate>().Where(criteria).ToList();
         return Task.FromResult(aggregate);
     }
 
@@ -90,18 +91,18 @@ internal class DefaultRepository<TModule, TContext, TAggregate> : IRepository<TA
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<bool> Exist(ISpecification<TAggregate> specification)
-            => Task.FromResult(_context.Set<TAggregate>().Any(specification.IsSatisfied));
+    public Task<bool> Exist(Expression<Func<TAggregate, bool>> criteria)
+            => Task.FromResult(_context.Set<TAggregate>().Any(criteria));
 
     /// <summary>
     /// Cuenta la cantidad de agregados
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<int> Count(ISpecification<TAggregate>? specification = null)
+    public Task<int> Count(Expression<Func<TAggregate, bool>>? criteria = null)
     {
-        var quantity = specification is not null ?
-            _context.Set<TAggregate>().Where(specification.IsSatisfied).Count() :
+        var quantity = criteria is not null ?
+            _context.Set<TAggregate>().Where(criteria).Count() :
             _context.Set<TAggregate>().Count();
         return Task.FromResult(quantity);
     }

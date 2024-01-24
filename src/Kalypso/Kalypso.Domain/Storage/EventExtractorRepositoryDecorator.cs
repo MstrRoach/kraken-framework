@@ -3,6 +3,7 @@ using Dottex.Kalypso.Module.Request.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,8 +58,8 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<T> Get(ISpecification<T> specification)
-        => await _inner.Get(specification);
+    public async Task<T> Get(Expression<Func<T, bool>> criteria)
+        => await _inner.Get(criteria);
 
 
     /// <summary>
@@ -66,16 +67,16 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
     /// la especificacion
     /// </summary>
     /// <returns></returns>
-    public async Task<List<T>> GetAll(ISpecification<T> specification)
-        => await _inner.GetAll(specification);
+    public async Task<List<T>> GetAll(Expression<Func<T, bool>> criteria)
+        => await _inner.GetAll(criteria);
 
     /// <summary>
     /// Indica si existe algun registro que coincida con la especificacion
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<bool> Exist(ISpecification<T> specification)
-        => _inner.Exist(specification);
+    public Task<bool> Exist(Expression<Func<T, bool>> criteria)
+        => _inner.Exist(criteria);
 
     /// <summary>
     /// Realiza el conteo de los registros que coincidan con la
@@ -83,8 +84,8 @@ public sealed class EventExtractorRepositoryDecorator<T> : IRepository<T>
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public Task<int> Count(ISpecification<T>? specification = null)
-        => _inner.Count(specification);
+    public Task<int> Count(Expression<Func<T, bool>>? criteria = null)
+        => _inner.Count(criteria);
 
 
     /// <summary>

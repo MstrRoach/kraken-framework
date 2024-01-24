@@ -15,7 +15,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>dll</RepositoryType>
-    <Version>8.2.0</Version>
+    <Version>8.3.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Audit\AuditStorage.cs" />
@@ -30,5 +30,8 @@
   <ItemGroup>
     <None Include="..\..\..\assets\logo\flat_128x128.png" Pack="true" PackagePath="">
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 </Project>

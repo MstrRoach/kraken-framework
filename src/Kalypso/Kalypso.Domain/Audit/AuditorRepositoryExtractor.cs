@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -162,7 +163,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public async Task<T> Get(ISpecification<T> specification)
+    public async Task<T> Get(Expression<Func<T, bool>> specification)
     {
         // Recuperamos el aggregado
         var aggregate = await _inner.Get(specification);
@@ -184,7 +185,7 @@ public sealed class AuditorRepositoryExtractor<T> : IRepository<T>
     /// </summary>
     /// <param name="specification"></param>
     /// <returns></returns>
-    public async Task<List<T>> GetAll(ISpecification<T> specification)
+    public async Task<List<T>> GetAll(Expression<Func<T, bool>> specification)
     {
         // Obtenemos los agregados
         var aggregates = await _inner.GetAll(specification);
